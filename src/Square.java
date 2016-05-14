@@ -3,6 +3,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -10,6 +14,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.lang.Math;
 @SuppressWarnings("serial")
 class Square extends JComponent
@@ -27,6 +32,8 @@ class Square extends JComponent
 	{
 		Graphics2D g = (Graphics2D)gr;
 		super.paintComponent(gr);
+		//RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		//g.setRenderingHints(rh);
 		g.setColor(Color.red);
 		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p2.GetX() + 300, p2.GetY() + 300);
 		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p3.GetX() + 300, p3.GetY() + 300);
@@ -42,7 +49,50 @@ class Square extends JComponent
 		g.drawLine(p2.GetX() + 300, p2.GetY() + 300, p6.GetX() + 300, p6.GetY() + 300);
 		g.drawLine(p3.GetX() + 300, p3.GetY() + 300, p7.GetX() + 300, p7.GetY() + 300);
 		g.drawLine(p4.GetX() + 300, p4.GetY() + 300, p8.GetX() + 300, p8.GetY() + 300);
-	}
+		g.setColor(Color.green);
+		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p8.GetX() + 300, p8.GetY() + 300);
+		g.drawLine(p4.GetX() + 300, p4.GetY() + 300, p5.GetX() + 300, p5.GetY() + 300);
+		g.drawLine(p2.GetX() + 300, p2.GetY() + 300, p7.GetX() + 300, p7.GetY() + 300);
+		g.drawLine(p3.GetX() + 300, p3.GetY() + 300, p6.GetX() + 300, p6.GetY() + 300);
+		int[] x1 = new int[4];
+		int[] y1 = new int[4];
+		int[] x2 = new int[4];
+		int[] y2 = new int[4];
+		x1[0] = p2.GetX() + 300;
+		x1[1] = p1.GetX() + 300;
+		x1[2] = p3.GetX() + 300;
+		x1[3] = p4.GetX() + 300;
+		y1[0] = p2.GetY() + 300;
+		y1[1] = p1.GetY() + 300;
+		y1[2] = p3.GetY() + 300;
+		y1[3] = p4.GetY() + 300;
+		x2[0] = p6.GetX() + 300;
+		x2[1] = p5.GetX() + 300;
+		x2[2] = p7.GetX() + 300;
+		x2[3] = p8.GetX() + 300;
+		y2[0] = p6.GetY() + 300;
+		y2[1] = p5.GetY() + 300;
+		y2[2] = p7.GetY() + 300;
+		y2[3] = p8.GetY() + 300;
+		if((p1.GetZ() + p2.GetZ() + p3.GetZ() + p4.GetZ()) <= (p5.GetZ() + p6.GetZ() + p7.GetZ() + p8.GetZ()))
+		{
+		Polygon poly = new Polygon(x2, y2, x2.length);
+		g.setColor(Color.red);
+		g.fillPolygon(poly);
+		poly = new Polygon(x1, y1, x1.length);
+		g.setColor(Color.blue);
+		g.fillPolygon(poly);
+		}
+		else
+		{
+			Polygon poly = new Polygon(x1, y1, x1.length);
+			g.setColor(Color.blue);
+			g.fillPolygon(poly);
+			poly = new Polygon(x2, y2, x2.length);
+			g.setColor(Color.red);
+			g.fillPolygon(poly);
+		}
+    }
 }
 
 class Frame implements MouseListener, MouseMotionListener
@@ -102,7 +152,6 @@ class Frame implements MouseListener, MouseMotionListener
 			s.p2.RotateCounterClockwiseAboutYAxis(Square.origin);
 			s.p3.RotateCounterClockwiseAboutYAxis(Square.origin);
 			s.p4.RotateCounterClockwiseAboutYAxis(Square.origin);
-			
 			s.p5.RotateCounterClockwiseAboutYAxis(Square.origin);
 			s.p6.RotateCounterClockwiseAboutYAxis(Square.origin);
 			s.p7.RotateCounterClockwiseAboutYAxis(Square.origin);
@@ -115,13 +164,12 @@ class Frame implements MouseListener, MouseMotionListener
 			s.p2.RotateClockwiseAboutYAxis(Square.origin);
 			s.p3.RotateClockwiseAboutYAxis(Square.origin);
 			s.p4.RotateClockwiseAboutYAxis(Square.origin);
-			
 			s.p5.RotateClockwiseAboutYAxis(Square.origin);
 			s.p6.RotateClockwiseAboutYAxis(Square.origin);
 			s.p7.RotateClockwiseAboutYAxis(Square.origin);
 			s.p8.RotateClockwiseAboutYAxis(Square.origin);
 		}
-		if(m.getY() > curry)
+		if(m.getY() < curry)
 		{
 			curry = m.getY();
 			s.p1.RotateCounterClockwiseAboutXAxis(Square.origin);
@@ -133,7 +181,7 @@ class Frame implements MouseListener, MouseMotionListener
 			s.p7.RotateCounterClockwiseAboutXAxis(Square.origin);
 			s.p8.RotateCounterClockwiseAboutXAxis(Square.origin);
 		}
-		if(m.getY() < curry)
+		if(m.getY() > curry)
 		{
 			curry = m.getY();
 			s.p1.RotateClockwiseAboutXAxis(Square.origin);
@@ -145,8 +193,8 @@ class Frame implements MouseListener, MouseMotionListener
 			s.p7.RotateClockwiseAboutXAxis(Square.origin);
 			s.p8.RotateClockwiseAboutXAxis(Square.origin);
 		}
-		System.out.println("X: " + s.p1.GetExX() + " Y: " + s.p1.GetExY() + " Z: " + s.p1.GetExZ());
-		System.out.println("Distance from origin: " + Math.hypot(0 - s.p1.GetExX(), 0 - s.p1.GetExZ()));
+		//System.out.println("X: " + s.p1.GetExX() + " Y: " + s.p1.GetExY() + " Z: " + s.p1.GetExZ());
+		//System.out.println("Distance from origin: " + Math.hypot(0 - s.p1.GetExX(), 0 - s.p1.GetExZ()));
 		s.paintImmediately(0, 0, 1000, 1000);
 	}
 
