@@ -1,25 +1,22 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.lang.Math;
+import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
-class Square extends JComponent
+class Square extends JComponent implements MouseMotionListener, MouseListener
 {
+	int currx = 350;
+	int curry = 350;
 	static Point origin = new Point(350, 350, 0);
+	public int xoffset = 0;
+	public int yoffset = 0;
+	boolean isSelected = false;
 	Point p1 = new Point(-50, -50, -50);
 	Point p2 = new Point(50, -50, -50);
 	Point p3 = new Point(-50, 50, -50);
@@ -28,268 +25,281 @@ class Square extends JComponent
 	Point p6 = new Point(50, -50, 50);
 	Point p7 = new Point(-50, 50, 50);
 	Point p8 = new Point(50, 50, 50);
+	public Square()
+	{
+		
+	}
+	public Square(Point center, int radius)
+	{
+		p1.SetX(center.GetExX() - radius);
+		p1.SetY(center.GetExY() + radius);
+		p1.SetZ(center.GetExZ() - radius);
+		p2.SetX(center.GetExX() + radius);
+		p2.SetY(center.GetExY() + radius);
+		p2.SetZ(center.GetExZ() - radius);
+		p3.SetX(center.GetExX() - radius);
+		p3.SetY(center.GetExY() - radius);
+		p3.SetZ(center.GetExZ() - radius);
+		p4.SetX(center.GetExX() + radius);
+		p4.SetY(center.GetExY() - radius);
+		p4.SetZ(center.GetExZ() - radius);
+		p5.SetX(center.GetExX() - radius);
+		p5.SetY(center.GetExY() + radius);
+		p5.SetZ(center.GetExZ() + radius);
+		p6.SetX(center.GetExX() + radius);
+		p6.SetY(center.GetExY() + radius);
+		p6.SetZ(center.GetExZ() + radius);
+		p7.SetX(center.GetExX() - radius);
+		p7.SetY(center.GetExY() - radius);
+		p7.SetZ(center.GetExZ() + radius);
+		p8.SetX(center.GetExX() + radius);
+		p8.SetY(center.GetExY() - radius);
+		p8.SetZ(center.GetExZ() + radius);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void TranslateVisiblePosition(int x, int y)
+	{
+		xoffset += x;
+		yoffset += y;
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void RotateCounterClockwiseAboutYAxis(float degrees)
+	{
+		p1.RotateCounterClockwiseAboutYAxis(degrees);
+		p2.RotateCounterClockwiseAboutYAxis(degrees);
+		p3.RotateCounterClockwiseAboutYAxis(degrees);
+		p4.RotateCounterClockwiseAboutYAxis(degrees);
+		p5.RotateCounterClockwiseAboutYAxis(degrees);
+		p6.RotateCounterClockwiseAboutYAxis(degrees);
+		p7.RotateCounterClockwiseAboutYAxis(degrees);
+		p8.RotateCounterClockwiseAboutYAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void RotateClockwiseAboutYAxis(float degrees)
+	{
+		p1.RotateClockwiseAboutYAxis(degrees);
+		p2.RotateClockwiseAboutYAxis(degrees);
+		p3.RotateClockwiseAboutYAxis(degrees);
+		p4.RotateClockwiseAboutYAxis(degrees);
+		p5.RotateClockwiseAboutYAxis(degrees);
+		p6.RotateClockwiseAboutYAxis(degrees);
+		p7.RotateClockwiseAboutYAxis(degrees);
+		p8.RotateClockwiseAboutYAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void RotateCounterClockwiseAboutXAxis(float degrees)
+	{
+		p1.RotateCounterClockwiseAboutXAxis(degrees);
+		p2.RotateCounterClockwiseAboutXAxis(degrees);
+		p3.RotateCounterClockwiseAboutXAxis(degrees);
+		p4.RotateCounterClockwiseAboutXAxis(degrees);
+		p5.RotateCounterClockwiseAboutXAxis(degrees);
+		p6.RotateCounterClockwiseAboutXAxis(degrees);
+		p7.RotateCounterClockwiseAboutXAxis(degrees);
+		p8.RotateCounterClockwiseAboutXAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void RotateClockwiseAboutXAxis(float degrees)
+	{
+		p1.RotateClockwiseAboutXAxis(degrees);
+		p2.RotateClockwiseAboutXAxis(degrees);
+		p3.RotateClockwiseAboutXAxis(degrees);
+		p4.RotateClockwiseAboutXAxis(degrees);
+		p5.RotateClockwiseAboutXAxis(degrees);
+		p6.RotateClockwiseAboutXAxis(degrees);
+		p7.RotateClockwiseAboutXAxis(degrees);
+		p8.RotateClockwiseAboutXAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void RotateCounterClockwiseAboutZAxis(float degrees)
+	{
+		p1.RotateCounterClockwiseAboutZAxis(degrees);
+		p2.RotateCounterClockwiseAboutZAxis(degrees);
+		p3.RotateCounterClockwiseAboutZAxis(degrees);
+		p4.RotateCounterClockwiseAboutZAxis(degrees);
+		p5.RotateCounterClockwiseAboutZAxis(degrees);
+		p6.RotateCounterClockwiseAboutZAxis(degrees);
+		p7.RotateCounterClockwiseAboutZAxis(degrees);
+		p8.RotateCounterClockwiseAboutZAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void RotateClockwiseAboutZAxis(float degrees)
+	{
+		p1.RotateClockwiseAboutZAxis(degrees);
+		p2.RotateClockwiseAboutZAxis(degrees);
+		p3.RotateClockwiseAboutZAxis(degrees);
+		p4.RotateClockwiseAboutZAxis(degrees);
+		p5.RotateClockwiseAboutZAxis(degrees);
+		p6.RotateClockwiseAboutZAxis(degrees);
+		p7.RotateClockwiseAboutZAxis(degrees);
+		p8.RotateClockwiseAboutZAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void Selected()
+	{
+		
+	}
 	public void paintComponent(Graphics gr)
 	{
 		Graphics2D g = (Graphics2D)gr;
 		super.paintComponent(gr);
 		//RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		//g.setRenderingHints(rh);
-		g.setColor(Color.red);
-		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p2.GetX() + 300, p2.GetY() + 300);
-		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p3.GetX() + 300, p3.GetY() + 300);
-		g.drawLine(p3.GetX() + 300, p3.GetY() + 300, p4.GetX() + 300, p4.GetY() + 300);
-		g.drawLine(p2.GetX() + 300, p2.GetY() + 300, p4.GetX() + 300, p4.GetY() + 300);
-		//g.setColor(Color.green);
-		g.drawLine(p5.GetX() + 300, p5.GetY() + 300, p6.GetX() + 300, p6.GetY() + 300);
-		g.drawLine(p5.GetX() + 300, p5.GetY() + 300, p7.GetX() + 300, p7.GetY() + 300);
-		g.drawLine(p7.GetX() + 300, p7.GetY() + 300, p8.GetX() + 300, p8.GetY() + 300);
-		g.drawLine(p6.GetX() + 300, p6.GetY() + 300, p8.GetX() + 300, p8.GetY() + 300);
-		g.setColor(Color.blue);
-		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p5.GetX() + 300, p5.GetY() + 300);
-		g.drawLine(p2.GetX() + 300, p2.GetY() + 300, p6.GetX() + 300, p6.GetY() + 300);
-		g.drawLine(p3.GetX() + 300, p3.GetY() + 300, p7.GetX() + 300, p7.GetY() + 300);
-		g.drawLine(p4.GetX() + 300, p4.GetY() + 300, p8.GetX() + 300, p8.GetY() + 300);
-		g.setColor(Color.green);
-		g.drawLine(p1.GetX() + 300, p1.GetY() + 300, p8.GetX() + 300, p8.GetY() + 300);
-		g.drawLine(p4.GetX() + 300, p4.GetY() + 300, p5.GetX() + 300, p5.GetY() + 300);
-		g.drawLine(p2.GetX() + 300, p2.GetY() + 300, p7.GetX() + 300, p7.GetY() + 300);
-		g.drawLine(p3.GetX() + 300, p3.GetY() + 300, p6.GetX() + 300, p6.GetY() + 300);
 		int[] x1 = new int[4];
 		int[] y1 = new int[4];
 		int[] x2 = new int[4];
 		int[] y2 = new int[4];
-		x1[0] = p2.GetX() + 300;
-		x1[1] = p1.GetX() + 300;
-		x1[2] = p3.GetX() + 300;
-		x1[3] = p4.GetX() + 300;
-		y1[0] = p2.GetY() + 300;
-		y1[1] = p1.GetY() + 300;
-		y1[2] = p3.GetY() + 300;
-		y1[3] = p4.GetY() + 300;
-		x2[0] = p6.GetX() + 300;
-		x2[1] = p5.GetX() + 300;
-		x2[2] = p7.GetX() + 300;
-		x2[3] = p8.GetX() + 300;
-		y2[0] = p6.GetY() + 300;
-		y2[1] = p5.GetY() + 300;
-		y2[2] = p7.GetY() + 300;
-		y2[3] = p8.GetY() + 300;
-		if((p1.GetZ() + p2.GetZ() + p3.GetZ() + p4.GetZ()) <= (p5.GetZ() + p6.GetZ() + p7.GetZ() + p8.GetZ()))
-		{
-		Polygon poly = new Polygon(x2, y2, x2.length);
-		g.setColor(Color.red);
-		g.fillPolygon(poly);
-		poly = new Polygon(x1, y1, x1.length);
-		g.setColor(Color.blue);
-		g.fillPolygon(poly);
-		}
-		else
+		int[] x3 = new int[4];
+		int[] y3 = new int[4];
+		int[] x4 = new int[4];
+		int[] y4 = new int[4];
+		int[] x5 = new int[4];
+		int[] y5 = new int[4];
+		int[] x6 = new int[4];
+		int[] y6 = new int[4];
+		x1[0] = p2.GetX() + xoffset;
+		x1[1] = p1.GetX() + xoffset;
+		x1[2] = p3.GetX() + xoffset;
+		x1[3] = p4.GetX() + xoffset;
+		y1[0] = p2.GetY() + yoffset;
+		y1[1] = p1.GetY() + yoffset;
+		y1[2] = p3.GetY() + yoffset;
+		y1[3] = p4.GetY() + yoffset;
+		x2[0] = p6.GetX() + xoffset;
+		x2[1] = p5.GetX() + xoffset;
+		x2[2] = p7.GetX() + xoffset;
+		x2[3] = p8.GetX() + xoffset;
+		y2[0] = p6.GetY() + yoffset;
+		y2[1] = p5.GetY() + yoffset;
+		y2[2] = p7.GetY() + yoffset;
+		y2[3] = p8.GetY() + yoffset;
+		x3[0] = p1.GetX() + xoffset;
+		x3[1] = p5.GetX() + xoffset;
+		x3[2] = p7.GetX() + xoffset;
+		x3[3] = p3.GetX() + xoffset;
+		y3[0] = p1.GetY() + yoffset;
+		y3[1] = p5.GetY() + yoffset;
+		y3[2] = p7.GetY() + yoffset;
+		y3[3] = p3.GetY() + yoffset;
+		x4[0] = p2.GetX() + xoffset;
+		x4[1] = p6.GetX() + xoffset;
+		x4[2] = p8.GetX() + xoffset;
+		x4[3] = p4.GetX() + xoffset;
+		y4[0] = p2.GetY() + yoffset;
+		y4[1] = p6.GetY() + yoffset;
+		y4[2] = p8.GetY() + yoffset;
+		y4[3] = p4.GetY() + yoffset;
+		x5[0] = p1.GetX() + xoffset;
+		x5[1] = p2.GetX() + xoffset;
+		x5[2] = p6.GetX() + xoffset;
+		x5[3] = p5.GetX() + xoffset;
+		y5[0] = p1.GetY() + yoffset;
+		y5[1] = p2.GetY() + yoffset;
+		y5[2] = p6.GetY() + yoffset;
+		y5[3] = p5.GetY() + yoffset;
+		x6[0] = p3.GetX() + xoffset;
+		x6[1] = p4.GetX() + xoffset;
+		x6[2] = p8.GetX() + xoffset;
+		x6[3] = p7.GetX() + xoffset;
+		y6[0] = p3.GetY() + yoffset;
+		y6[1] = p4.GetY() + yoffset;
+		y6[2] = p8.GetY() + yoffset;
+		y6[3] = p7.GetY() + yoffset;
+		if((p1.GetExZ() + p2.GetExZ() + p3.GetExZ() + p4.GetExZ()) > 0)
 		{
 			Polygon poly = new Polygon(x1, y1, x1.length);
 			g.setColor(Color.blue);
 			g.fillPolygon(poly);
-			poly = new Polygon(x2, y2, x2.length);
+		}
+		if((p5.GetExZ() + p6.GetExZ() + p7.GetExZ() + p8.GetExZ()) > 0)
+		{
+			Polygon poly = new Polygon(x2, y2, x2.length);
 			g.setColor(Color.red);
 			g.fillPolygon(poly);
 		}
-    }
-}
-
-class Frame implements MouseListener, MouseMotionListener
-{
-	int currx = 350;
-	int curry = 350;
-	Square s; 
-	JFrame frame;
-	JPanel panel;
-	public Frame()
-	{
-	frame = new JFrame();
-	frame.setSize(500, 500);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	panel = new JPanel();
-	panel.addMouseListener(this);
-	panel.addMouseMotionListener(this);
-	s = new Square();
-	s.setPreferredSize(new Dimension(1100, 1100));
-	s.setMaximumSize(s.getPreferredSize());
-	s.setMinimumSize(s.getPreferredSize());
-	panel.add(s, BorderLayout.CENTER);
-	frame.add(panel, BorderLayout.CENTER);
-	frame.setVisible(true);
+		if((p1.GetExZ() + p3.GetExZ() + p5.GetExZ() + p7.GetExZ()) > 0)
+		{
+			Polygon poly = new Polygon(x3, y3, x3.length);
+			g.setColor(Color.yellow);
+			g.fillPolygon(poly);
+		}
+		if((p2.GetExZ() + p4.GetExZ() + p6.GetExZ() + p8.GetExZ()) > 0)
+		{
+			Polygon poly = new Polygon(x4, y4, x4.length);
+			g.setColor(Color.gray);
+			g.fillPolygon(poly);
+		}
+		if((p1.GetExZ() + p2.GetExZ() + p5.GetExZ() + p6.GetExZ()) > 0)
+		{
+			Polygon poly = new Polygon(x5, y5, x5.length);
+			g.setColor(Color.black);
+			g.fillPolygon(poly);
+		}
+		if((p3.GetExZ() + p4.GetExZ() + p7.GetExZ() + p8.GetExZ()) > 0)
+		{
+			Polygon poly = new Polygon(x6, y6, x6.length);
+			g.setColor(Color.magenta);
+			g.fillPolygon(poly);
+		}
 	}
-
+	public void mouseDragged(MouseEvent m) {
+		JComponent c = (JComponent) getComponentAt(m.getX(), m.getY());
+		if(c != null && c == (this) && isSelected == true)
+		{
+		if(SwingUtilities.isRightMouseButton(m))
+		{
+			if(m.getX() > currx)
+			{	
+				currx = m.getX();
+				RotateCounterClockwiseAboutYAxis(3.0f);
+			}
+			if(m.getX() < currx)
+			{
+				currx = m.getX();
+				RotateClockwiseAboutYAxis(3.0f);
+			}
+			if(m.getY() < curry)
+			{
+				curry = m.getY();
+				RotateCounterClockwiseAboutXAxis(3.0f);
+			}
+			if(m.getY() > curry)
+			{
+				curry = m.getY();
+				RotateClockwiseAboutXAxis(3.0f);
+			}
+		}
+		else if(SwingUtilities.isLeftMouseButton(m))
+		{
+			TranslateVisiblePosition(m.getX() - xoffset, m.getY() - yoffset);
+		}
+		}
+	}
+	public void mouseMoved(MouseEvent m) {
+		// TODO Auto-generated method stub
+		
+	}
 	public void mouseClicked(MouseEvent m) {
+		isSelected = (isSelected == true ? false : true);
+	}
+	@Override
+	public void mouseEntered(MouseEvent m) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void mouseEntered(MouseEvent arg0) {
+	@Override
+	public void mouseExited(MouseEvent m) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	@Override
 	public void mousePressed(MouseEvent m) {
-		//System.out.println(m.getX() + " " + m.getY());
+		// TODO Auto-generated method stub
+		
 	}
-
+	@Override
 	public void mouseReleased(MouseEvent m) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent m) {
-		if(m.getX() > currx)
-		{	
-			currx = m.getX();
-			s.p1.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p2.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p3.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p4.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p5.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p6.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p7.RotateCounterClockwiseAboutYAxis(Square.origin);
-			s.p8.RotateCounterClockwiseAboutYAxis(Square.origin);
-		}
-		if(m.getX() < currx)
-		{
-			currx = m.getX();
-			s.p1.RotateClockwiseAboutYAxis(Square.origin);
-			s.p2.RotateClockwiseAboutYAxis(Square.origin);
-			s.p3.RotateClockwiseAboutYAxis(Square.origin);
-			s.p4.RotateClockwiseAboutYAxis(Square.origin);
-			s.p5.RotateClockwiseAboutYAxis(Square.origin);
-			s.p6.RotateClockwiseAboutYAxis(Square.origin);
-			s.p7.RotateClockwiseAboutYAxis(Square.origin);
-			s.p8.RotateClockwiseAboutYAxis(Square.origin);
-		}
-		if(m.getY() < curry)
-		{
-			curry = m.getY();
-			s.p1.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p2.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p3.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p4.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p5.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p6.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p7.RotateCounterClockwiseAboutXAxis(Square.origin);
-			s.p8.RotateCounterClockwiseAboutXAxis(Square.origin);
-		}
-		if(m.getY() > curry)
-		{
-			curry = m.getY();
-			s.p1.RotateClockwiseAboutXAxis(Square.origin);
-			s.p2.RotateClockwiseAboutXAxis(Square.origin);
-			s.p3.RotateClockwiseAboutXAxis(Square.origin);
-			s.p4.RotateClockwiseAboutXAxis(Square.origin);
-			s.p5.RotateClockwiseAboutXAxis(Square.origin);
-			s.p6.RotateClockwiseAboutXAxis(Square.origin);
-			s.p7.RotateClockwiseAboutXAxis(Square.origin);
-			s.p8.RotateClockwiseAboutXAxis(Square.origin);
-		}
-		//System.out.println("X: " + s.p1.GetExX() + " Y: " + s.p1.GetExY() + " Z: " + s.p1.GetExZ());
-		//System.out.println("Distance from origin: " + Math.hypot(0 - s.p1.GetExX(), 0 - s.p1.GetExZ()));
-		s.paintImmediately(0, 0, 1000, 1000);
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-}
-
-class Point
-{
-	private double x;
-	private double y;
-	private double z;
-	Point(int fx, int fy, int fz)
-	{
-		x = fx;
-		y = fy;
-		z = fz;
-	}
-	int GetX()
-	{
-		return (int) Math.round(x);
-	}
-	int GetY()
-	{
-		return (int) Math.round(y);
-	}
-	int GetZ()
-	{
-		return (int) Math.round(z);
-	}
-	double GetExX()
-	{
-		return x;
-	}
-	double GetExY()
-	{
-		return y;
-	}
-	double GetExZ()
-	{
-		return z;
-	}
-	void SetX(double newx)
-	{
-		x = newx;
-	}
-	void SetY(double newy)
-	{
-		y = newy;
-	}
-	void SetZ(double newz)
-	{
-		z = newz;
-	}
-	void RotateClockwiseAboutYAxis(Point origin)
-	{
-		double hx = z * (Math.sin(-3 / 57.2958));
-		hx = hx + (x * Math.cos(-3 / 57.2958));
-		double hz = z * (Math.cos(-3 / 57.2958));
-		z = hz - (x * Math.sin(-3 / 57.2958));
-		x = hx;
-	}
-	void RotateCounterClockwiseAboutYAxis(Point origin)
-	{
-		double hx = z * (Math.sin(3 / 57.2958));
-		hx = hx + (x * Math.cos(3 / 57.2958));
-		double hz = z * (Math.cos(3 / 57.2958));
-		z = hz - (x * Math.sin(3 / 57.2958));
-		x = hx;
-	}
-	void RotateClockwiseAboutXAxis(Point origin)
-	{
-		double hy = y * (Math.cos(-3 / 57.2958));
-		hy = hy - (z * Math.sin(-3 / 57.2958));
-		double hz = y * (Math.sin(-3 / 57.2958));
-		z = hz + (z * Math.cos(-3 / 57.2958));
-		y = hy;
-	}
-	void RotateCounterClockwiseAboutXAxis(Point origin)
-	{
-		double hy = y * (Math.cos(3 / 57.2958));
-		hy = hy - (z * Math.sin(3 / 57.2958));
-		double hz = y * (Math.sin(3 / 57.2958));
-		z = hz + (z * Math.cos(3 / 57.2958));
-		y = hy;
-	}
-}
-
-class Run
-{
-	public static void main(String[] args)
-	{
-		Frame frame = new Frame();
 	}
 }
