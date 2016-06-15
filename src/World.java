@@ -6,7 +6,8 @@ import javax.swing.JPanel;
 
 class World //implements MouseListener, MouseMotionListener
 {
-	Square s; 
+	Cube c;
+	static Point Camera = new Point(0, 0, 1);
 	JFrame frame;
 	static JPanel panel;
 	public World()
@@ -16,14 +17,14 @@ class World //implements MouseListener, MouseMotionListener
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	panel = new JPanel();
 	Point p = new Point(0, 0, 0);
-	s = new Square(p, 100);
-	s.TranslateVisiblePosition(200,  200);
-	panel.addMouseMotionListener(s);
-	panel.addMouseListener(s);
-	s.setPreferredSize(new Dimension(1200, 1200));
-	s.setMaximumSize(s.getPreferredSize());
-	s.setMinimumSize(s.getPreferredSize());
-	panel.add(s);
+	c = new Cube(p, 100);
+	c.TranslateVisiblePosition(200,  200);
+	panel.addMouseMotionListener(c);
+	panel.addMouseListener(c);
+	c.setPreferredSize(new Dimension(1200, 1200));
+	c.setMaximumSize(c.getPreferredSize());
+	c.setMinimumSize(c.getPreferredSize());
+	panel.add(c);
 	frame.add(panel, BorderLayout.CENTER);
 	frame.setVisible(true);
 	}
