@@ -5,9 +5,9 @@ class Point
 	private double z;
 	Point(int fx, int fy, int fz)
 	{
-		x = fx;
-		y = fy;
-		z = fz;
+		x = (float) fx;
+		y = (float) fy;
+		z = (float) fz;
 	}
 	int GetX()
 	{
