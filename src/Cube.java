@@ -208,7 +208,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		Point p = new Point(0, 0, 0);
 		p = Util.GetNormalVector(p1, p2, p4);
 		double dotproduct = Util.GetDotProduct(p, World.Camera);
-		/*if(dotproduct < 0)
+		if(dotproduct < 0)
 		{
 			Polygon poly = new Polygon(x1, y1, x1.length);
 			g.setColor(Color.blue);
@@ -221,10 +221,10 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 			Polygon poly = new Polygon(x2, y2, x2.length);
 			g.setColor(Color.red);
 			g.fillPolygon(poly);
-		}*/
-		p = Util.GetNormalVector(p1, p5, p6);
-		System.out.println("X: " + p.GetExY() + " Y: " + p.GetExY() + " Z: " + p.GetExZ());
+		}
+		p = Util.GetNormalVector(p5, p6, p2);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
+		System.out.println(dotproduct);
 		if(dotproduct < 0)
 		{
 			Polygon poly = new Polygon(x3, y3, x3.length);
