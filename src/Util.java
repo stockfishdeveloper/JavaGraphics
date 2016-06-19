@@ -16,12 +16,12 @@ class Util
 		double diff_x1 = p1.GetExX() - p2.GetExX();
 		double diff_y1 = p1.GetExY() - p2.GetExY();
 		double diff_z1 = p1.GetExZ() - p2.GetExZ();
-		Point p = new Point(0, 0, 0);
-		p.SetX((diff_y * diff_z1) - (diff_y1 * diff_z));
-		p.SetY((diff_z * diff_x1) - (diff_z1 * diff_x));
-		p.SetZ((diff_x * diff_y1) - (diff_x1 * diff_y));
-		NormalizeVector(p);
-		return p;
+		Point orig = new Point(0, 0, 0);
+		orig.SetX((diff_y * diff_z1) - (diff_y1 * diff_z));
+		orig.SetY((diff_z * diff_x1) - (diff_z1 * diff_x));
+		orig.SetZ((diff_x * diff_y1) - (diff_x1 * diff_y));
+		NormalizeVector(orig);
+		return orig;
 	}
 	public static void NormalizeVector(Point p)
 	{
