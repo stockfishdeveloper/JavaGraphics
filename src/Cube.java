@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -207,6 +208,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		y6[3] = p7.GetY() + yoffset;
 		Point p = new Point(0, 0, 0);
 		p = Util.GetNormalVector(p1, p2, p4);
+		//System.out.println("X: " + p.GetExX() + " Y: " + p.GetExY() + " Z: " + p.GetExZ());
 		double dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -222,16 +224,15 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 			g.setColor(Color.red);
 			g.fillPolygon(poly);
 		}
-		p = Util.GetNormalVector(p5, p6, p2);
+		p = Util.GetNormalVector(p5, p1, p3);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
-		System.out.println(dotproduct);
 		if(dotproduct < 0)
 		{
 			Polygon poly = new Polygon(x3, y3, x3.length);
 			g.setColor(Color.yellow);
 			g.fillPolygon(poly);
 		}
-		/*p = Util.GetNormalVector(p3, p4, p8);
+		p = Util.GetNormalVector(p2, p6, p8);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -239,7 +240,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 			g.setColor(Color.gray);
 			g.fillPolygon(poly);
 		}
-		p = Util.GetNormalVector(p5, p1, p3);
+		p = Util.GetNormalVector(p5, p6, p2);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -247,14 +248,14 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 			g.setColor(Color.black);
 			g.fillPolygon(poly);
 		}
-		p = Util.GetNormalVector(p2, p6, p8);
+		p = Util.GetNormalVector(p3, p4, p8);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
 			Polygon poly = new Polygon(x6, y6, x6.length);
 			g.setColor(Color.magenta);
 			g.fillPolygon(poly);
-		}*/
+		}
 	}
 	public void mouseDragged(MouseEvent m) {
 		JComponent c = (JComponent) getComponentAt(m.getX(), m.getY());
@@ -262,22 +263,22 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		{
 		if(SwingUtilities.isRightMouseButton(m))
 		{
-			if(m.getX() > currx)
+			if(m.getX() < currx)
 			{	
 				currx = m.getX();
 				RotateCounterClockwiseAboutYAxis(3.0f);
 			}
-			if(m.getX() < currx)
+			if(m.getX() > currx)
 			{
 				currx = m.getX();
 				RotateClockwiseAboutYAxis(3.0f);
 			}
-			if(m.getY() < curry)
+			if(m.getY() > curry)
 			{
 				curry = m.getY();
 				RotateCounterClockwiseAboutXAxis(3.0f);
 			}
-			if(m.getY() > curry)
+			if(m.getY() < curry)
 			{
 				curry = m.getY();
 				RotateClockwiseAboutXAxis(3.0f);
