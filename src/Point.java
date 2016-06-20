@@ -9,6 +9,12 @@ class Point
 		y = (float) fy;
 		z = (float) fz;
 	}
+	Point(double fx, double fy, double fz)
+	{
+		x = fx;
+		y = fy;
+		z = fz;
+	}
 	int GetX()
 	{
 		return (int) Math.round(x);
