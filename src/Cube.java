@@ -1,4 +1,3 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -134,6 +133,34 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p6.RotateClockwiseAboutZAxis(degrees);
 		p7.RotateClockwiseAboutZAxis(degrees);
 		p8.RotateClockwiseAboutZAxis(degrees);
+		paintImmediately(0, 0, 1280, 1000);
+	}
+	public void Resize(float scaleFactor)
+	{
+		p1.SetX(p1.GetExX() * scaleFactor);
+		p1.SetY(p1.GetExY() * scaleFactor);
+		p1.SetZ(p1.GetExZ() * scaleFactor);
+		p2.SetX(p2.GetExX() * scaleFactor);
+		p2.SetY(p2.GetExY() * scaleFactor);
+		p2.SetZ(p2.GetExZ() * scaleFactor);
+		p3.SetX(p3.GetExX() * scaleFactor);
+		p3.SetY(p3.GetExY() * scaleFactor);
+		p3.SetZ(p3.GetExZ() * scaleFactor);
+		p4.SetX(p4.GetExX() * scaleFactor);
+		p4.SetY(p4.GetExY() * scaleFactor);
+		p4.SetZ(p4.GetExZ() * scaleFactor);
+		p5.SetX(p5.GetExX() * scaleFactor);
+		p5.SetY(p5.GetExY() * scaleFactor);
+		p5.SetZ(p5.GetExZ() * scaleFactor);
+		p6.SetX(p6.GetExX() * scaleFactor);
+		p6.SetY(p6.GetExY() * scaleFactor);
+		p6.SetZ(p6.GetExZ() * scaleFactor);
+		p7.SetX(p7.GetExX() * scaleFactor);
+		p7.SetY(p7.GetExY() * scaleFactor);
+		p7.SetZ(p7.GetExZ() * scaleFactor);
+		p8.SetX(p8.GetExX() * scaleFactor);
+		p8.SetY(p8.GetExY() * scaleFactor);
+		p8.SetZ(p8.GetExZ() * scaleFactor);
 		paintImmediately(0, 0, 1280, 1000);
 	}
 	public void Selected()
