@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -5,6 +6,7 @@ import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
@@ -109,9 +111,56 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p4.SetY(p4.GetExY() * scaleFactor);
 		p4.SetZ(p4.GetExZ() * scaleFactor);
 	}
-	public void Selected()
+	public void DrawOutline(Graphics2D g)
 	{
-		
+		Point one = Util.GetNormalVector(p1, p2, p3);
+		Point two = Util.GetNormalVector(p1, p3, p4);
+		double dotproduct = Util.GetDotProduct(one, World.Camera);
+		double dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p1, p2, p3);
+		two = Util.GetNormalVector(p1, p4, p2);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p1, p3, p4);
+		two = Util.GetNormalVector(p1, p4, p2);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p4.GetX() + xoffset, p4.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p4, p3, p2);
+		two = Util.GetNormalVector(p1, p4, p2);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p4, p3, p2);
+		two = Util.GetNormalVector(p1, p3, p4);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p4, p3, p2);
+		two = Util.GetNormalVector(p1, p2, p3);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p3.GetX() + xoffset, p3.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+		}
 	}
 	public void paintComponent(Graphics gr)
 	{
@@ -182,6 +231,12 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 			g.setColor(Color.gray);
 			g.fillPolygon(poly);
 		}
+		if(isSelected)
+		{
+			g.setStroke(new BasicStroke(3));
+			g.setColor(Color.green);
+			DrawOutline(g);
+		}
 	}
 	public void mouseDragged(MouseEvent m) {
 		JComponent c = (JComponent) getComponentAt(m.getX(), m.getY());
@@ -222,6 +277,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 	}
 	public void mouseClicked(MouseEvent m) {
 		isSelected = (isSelected == true ? false : true);
+		paintImmediately(0, 0, 1280, 1000);
 	}
 	@Override
 	public void mouseEntered(MouseEvent m) {
