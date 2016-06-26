@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -163,9 +164,104 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p8.SetZ(p8.GetExZ() * scaleFactor);
 		paintImmediately(0, 0, 1280, 1000);
 	}
-	public void Selected()
+	public void DrawOutline(Graphics2D g)
 	{
-		
+		Point one = Util.GetNormalVector(p1, p2, p4);
+		Point two = Util.GetNormalVector(p5, p6, p2);
+		double dotproduct = Util.GetDotProduct(one, World.Camera);
+		double dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p5, p6, p2);
+		two = Util.GetNormalVector(p6, p5, p7);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p5.GetX() + xoffset, p5.GetY() + yoffset, p6.GetX() + xoffset, p6.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p5, p6, p2);
+		two = Util.GetNormalVector(p2, p6, p8);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p2.GetX() + xoffset, p2.GetY() + yoffset, p6.GetX() + xoffset, p6.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p5, p6, p2);
+		two = Util.GetNormalVector(p5, p1, p3);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p5.GetX() + xoffset, p5.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p3, p4, p8);
+		two = Util.GetNormalVector(p1, p2, p4);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p3, p4, p8);
+		two = Util.GetNormalVector(p6, p5, p7);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct < 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p7.GetX() + xoffset, p7.GetY() + yoffset, p8.GetX() + xoffset, p8.GetY() + yoffset);
+		}		
+		one = Util.GetNormalVector(p3, p4, p8);
+		two = Util.GetNormalVector(p2, p6, p8);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p8.GetX() + xoffset, p8.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p3, p4, p8);
+		two = Util.GetNormalVector(p5, p1, p3);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p3.GetX() + xoffset, p3.GetY() + yoffset, p7.GetX() + xoffset, p7.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p1, p2, p4);
+		two = Util.GetNormalVector(p2, p6, p8);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p2.GetX() + xoffset, p2.GetY() + yoffset, p4.GetX() + xoffset, p4.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p2, p6, p8);
+		two = Util.GetNormalVector(p6, p5, p7);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p6.GetX() + xoffset, p6.GetY() + yoffset, p8.GetX() + xoffset, p8.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p1, p2, p4);
+		two = Util.GetNormalVector(p5, p1, p3);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
+		}
+		one = Util.GetNormalVector(p5, p1, p3);
+		two = Util.GetNormalVector(p6, p5, p7);
+		dotproduct = Util.GetDotProduct(one, World.Camera);
+		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
+		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		{
+			g.drawLine(p7.GetX() + xoffset, p7.GetY() + yoffset, p5.GetX() + xoffset, p5.GetY() + yoffset);
+		}
 	}
 	public void paintComponent(Graphics gr)
 	{
@@ -283,6 +379,12 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 			g.setColor(Color.magenta);
 			g.fillPolygon(poly);
 		}
+		if(isSelected)
+		{
+			g.setStroke(new BasicStroke(3));
+			g.setColor(Color.green);
+			DrawOutline(g);
+		}
 	}
 	public void mouseDragged(MouseEvent m) {
 		JComponent c = (JComponent) getComponentAt(m.getX(), m.getY());
@@ -323,6 +425,7 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 	}
 	public void mouseClicked(MouseEvent m) {
 		isSelected = (isSelected == true ? false : true);
+		paintImmediately(0, 0, 1280, 1000);
 	}
 	@Override
 	public void mouseEntered(MouseEvent m) {
