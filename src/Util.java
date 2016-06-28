@@ -2,11 +2,7 @@ class Util
 {
 	public static double Distance_Between(Point p1, Point p2)
 	{
-		double dist_x = Math.abs(p1.GetExX() - p2.GetExX());
-		double dist_y = Math.abs(p1.GetExY() - p2.GetExY());
-		double dist_z = Math.abs(p1.GetExZ() - p2.GetExZ());
-		double hypot_xy = Math.hypot(dist_x, dist_y);
-		return Math.hypot(hypot_xy, dist_z);
+		return (Math.sqrt(((p2.GetExX() - p1.GetExX()) * (p2.GetExX() - p1.GetExX())) + ((p2.GetExY() - p1.GetExY()) * (p2.GetExY() - p1.GetExY())) + (p2.GetExZ() - p1.GetExZ()) * (p2.GetExZ() - p1.GetExZ())));
 	}
 	public static Point GetNormalVector(Point p1, Point p2, Point p3)
 	{
