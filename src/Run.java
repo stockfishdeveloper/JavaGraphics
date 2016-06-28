@@ -7,13 +7,20 @@ class Run
 		{
 			world.t.Resize(1.001f);
 		}*/
-		/*for(int i = 0; i < 360; i++)
+		/*for(int i = 0; i < 3600; i++)
 		{
-			world.t.RotateClockwiseAboutXAxis(1f);
-			world.t.TranslateVisiblePosition(1, 1);
-			world.t.RotateClockwiseAboutZAxis(1f);
-			world.t.TranslateVisiblePosition(1, 1);
-			world.t.RotateClockwiseAboutYAxis(1f);
+			try {
+				Thread.sleep(10);
+				world.t.RotateClockwiseAboutXAxis(2f);
+				Thread.sleep(10);
+				world.t.RotateClockwiseAboutYAxis(2f);
+				Thread.sleep(10);
+				world.t.TranslateVisiblePosition(1, 1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}*/
 		/*for(int i = 0; i < 10000; i++)
 		{
@@ -28,16 +35,19 @@ class Run
 		{
 			for(int j = 0; j < 27; j++)
 			{
-			world.t[j].RotateClockwiseAboutYAxis(5f);
-			world.t[j].RotateClockwiseAboutXAxis(5f);
+				try {
+					world.t[j].RotateClockwiseAboutYAxis(5f);
+					Thread.sleep(1);
+					world.t[j].TranslateVisiblePosition(1, 1);
+					//Thread.sleep(0);
+					world.t[j].RotateClockwiseAboutXAxis(5f);
+					world.t[j].Resize(1.01f);
+					//Thread.sleep(0);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
-		/*for(int i = 0; i < 1000000; i++)
-		{
-			Util.Distance_Between(new Point(i, i, i), new Point(i, i, i));
-			Util.GetNormalVector(new Point(i, i, i), new Point(i, i, i), new Point(i, i, i));
-			Util.NormalizeVector(new Point(i, i, i));
-			Util.GetDotProduct(new Point(i, i, i), new Point(i, i, i));
-		}*/
 	}
 }
