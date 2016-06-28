@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -19,6 +20,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 	public int xoffset = 0;
 	public int yoffset = 0;
 	boolean isSelected = false;
+	private Rectangle BoundingBox = new Rectangle();
 	Point p1 = new Point(-100, 0, -70.7);
 	Point p2 = new Point(100, 0, -70.7);
 	Point p3 = new Point(0, -100, 70.7);
@@ -41,13 +43,45 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p4.SetX(0);
 		p4.SetY(center.GetExY() != 0 ? center.GetExY() * scaleFactor : scaleFactor);
 		p4.SetZ(center.GetExZ() != 0 ? center.GetExZ() * 0.707 * scaleFactor : 0.707 * scaleFactor);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
+	}
+	public Rectangle UpdateBoundingBox()
+	{
+		int gx = -10000;
+		int ly = 10000;
+		int lx = 10000;
+		int gy = -10000;
+		if(p1.GetExX() > gx) gx = p1.GetX();
+		if(p1.GetExX() < lx) lx = p1.GetX();
+		if(p1.GetExY() < ly) ly = p1.GetY();
+		if(p1.GetExY() > gy) gy = p1.GetY();
+		if(p2.GetExX() > gx) gx = p2.GetX();
+		if(p2.GetExX() < lx) lx = p2.GetX();
+		if(p2.GetExY() < ly) ly = p2.GetY();
+		if(p2.GetExY() > gy) gy = p2.GetY();
+		if(p3.GetExX() > gx) gx = p3.GetX();
+		if(p3.GetExX() < lx) lx = p3.GetX();
+		if(p3.GetExY() < ly) ly = p3.GetY();
+		if(p3.GetExY() > gy) gy = p3.GetY();
+		if(p4.GetExX() > gx) gx = p4.GetX();
+		if(p4.GetExX() < lx) lx = p4.GetX();
+		if(p4.GetExY() < ly) ly = p4.GetY();
+		if(p4.GetExY() > gy) gy = p4.GetY();
+		BoundingBox = new Rectangle();
+		BoundingBox.add(gx + xoffset, gy + yoffset);
+		BoundingBox.add(gx + xoffset, ly + yoffset);
+		BoundingBox.add(lx + xoffset, ly + yoffset);
+		BoundingBox.add(lx + xoffset, gy + yoffset);
+		this.setBounds(BoundingBox);
+		return BoundingBox;
 	}
 	public void TranslateVisiblePosition(int x, int y)
 	{
 		xoffset += x;
 		yoffset += y;
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutYAxis(float degrees)
 	{
@@ -55,7 +89,8 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p2.RotateCounterClockwiseAboutYAxis(degrees);
 		p3.RotateCounterClockwiseAboutYAxis(degrees);
 		p4.RotateCounterClockwiseAboutYAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(float degrees)
 	{
@@ -63,7 +98,8 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p2.RotateClockwiseAboutYAxis(degrees);
 		p3.RotateClockwiseAboutYAxis(degrees);
 		p4.RotateClockwiseAboutYAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(float degrees)
 	{
@@ -71,7 +107,8 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p2.RotateCounterClockwiseAboutXAxis(degrees);
 		p3.RotateCounterClockwiseAboutXAxis(degrees);
 		p4.RotateCounterClockwiseAboutXAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(float degrees)
 	{
@@ -87,7 +124,8 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p2.RotateCounterClockwiseAboutZAxis(degrees);
 		p3.RotateCounterClockwiseAboutZAxis(degrees);
 		p4.RotateCounterClockwiseAboutZAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(float degrees)
 	{
@@ -95,7 +133,8 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p2.RotateClockwiseAboutZAxis(degrees);
 		p3.RotateClockwiseAboutZAxis(degrees);
 		p4.RotateClockwiseAboutZAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
@@ -281,7 +320,8 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
 		{
 		isSelected = (isSelected == true ? false : true);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 		}
 	}
 	@Override
