@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -19,6 +20,7 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 	public int xoffset = 0;
 	public int yoffset = 0;
 	boolean isSelected = false;
+	private Rectangle BoundingBox = new Rectangle();
 	Point p1 = new Point(-50, -50, -50);
 	Point p2 = new Point(50, -50, -50);
 	Point p3 = new Point(-50, 50, -50);
@@ -57,13 +59,61 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p8.SetX(center.GetExX() + (length / 2));
 		p8.SetY(center.GetExY() - (height / 2));
 		p8.SetZ(center.GetExZ() + (width / 2));
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
+	}
+	public Rectangle UpdateBoundingBox()
+	{
+		int gx = -10000;
+		int ly = 10000;
+		int lx = 10000;
+		int gy = -10000;
+		if(p1.GetExX() > gx) gx = p1.GetX();
+		if(p1.GetExX() < lx) lx = p1.GetX();
+		if(p1.GetExY() < ly) ly = p1.GetY();
+		if(p1.GetExY() > gy) gy = p1.GetY();
+		if(p2.GetExX() > gx) gx = p2.GetX();
+		if(p2.GetExX() < lx) lx = p2.GetX();
+		if(p2.GetExY() < ly) ly = p2.GetY();
+		if(p2.GetExY() > gy) gy = p2.GetY();
+		if(p3.GetExX() > gx) gx = p3.GetX();
+		if(p3.GetExX() < lx) lx = p3.GetX();
+		if(p3.GetExY() < ly) ly = p3.GetY();
+		if(p3.GetExY() > gy) gy = p3.GetY();
+		if(p4.GetExX() > gx) gx = p4.GetX();
+		if(p4.GetExX() < lx) lx = p4.GetX();
+		if(p4.GetExY() < ly) ly = p4.GetY();
+		if(p4.GetExY() > gy) gy = p4.GetY();
+		if(p5.GetExX() > gx) gx = p5.GetX();
+		if(p5.GetExX() < lx) lx = p5.GetX();
+		if(p5.GetExY() < ly) ly = p5.GetY();
+		if(p5.GetExY() > gy) gy = p5.GetY();
+		if(p6.GetExX() > gx) gx = p6.GetX();
+		if(p6.GetExX() < lx) lx = p6.GetX();
+		if(p6.GetExY() < ly) ly = p6.GetY();
+		if(p6.GetExY() > gy) gy = p6.GetY();
+		if(p7.GetExX() > gx) gx = p7.GetX();
+		if(p7.GetExX() < lx) lx = p7.GetX();
+		if(p7.GetExY() < ly) ly = p7.GetY();
+		if(p7.GetExY() > gy) gy = p7.GetY();
+		if(p8.GetExX() > gx) gx = p8.GetX();
+		if(p8.GetExX() < lx) lx = p8.GetX();
+		if(p8.GetExY() < ly) ly = p8.GetY();
+		if(p8.GetExY() > gy) gy = p8.GetY();
+		BoundingBox = new Rectangle();
+		BoundingBox.add(gx + xoffset, gy + yoffset);
+		BoundingBox.add(gx + xoffset, ly + yoffset);
+		BoundingBox.add(lx + xoffset, ly + yoffset);
+		BoundingBox.add(lx + xoffset, gy + yoffset);
+		this.setBounds(BoundingBox);
+		return BoundingBox;
 	}
 	public void TranslateVisiblePosition(int x, int y)
 	{
 		xoffset += x;
 		yoffset += y;
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutYAxis(float degrees)
 	{
@@ -75,7 +125,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p6.RotateCounterClockwiseAboutYAxis(degrees);
 		p7.RotateCounterClockwiseAboutYAxis(degrees);
 		p8.RotateCounterClockwiseAboutYAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(float degrees)
 	{
@@ -87,7 +138,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p6.RotateClockwiseAboutYAxis(degrees);
 		p7.RotateClockwiseAboutYAxis(degrees);
 		p8.RotateClockwiseAboutYAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(float degrees)
 	{
@@ -99,7 +151,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p6.RotateCounterClockwiseAboutXAxis(degrees);
 		p7.RotateCounterClockwiseAboutXAxis(degrees);
 		p8.RotateCounterClockwiseAboutXAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(float degrees)
 	{
@@ -111,7 +164,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p6.RotateClockwiseAboutXAxis(degrees);
 		p7.RotateClockwiseAboutXAxis(degrees);
 		p8.RotateClockwiseAboutXAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(float degrees)
 	{
@@ -123,7 +177,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p6.RotateCounterClockwiseAboutZAxis(degrees);
 		p7.RotateCounterClockwiseAboutZAxis(degrees);
 		p8.RotateCounterClockwiseAboutZAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(float degrees)
 	{
@@ -135,7 +190,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p6.RotateClockwiseAboutZAxis(degrees);
 		p7.RotateClockwiseAboutZAxis(degrees);
 		p8.RotateClockwiseAboutZAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
@@ -163,7 +219,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		p8.SetX(p8.GetExX() * scaleFactor);
 		p8.SetY(p8.GetExY() * scaleFactor);
 		p8.SetZ(p8.GetExZ() * scaleFactor);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void DrawOutline(Graphics2D g)
 	{
@@ -429,7 +486,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
 		{
 		isSelected = (isSelected == true ? false : true);
-		paintImmediately(0, 0, 1280, 1000);
+		UpdateBoundingBox();
+		repaint();
 		}
 	}
 	@Override
