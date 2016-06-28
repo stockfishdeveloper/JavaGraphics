@@ -1,5 +1,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -239,7 +240,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		}
 	}
 	public void mouseDragged(MouseEvent m) {
-		JComponent c = (JComponent) getComponentAt(m.getX(), m.getY());
+		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
 		if(c != null && c == (this) && isSelected == true)
 		{
 		if(SwingUtilities.isRightMouseButton(m))
@@ -276,8 +277,12 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		
 	}
 	public void mouseClicked(MouseEvent m) {
+		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
+		{
 		isSelected = (isSelected == true ? false : true);
 		paintImmediately(0, 0, 1280, 1000);
+		}
 	}
 	@Override
 	public void mouseEntered(MouseEvent m) {
