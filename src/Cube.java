@@ -62,7 +62,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p8.SetY(center.GetExY() - radius);
 		p8.SetZ(center.GetExZ() + radius);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public Rectangle UpdateBoundingBox()
 	{
@@ -115,7 +115,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		xoffset += x;
 		yoffset += y;
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutYAxis(float degrees)
 	{
@@ -128,7 +128,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p7.RotateCounterClockwiseAboutYAxis(degrees);
 		p8.RotateCounterClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(float degrees)
 	{
@@ -141,7 +141,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p7.RotateClockwiseAboutYAxis(degrees);
 		p8.RotateClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(float degrees)
 	{
@@ -154,7 +154,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p7.RotateCounterClockwiseAboutXAxis(degrees);
 		p8.RotateCounterClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(float degrees)
 	{
@@ -167,7 +167,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p7.RotateClockwiseAboutXAxis(degrees);
 		p8.RotateClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(float degrees)
 	{
@@ -180,7 +180,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p7.RotateCounterClockwiseAboutZAxis(degrees);
 		p8.RotateCounterClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(float degrees)
 	{
@@ -193,7 +193,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p7.RotateClockwiseAboutZAxis(degrees);
 		p8.RotateClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
@@ -222,7 +222,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		p8.SetY(p8.GetExY() * scaleFactor);
 		p8.SetZ(p8.GetExZ() * scaleFactor);
 		UpdateBoundingBox();
-		paintImmediately(this.getBounds());
+		repaint();
 	}
 	public void DrawOutline(Graphics2D g)
 	{
@@ -487,7 +487,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
 		{
 		isSelected = (isSelected == true ? false : true);
-		paintImmediately(this.getBounds());
+		repaint();
 		}
 	}
 	@Override
