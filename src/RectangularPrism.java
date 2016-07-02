@@ -473,7 +473,9 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
 		{
-			TranslateVisiblePosition(m.getX() - xoffset, m.getY() - yoffset);
+			TranslateVisiblePosition(m.getX() - currx, m.getY() - curry);
+			currx = m.getX();
+			curry = m.getY();
 		}
 		}
 	}
@@ -502,8 +504,13 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 	}
 	@Override
 	public void mousePressed(MouseEvent m) {
-		// TODO Auto-generated method stub
-		
+		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
+		{
+			currx = m.getX();
+			curry = m.getY();
+			System.out.println("Mouse pressed");
+		}		
 	}
 	@Override
 	public void mouseReleased(MouseEvent m) {
