@@ -64,7 +64,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		UpdateBoundingBox();
 		repaint();
 	}
-	public Rectangle UpdateBoundingBox()
+	public void UpdateBoundingBox()
 	{
 		int gx = -10000;
 		int ly = 10000;
@@ -103,12 +103,12 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		if(p8.GetExY() < ly) ly = p8.GetY();
 		if(p8.GetExY() > gy) gy = p8.GetY();
 		BoundingBox = new Rectangle();
+		//BoundingBox.setBounds(lx + xoffset, gy + yoffset, gx + xoffset, ly + yoffset);
 		BoundingBox.add(gx + xoffset, gy + yoffset);
 		BoundingBox.add(gx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, gy + yoffset);
 		this.setBounds(BoundingBox);
-		return BoundingBox;
 	}
 	public void TranslateVisiblePosition(int x, int y)
 	{
@@ -474,7 +474,9 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
 		{
-			TranslateVisiblePosition(m.getX() - xoffset, m.getY() - yoffset);
+			TranslateVisiblePosition(m.getX() - currx, m.getY() - curry);
+			currx = m.getX();
+			curry = m.getY();
 		}
 		}
 	}
@@ -502,8 +504,13 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 	}
 	@Override
 	public void mousePressed(MouseEvent m) {
-		// TODO Auto-generated method stub
-		
+		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
+		{
+			currx = m.getX();
+			curry = m.getY();
+			System.out.println("Mouse pressed");
+		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent m) {
