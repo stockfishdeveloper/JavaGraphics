@@ -46,7 +46,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		UpdateBoundingBox();
 		repaint();
 	}
-	public Rectangle UpdateBoundingBox()
+	public void UpdateBoundingBox()
 	{
 		int gx = -10000;
 		int ly = 10000;
@@ -74,7 +74,6 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		BoundingBox.add(lx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, gy + yoffset);
 		this.setBounds(BoundingBox);
-		return BoundingBox;
 	}
 	public void TranslateVisiblePosition(int x, int y)
 	{
@@ -116,7 +115,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		p2.RotateClockwiseAboutXAxis(degrees);
 		p3.RotateClockwiseAboutXAxis(degrees);
 		p4.RotateClockwiseAboutXAxis(degrees);
-		paintImmediately(0, 0, 1280, 1000);
+		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(float degrees)
 	{
@@ -307,7 +306,9 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
 		{
-			TranslateVisiblePosition(m.getX() - xoffset, m.getY() - yoffset);
+			TranslateVisiblePosition(m.getX() - currx, m.getY() - curry);
+			currx = m.getX();
+			curry = m.getY();
 		}
 		}
 	}
@@ -336,8 +337,13 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 	}
 	@Override
 	public void mousePressed(MouseEvent m) {
-		// TODO Auto-generated method stub
-		
+		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
+		{
+			currx = m.getX();
+			curry = m.getY();
+			System.out.println("Mouse pressed");
+		}		
 	}
 	@Override
 	public void mouseReleased(MouseEvent m) {
