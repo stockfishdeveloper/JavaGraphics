@@ -103,11 +103,14 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		if(p8.GetExY() < ly) ly = p8.GetY();
 		if(p8.GetExY() > gy) gy = p8.GetY();
 		BoundingBox = new Rectangle();
-		//BoundingBox.setBounds(lx + xoffset, gy + yoffset, gx + xoffset, ly + yoffset);
+		//BoundingBox = new Rectangle(lx + xoffset, -gy + yoffset, (gx - lx), (gy - ly));
 		BoundingBox.add(gx + xoffset, gy + yoffset);
 		BoundingBox.add(gx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, gy + yoffset);
+		//System.out.println(BoundingBox);
+		//System.out.println(BoundingBox.getMaxX());
+		//System.out.println(BoundingBox.getMaxY());
 		this.setBounds(BoundingBox);
 	}
 	public void TranslateVisiblePosition(int x, int y)
@@ -447,8 +450,8 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 	}
 	public void mouseDragged(MouseEvent m) {
 		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
-		if(c != null && c == (this) && isSelected == true)
-		{
+		//if(c != null && c == (this) && isSelected == true)
+		//{
 		if(SwingUtilities.isRightMouseButton(m))
 		{
 			if(m.getX() < currx)
@@ -478,7 +481,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 			currx = m.getX();
 			curry = m.getY();
 		}
-		}
+		//}
 	}
 	public void mouseMoved(MouseEvent m) {
 		// TODO Auto-generated method stub
@@ -509,7 +512,6 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener
 		{
 			currx = m.getX();
 			curry = m.getY();
-			System.out.println("Mouse pressed");
 		}
 	}
 	@Override
