@@ -4,10 +4,11 @@ import javax.swing.JPanel;
 class World //implements MouseListener, MouseMotionListener
 {
 	final int length = 6;
-	Cube[] t = new Cube[length * length * length];
+	/*Cube[] t = new Cube[length * length * length];*/
 	int[] x = new int[length * length * length];
 	int[] y = new int[length * length * length];
 	int[] z = new int[length * length * length];
+	Sphere t;
 	static Point Camera = new Point(0, 0, 1);
 	JFrame frame;
 	static JPanel panel;
@@ -42,19 +43,17 @@ class World //implements MouseListener, MouseMotionListener
 			z[(i * 25) + j] = sz[i];
 		}
 	}*/
-	WriteDataForCubeOfCubes(length);
-	for(int i = 0; i < length * length * length; i++)
-	{
-	Point p = new Point(x[i], y[i], z[i]);
-	t[i] = new Cube(p, 10);
-	t[i].TranslateVisiblePosition(600, 500);
-	panel.addMouseMotionListener(t[i]);
-	panel.addMouseListener(t[i]);
-	//t.setPreferredSize(new Dimension(1200, 1200));
-	//t.setMaximumSize(t.getPreferredSize());
-	//t.setMinimumSize(t.getPreferredSize());
-	panel.add(t[i]);
-	}
+	//WriteDataForCubeOfCubes(length);
+	//for(int i = 0; i < length * length * length; i++)
+	//{
+	//Point p = new Point(x[i], y[i], z[i]);
+	t = new Sphere(100, 200);
+	t.TranslateVisiblePosition(600, 500);
+	panel.addMouseMotionListener(t);
+	panel.addMouseListener(t);
+	panel.addMouseWheelListener(t);
+	panel.add(t);
+	//}
 	frame.add(panel);
 	frame.setVisible(true);
 	}
