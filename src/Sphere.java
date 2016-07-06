@@ -1,18 +1,18 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
-class Sphere extends JComponent implements MouseMotionListener, MouseListener
+class Sphere extends JComponent implements MouseMotionListener, MouseListener, MouseWheelListener
 {
 	int currx = 350;
 	int curry = 350;
@@ -28,27 +28,31 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener
 	}
 	public Sphere(int layers, int ppl)
 	{
+		this.requestFocusInWindow();
 		int count = 0;
-		double[] semicircle = new double[layers];
+		double[] semicircle = new double[layers * 2];
 		for(int i = -layers; i < layers; i++)
 		{
 			semicircle[count++] = Math.sqrt((double)((layers * layers) - (i * i)));
 		}
 		count = 0;
-		points = new Point[layers * ppl];
+		int scount = 0;
+		points = new Point[layers * 2 * ppl];
+		for(int i = 0; i < points.length; i++) points[i] = new Point(0, 0, 0);
 		for(int i = layers; i > -layers; i--)
 		{
-			Point p = new Point(0, i, 0);
 			for(int j = 0; j < ppl; j++)
 			{
-				float degrees = j * (360.0f / ppl);
-				Point p1 = new Point(semicircle[i], 0, 0);
+				points[count].SetY(i);
+				float degrees = (float)(j) * (360.0f / (float)(ppl));
+				Point p1 = new Point(semicircle[scount], 0, 0);
 				p1.RotateCounterClockwiseAboutYAxis(degrees);
-				p.SetX(p1.GetExX());
-				p.SetZ(p1.GetExZ());
-				points[count++] = p;
+				points[count].SetX(p1.GetExX());
+				points[count++].SetZ(p1.GetExZ());
 			}
+			scount++;
 		}
+		//for(Point p : points) System.out.println(p.GetY());
 		UpdateBoundingBox();
 		repaint();
 	}
@@ -81,114 +85,60 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener
 	}
 	public void RotateCounterClockwiseAboutYAxis(float degrees)
 	{
-		p1.RotateCounterClockwiseAboutYAxis(degrees);
-		p2.RotateCounterClockwiseAboutYAxis(degrees);
-		p3.RotateCounterClockwiseAboutYAxis(degrees);
-		p4.RotateCounterClockwiseAboutYAxis(degrees);
-		p5.RotateCounterClockwiseAboutYAxis(degrees);
-		p6.RotateCounterClockwiseAboutYAxis(degrees);
-		p7.RotateCounterClockwiseAboutYAxis(degrees);
-		p8.RotateCounterClockwiseAboutYAxis(degrees);
+		for(Point p : points)
+		p.RotateCounterClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(float degrees)
 	{
-		p1.RotateClockwiseAboutYAxis(degrees);
-		p2.RotateClockwiseAboutYAxis(degrees);
-		p3.RotateClockwiseAboutYAxis(degrees);
-		p4.RotateClockwiseAboutYAxis(degrees);
-		p5.RotateClockwiseAboutYAxis(degrees);
-		p6.RotateClockwiseAboutYAxis(degrees);
-		p7.RotateClockwiseAboutYAxis(degrees);
-		p8.RotateClockwiseAboutYAxis(degrees);
+		for(Point p : points)
+		p.RotateClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(float degrees)
 	{
-		p1.RotateCounterClockwiseAboutXAxis(degrees);
-		p2.RotateCounterClockwiseAboutXAxis(degrees);
-		p3.RotateCounterClockwiseAboutXAxis(degrees);
-		p4.RotateCounterClockwiseAboutXAxis(degrees);
-		p5.RotateCounterClockwiseAboutXAxis(degrees);
-		p6.RotateCounterClockwiseAboutXAxis(degrees);
-		p7.RotateCounterClockwiseAboutXAxis(degrees);
-		p8.RotateCounterClockwiseAboutXAxis(degrees);
+		for(Point p : points)
+		p.RotateCounterClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(float degrees)
 	{
-		p1.RotateClockwiseAboutXAxis(degrees);
-		p2.RotateClockwiseAboutXAxis(degrees);
-		p3.RotateClockwiseAboutXAxis(degrees);
-		p4.RotateClockwiseAboutXAxis(degrees);
-		p5.RotateClockwiseAboutXAxis(degrees);
-		p6.RotateClockwiseAboutXAxis(degrees);
-		p7.RotateClockwiseAboutXAxis(degrees);
-		p8.RotateClockwiseAboutXAxis(degrees);
+		for(Point p : points)
+		p.RotateClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(float degrees)
 	{
-		p1.RotateCounterClockwiseAboutZAxis(degrees);
-		p2.RotateCounterClockwiseAboutZAxis(degrees);
-		p3.RotateCounterClockwiseAboutZAxis(degrees);
-		p4.RotateCounterClockwiseAboutZAxis(degrees);
-		p5.RotateCounterClockwiseAboutZAxis(degrees);
-		p6.RotateCounterClockwiseAboutZAxis(degrees);
-		p7.RotateCounterClockwiseAboutZAxis(degrees);
-		p8.RotateCounterClockwiseAboutZAxis(degrees);
+		for(Point p : points)
+		p.RotateCounterClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(float degrees)
 	{
-		p1.RotateClockwiseAboutZAxis(degrees);
-		p2.RotateClockwiseAboutZAxis(degrees);
-		p3.RotateClockwiseAboutZAxis(degrees);
-		p4.RotateClockwiseAboutZAxis(degrees);
-		p5.RotateClockwiseAboutZAxis(degrees);
-		p6.RotateClockwiseAboutZAxis(degrees);
-		p7.RotateClockwiseAboutZAxis(degrees);
-		p8.RotateClockwiseAboutZAxis(degrees);
+		for(Point p : points)
+		p.RotateClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
-		p1.SetX(p1.GetExX() * scaleFactor);
-		p1.SetY(p1.GetExY() * scaleFactor);
-		p1.SetZ(p1.GetExZ() * scaleFactor);
-		p2.SetX(p2.GetExX() * scaleFactor);
-		p2.SetY(p2.GetExY() * scaleFactor);
-		p2.SetZ(p2.GetExZ() * scaleFactor);
-		p3.SetX(p3.GetExX() * scaleFactor);
-		p3.SetY(p3.GetExY() * scaleFactor);
-		p3.SetZ(p3.GetExZ() * scaleFactor);
-		p4.SetX(p4.GetExX() * scaleFactor);
-		p4.SetY(p4.GetExY() * scaleFactor);
-		p4.SetZ(p4.GetExZ() * scaleFactor);
-		p5.SetX(p5.GetExX() * scaleFactor);
-		p5.SetY(p5.GetExY() * scaleFactor);
-		p5.SetZ(p5.GetExZ() * scaleFactor);
-		p6.SetX(p6.GetExX() * scaleFactor);
-		p6.SetY(p6.GetExY() * scaleFactor);
-		p6.SetZ(p6.GetExZ() * scaleFactor);
-		p7.SetX(p7.GetExX() * scaleFactor);
-		p7.SetY(p7.GetExY() * scaleFactor);
-		p7.SetZ(p7.GetExZ() * scaleFactor);
-		p8.SetX(p8.GetExX() * scaleFactor);
-		p8.SetY(p8.GetExY() * scaleFactor);
-		p8.SetZ(p8.GetExZ() * scaleFactor);
+		for(Point p : points)
+		{
+			p.SetX(p.GetExX() * scaleFactor);
+			p.SetY(p.GetExY() * scaleFactor);
+			p.SetZ(p.GetExZ() * scaleFactor);
+		}
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void DrawOutline(Graphics2D g)
 	{
-		Point one = Util.GetNormalVector(p1, p2, p4);
+		/*Point one = Util.GetNormalVector(p1, p2, p4);
 		Point two = Util.GetNormalVector(p5, p6, p2);
 		double dotproduct = Util.GetDotProduct(one, World.Camera);
 		double dotproduct1 = Util.GetDotProduct(two,  World.Camera);
@@ -283,15 +233,15 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
 			g.drawLine(p7.GetX() + xoffset, p7.GetY() + yoffset, p5.GetX() + xoffset, p5.GetY() + yoffset);
-		}
+		}*/
 	}
 	public void paintComponent(Graphics gr)
 	{
 		Graphics2D g = (Graphics2D)gr;
-		super.paintComponent(gr);
+		//super.paintComponent(gr);
 		//RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		//g.setRenderingHints(rh);
-		int[] x1 = new int[4];
+		/*int[] x1 = new int[4];
 		int[] y1 = new int[4];
 		int[] x2 = new int[4];
 		int[] y2 = new int[4];
@@ -405,6 +355,12 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener
 			g.setStroke(new BasicStroke(3));
 			g.setColor(Color.green);
 			DrawOutline(g);
+		}*/
+		g.setColor(Color.black);
+		for(int i = 1; i < points.length; i++)
+		{
+			g.setColor(i % 2 == 0 ? Color.black : Color.red);
+			g.drawLine(points[i-1].GetX() + xoffset, points[i-1].GetY() + yoffset, points[i].GetX() + xoffset, points[i].GetY() + yoffset);
 		}
 	}
 	public void mouseDragged(MouseEvent m) {
@@ -477,5 +433,12 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener
 	public void mouseReleased(MouseEvent m) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent m) {
+		if(m.getPreciseWheelRotation() < 0)
+			Resize(1.1f);
+		else
+			Resize(0.9f);		
 	}
 }
