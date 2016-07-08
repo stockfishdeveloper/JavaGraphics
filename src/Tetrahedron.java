@@ -8,11 +8,13 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
-class Tetrahedron extends JComponent implements MouseMotionListener, MouseListener
+class Tetrahedron extends JComponent implements MouseMotionListener, MouseListener, MouseWheelListener
 {
 	int currx = 350;
 	int curry = 350;
@@ -21,28 +23,26 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 	public int yoffset = 0;
 	boolean isSelected = false;
 	private Rectangle BoundingBox = new Rectangle();
-	Point p1 = new Point(-100, 0, -70.7);
-	Point p2 = new Point(100, 0, -70.7);
-	Point p3 = new Point(0, -100, 70.7);
-	Point p4 = new Point(0, 100, 70.7);
+	Point[] points = new Point[4];
 	public Tetrahedron()
 	{
 		
 	}
 	public Tetrahedron(Point center, float scaleFactor)
 	{
-		p1.SetX(center.GetExX() != 0 ? center.GetExX() * -1 * scaleFactor : -scaleFactor);
-		p1.SetY(0);
-		p1.SetZ(center.GetExZ() != 0 ? center.GetExZ() * -0.707 * scaleFactor : -0.707 * scaleFactor);
-		p2.SetX(center.GetExX() != 0 ? center.GetExX() * scaleFactor : scaleFactor);
-		p2.SetY(0);
-		p2.SetZ(center.GetExZ() != 0 ? center.GetExZ() * -0.707 * scaleFactor : -0.707 * scaleFactor);
-		p3.SetX(0);
-		p3.SetY(center.GetExY() != 0 ? center.GetExY() * -1 * scaleFactor : -scaleFactor);
-		p3.SetZ(center.GetExZ() != 0 ? center.GetExZ() * 0.707 * scaleFactor : 0.707 * scaleFactor);
-		p4.SetX(0);
-		p4.SetY(center.GetExY() != 0 ? center.GetExY() * scaleFactor : scaleFactor);
-		p4.SetZ(center.GetExZ() != 0 ? center.GetExZ() * 0.707 * scaleFactor : 0.707 * scaleFactor);
+		for(int i = 0; i < 4; i++) points[i] = new Point(0, 0, 0);
+		points[0].SetX(center.GetExX() != 0 ? center.GetExX() * -1 * scaleFactor : -scaleFactor);
+		points[0].SetY(0);
+		points[0].SetZ(center.GetExZ() != 0 ? center.GetExZ() * -0.707 * scaleFactor : -0.707 * scaleFactor);
+		points[1].SetX(center.GetExX() != 0 ? center.GetExX() * scaleFactor : scaleFactor);
+		points[1].SetY(0);
+		points[1].SetZ(center.GetExZ() != 0 ? center.GetExZ() * -0.707 * scaleFactor : -0.707 * scaleFactor);
+		points[2].SetX(0);
+		points[2].SetY(center.GetExY() != 0 ? center.GetExY() * -1 * scaleFactor : -scaleFactor);
+		points[2].SetZ(center.GetExZ() != 0 ? center.GetExZ() * 0.707 * scaleFactor : 0.707 * scaleFactor);
+		points[3].SetX(0);
+		points[3].SetY(center.GetExY() != 0 ? center.GetExY() * scaleFactor : scaleFactor);
+		points[3].SetZ(center.GetExZ() != 0 ? center.GetExZ() * 0.707 * scaleFactor : 0.707 * scaleFactor);
 		UpdateBoundingBox();
 		repaint();
 	}
@@ -52,22 +52,22 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		int ly = 10000;
 		int lx = 10000;
 		int gy = -10000;
-		if(p1.GetExX() > gx) gx = p1.GetX();
-		if(p1.GetExX() < lx) lx = p1.GetX();
-		if(p1.GetExY() < ly) ly = p1.GetY();
-		if(p1.GetExY() > gy) gy = p1.GetY();
-		if(p2.GetExX() > gx) gx = p2.GetX();
-		if(p2.GetExX() < lx) lx = p2.GetX();
-		if(p2.GetExY() < ly) ly = p2.GetY();
-		if(p2.GetExY() > gy) gy = p2.GetY();
-		if(p3.GetExX() > gx) gx = p3.GetX();
-		if(p3.GetExX() < lx) lx = p3.GetX();
-		if(p3.GetExY() < ly) ly = p3.GetY();
-		if(p3.GetExY() > gy) gy = p3.GetY();
-		if(p4.GetExX() > gx) gx = p4.GetX();
-		if(p4.GetExX() < lx) lx = p4.GetX();
-		if(p4.GetExY() < ly) ly = p4.GetY();
-		if(p4.GetExY() > gy) gy = p4.GetY();
+		if(points[0].GetExX() > gx) gx = points[0].GetX();
+		if(points[0].GetExX() < lx) lx = points[0].GetX();
+		if(points[0].GetExY() < ly) ly = points[0].GetY();
+		if(points[0].GetExY() > gy) gy = points[0].GetY();
+		if(points[1].GetExX() > gx) gx = points[1].GetX();
+		if(points[1].GetExX() < lx) lx = points[1].GetX();
+		if(points[1].GetExY() < ly) ly = points[1].GetY();
+		if(points[1].GetExY() > gy) gy = points[1].GetY();
+		if(points[2].GetExX() > gx) gx = points[2].GetX();
+		if(points[2].GetExX() < lx) lx = points[2].GetX();
+		if(points[2].GetExY() < ly) ly = points[2].GetY();
+		if(points[2].GetExY() > gy) gy = points[2].GetY();
+		if(points[3].GetExX() > gx) gx = points[3].GetX();
+		if(points[3].GetExX() < lx) lx = points[3].GetX();
+		if(points[3].GetExY() < ly) ly = points[3].GetY();
+		if(points[3].GetExY() > gy) gy = points[3].GetY();
 		BoundingBox = new Rectangle();
 		BoundingBox.add(gx + xoffset, gy + yoffset);
 		BoundingBox.add(gx + xoffset, ly + yoffset);
@@ -84,121 +84,106 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 	}
 	public void RotateCounterClockwiseAboutYAxis(float degrees)
 	{
-		p1.RotateCounterClockwiseAboutYAxis(degrees);
-		p2.RotateCounterClockwiseAboutYAxis(degrees);
-		p3.RotateCounterClockwiseAboutYAxis(degrees);
-		p4.RotateCounterClockwiseAboutYAxis(degrees);
+		for(Point p : points)
+			p.RotateCounterClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(float degrees)
 	{
-		p1.RotateClockwiseAboutYAxis(degrees);
-		p2.RotateClockwiseAboutYAxis(degrees);
-		p3.RotateClockwiseAboutYAxis(degrees);
-		p4.RotateClockwiseAboutYAxis(degrees);
+		for(Point p : points)
+			p.RotateClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(float degrees)
 	{
-		p1.RotateCounterClockwiseAboutXAxis(degrees);
-		p2.RotateCounterClockwiseAboutXAxis(degrees);
-		p3.RotateCounterClockwiseAboutXAxis(degrees);
-		p4.RotateCounterClockwiseAboutXAxis(degrees);
+		for(Point p : points)
+			p.RotateCounterClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(float degrees)
 	{
-		p1.RotateClockwiseAboutXAxis(degrees);
-		p2.RotateClockwiseAboutXAxis(degrees);
-		p3.RotateClockwiseAboutXAxis(degrees);
-		p4.RotateClockwiseAboutXAxis(degrees);
+		for(Point p : points)
+			p.RotateClockwiseAboutXAxis(degrees);
+		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(float degrees)
 	{
-		p1.RotateCounterClockwiseAboutZAxis(degrees);
-		p2.RotateCounterClockwiseAboutZAxis(degrees);
-		p3.RotateCounterClockwiseAboutZAxis(degrees);
-		p4.RotateCounterClockwiseAboutZAxis(degrees);
+		for(Point p : points)
+			p.RotateCounterClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(float degrees)
 	{
-		p1.RotateClockwiseAboutZAxis(degrees);
-		p2.RotateClockwiseAboutZAxis(degrees);
-		p3.RotateClockwiseAboutZAxis(degrees);
-		p4.RotateClockwiseAboutZAxis(degrees);
+		for(Point p : points)
+			p.RotateClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
-		p1.SetX(p1.GetExX() * scaleFactor);
-		p1.SetY(p1.GetExY() * scaleFactor);
-		p1.SetZ(p1.GetExZ() * scaleFactor);
-		p2.SetX(p2.GetExX() * scaleFactor);
-		p2.SetY(p2.GetExY() * scaleFactor);
-		p2.SetZ(p2.GetExZ() * scaleFactor);
-		p3.SetX(p3.GetExX() * scaleFactor);
-		p3.SetY(p3.GetExY() * scaleFactor);
-		p3.SetZ(p3.GetExZ() * scaleFactor);
-		p4.SetX(p4.GetExX() * scaleFactor);
-		p4.SetY(p4.GetExY() * scaleFactor);
-		p4.SetZ(p4.GetExZ() * scaleFactor);
+		for(Point p : points)
+		{
+			p.SetX(p.GetExX() * scaleFactor);
+			p.SetY(p.GetExY() * scaleFactor);
+			p.SetZ(p.GetExZ() * scaleFactor);
+		}
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void DrawOutline(Graphics2D g)
 	{
-		Point one = Util.GetNormalVector(p1, p2, p3);
-		Point two = Util.GetNormalVector(p1, p3, p4);
+		Point one = Util.GetNormalVector(points[0], points[1], points[2]);
+		Point two = Util.GetNormalVector(points[0], points[2], points[3]);
 		double dotproduct = Util.GetDotProduct(one, World.Camera);
 		double dotproduct1 = Util.GetDotProduct(two,  World.Camera);
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
-			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
+			g.drawLine(points[0].GetX() + xoffset, points[0].GetY() + yoffset, points[2].GetX() + xoffset, points[2].GetY() + yoffset);
 		}
-		one = Util.GetNormalVector(p1, p2, p3);
-		two = Util.GetNormalVector(p1, p4, p2);
+		one = Util.GetNormalVector(points[0], points[1], points[2]);
+		two = Util.GetNormalVector(points[0], points[3], points[1]);
 		dotproduct = Util.GetDotProduct(one, World.Camera);
 		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
-			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+			g.drawLine(points[0].GetX() + xoffset, points[0].GetY() + yoffset, points[1].GetX() + xoffset, points[1].GetY() + yoffset);
 		}
-		one = Util.GetNormalVector(p1, p3, p4);
-		two = Util.GetNormalVector(p1, p4, p2);
+		one = Util.GetNormalVector(points[0], points[2], points[3]);
+		two = Util.GetNormalVector(points[0], points[3], points[1]);
 		dotproduct = Util.GetDotProduct(one, World.Camera);
 		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
-			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p4.GetX() + xoffset, p4.GetY() + yoffset);
+			g.drawLine(points[0].GetX() + xoffset, points[0].GetY() + yoffset, points[3].GetX() + xoffset, points[3].GetY() + yoffset);
 		}
-		one = Util.GetNormalVector(p4, p3, p2);
-		two = Util.GetNormalVector(p1, p4, p2);
+		one = Util.GetNormalVector(points[3], points[2], points[1]);
+		two = Util.GetNormalVector(points[0], points[3], points[1]);
 		dotproduct = Util.GetDotProduct(one, World.Camera);
 		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
-			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+			g.drawLine(points[3].GetX() + xoffset, points[3].GetY() + yoffset, points[1].GetX() + xoffset, points[1].GetY() + yoffset);
 		}
-		one = Util.GetNormalVector(p4, p3, p2);
-		two = Util.GetNormalVector(p1, p3, p4);
+		one = Util.GetNormalVector(points[3], points[2], points[1]);
+		two = Util.GetNormalVector(points[0], points[2], points[3]);
 		dotproduct = Util.GetDotProduct(one, World.Camera);
 		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
-			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
+			g.drawLine(points[3].GetX() + xoffset, points[3].GetY() + yoffset, points[2].GetX() + xoffset, points[2].GetY() + yoffset);
 		}
-		one = Util.GetNormalVector(p4, p3, p2);
-		two = Util.GetNormalVector(p1, p2, p3);
+		one = Util.GetNormalVector(points[3], points[2], points[1]);
+		two = Util.GetNormalVector(points[0], points[1], points[2]);
 		dotproduct = Util.GetDotProduct(one, World.Camera);
 		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
 		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
 		{
-			g.drawLine(p3.GetX() + xoffset, p3.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
+			g.drawLine(points[2].GetX() + xoffset, points[2].GetY() + yoffset, points[1].GetX() + xoffset, points[1].GetY() + yoffset);
 		}
 	}
 	public void paintComponent(Graphics gr)
@@ -213,32 +198,32 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		int[] y3 = new int[3];
 		int[] x4 = new int[3];
 		int[] y4 = new int[3];
-		x1[0] = p1.GetX() + xoffset;
-		x1[1] = p3.GetX() + xoffset;
-		x1[2] = p4.GetX() + xoffset;
-		y1[0] = p1.GetY() + yoffset;
-		y1[1] = p3.GetY() + yoffset;
-		y1[2] = p4.GetY() + yoffset;
-		x2[0] = p1.GetX() + xoffset;
-		x2[1] = p2.GetX() + xoffset;
-		x2[2] = p3.GetX() + xoffset;
-		y2[0] = p1.GetY() + yoffset;
-		y2[1] = p2.GetY() + yoffset;
-		y2[2] = p3.GetY() + yoffset;
-		x3[0] = p1.GetX() + xoffset;
-		x3[1] = p2.GetX() + xoffset;
-		x3[2] = p4.GetX() + xoffset;
-		y3[0] = p1.GetY() + yoffset;
-		y3[1] = p2.GetY() + yoffset;
-		y3[2] = p4.GetY() + yoffset;
-		x4[0] = p2.GetX() + xoffset;
-		x4[1] = p3.GetX() + xoffset;
-		x4[2] = p4.GetX() + xoffset;
-		y4[0] = p2.GetY() + yoffset;
-		y4[1] = p3.GetY() + yoffset;
-		y4[2] = p4.GetY() + yoffset;
+		x1[0] = points[0].GetX() + xoffset;
+		x1[1] = points[2].GetX() + xoffset;
+		x1[2] = points[3].GetX() + xoffset;
+		y1[0] = points[0].GetY() + yoffset;
+		y1[1] = points[2].GetY() + yoffset;
+		y1[2] = points[3].GetY() + yoffset;
+		x2[0] = points[0].GetX() + xoffset;
+		x2[1] = points[1].GetX() + xoffset;
+		x2[2] = points[2].GetX() + xoffset;
+		y2[0] = points[0].GetY() + yoffset;
+		y2[1] = points[1].GetY() + yoffset;
+		y2[2] = points[2].GetY() + yoffset;
+		x3[0] = points[0].GetX() + xoffset;
+		x3[1] = points[1].GetX() + xoffset;
+		x3[2] = points[3].GetX() + xoffset;
+		y3[0] = points[0].GetY() + yoffset;
+		y3[1] = points[1].GetY() + yoffset;
+		y3[2] = points[3].GetY() + yoffset;
+		x4[0] = points[1].GetX() + xoffset;
+		x4[1] = points[2].GetX() + xoffset;
+		x4[2] = points[3].GetX() + xoffset;
+		y4[0] = points[1].GetY() + yoffset;
+		y4[1] = points[2].GetY() + yoffset;
+		y4[2] = points[3].GetY() + yoffset;
 		Point p = new Point(0, 0, 0);
-		p = Util.GetNormalVector(p1, p3, p4);
+		p = Util.GetNormalVector(points[0], points[2], points[3]);
 		double dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -246,7 +231,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 			g.setColor(Color.blue);
 			g.fillPolygon(poly);
 		}
-		p = Util.GetNormalVector(p1, p2, p3);
+		p = Util.GetNormalVector(points[0], points[1], points[2]);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -254,7 +239,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 			g.setColor(Color.red);
 			g.fillPolygon(poly);
 		}
-		p = Util.GetNormalVector(p1, p4, p2);
+		p = Util.GetNormalVector(points[0], points[3], points[1]);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -262,7 +247,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 			g.setColor(Color.yellow);
 			g.fillPolygon(poly);
 		}
-		p = Util.GetNormalVector(p2, p4, p3);
+		p = Util.GetNormalVector(points[1], points[3], points[2]);
 		dotproduct = Util.GetDotProduct(p, World.Camera);
 		if(dotproduct < 0)
 		{
@@ -342,12 +327,17 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		{
 			currx = m.getX();
 			curry = m.getY();
-			System.out.println("Mouse pressed");
 		}		
 	}
 	@Override
 	public void mouseReleased(MouseEvent m) {
 		// TODO Auto-generated method stub
-		
+	}
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent m) {
+		if(m.getPreciseWheelRotation() < 0)
+			Resize(1.1f);
+		else
+			Resize(0.9f);	
 	}
 }
