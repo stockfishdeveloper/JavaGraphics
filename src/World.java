@@ -1,14 +1,13 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class World //implements MouseListener, MouseMotionListener
+class World
 {
 	final int length = 6;
-	/*Cube[] t = new Cube[length * length * length];*/
 	int[] x = new int[length * length * length];
 	int[] y = new int[length * length * length];
 	int[] z = new int[length * length * length];
-	Sphere t;
+	Tetrahedron t;
 	static Point Camera = new Point(0, 0, 1);
 	JFrame frame;
 	static JPanel panel;
@@ -19,41 +18,12 @@ class World //implements MouseListener, MouseMotionListener
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	panel = new JPanel();
 	panel.setLayout(null);
-	/*int[] sx = { -200, -100, 0, 100, 200 };
-	int[] sy = { 200, 200, 200, 200, 200, 100, 100, 100, 100, 100, 0, 0, 0, 0, 0, -100, -100, -100, -100, -100, -200, -200, -200, -200, -200,};
-	int[] sz = { -200, -100, 0, 100, 200 };
-	for(int i = 0; i < 25; i++)
-	{
-		for(int j = 0; j < 5; j++)
-		{
-			x[(i * 5) + j] = sx[j];
-		}
-	}
-	for(int i = 0; i < 5; i++)
-	{
-		for(int j = 0; j < 25; j++)
-		{
-			y[(i * 25) + j] = sy[j];
-		}
-	}
-	for(int i = 0; i < 5; i++)
-	{
-		for(int j = 0; j < 25; j++)
-		{
-			z[(i * 25) + j] = sz[i];
-		}
-	}*/
-	//WriteDataForCubeOfCubes(length);
-	//for(int i = 0; i < length * length * length; i++)
-	//{
-	//Point p = new Point(x[i], y[i], z[i]);
-	t = new Sphere(100, 200);
+	t = new Tetrahedron(new Point(0, 0, 0), 100);
 	t.TranslateVisiblePosition(600, 500);
 	panel.addMouseMotionListener(t);
 	panel.addMouseListener(t);
 	panel.addMouseWheelListener(t);
 	panel.add(t);
-	//}
 	frame.add(panel);
 	frame.setVisible(true);
 	}
