@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,6 +23,8 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	boolean isSelected = false;
 	private Rectangle BoundingBox = new Rectangle();
 	Point[] points;
+	int layers = 0;
+	int ppl = 0;
 	public Sphere()
 	{
 		
@@ -29,6 +32,8 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	public Sphere(int layers, int ppl)
 	{
 		this.requestFocusInWindow();
+		this.layers = layers * 2;
+		this.ppl = ppl;
 		int count = 0;
 		double[] semicircle = new double[layers * 2];
 		for(int i = -layers; i < layers; i++)
@@ -356,12 +361,58 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 			g.setColor(Color.green);
 			DrawOutline(g);
 		}*/
-		g.setColor(Color.black);
+		for(int i = 0; i < layers - 2; i++)
+		{
+			g.setColor(i % 2 == 0 ? Color.red : Color.blue);
+			for(int j = 0; j < ppl; j++)
+			{
+				Point p = Util.GetNormalVector(points[(ppl * i) + j], points[(ppl * i) + j + 1], points[(ppl * i) + j + ppl + 1]);
+				Util.NormalizeVector(p);
+				if(Util.GetDotProduct(p, World.Camera) > 0)
+				{
+					int[] x = new int[3];
+					int[] y = new int[3];
+					x[0] = points[(ppl * i) + j].GetX() + xoffset;
+					x[1] = points[(ppl * i) + j + 1].GetX() + xoffset;
+					x[2] = points[(ppl * i) + j + ppl + 1].GetX() + xoffset;
+					y[0] = points[(ppl * i) + j].GetY() + yoffset;
+					y[1] = points[(ppl * i) + j + 1].GetY() + yoffset;
+					y[2] = points[(ppl * i) + j + ppl + 1].GetY() + yoffset;
+					Polygon poly = new Polygon(x, y, x.length);
+					g.fillPolygon(poly);
+				}
+				if(i > 0)
+				{
+					p = Util.GetNormalVector(points[(ppl * i) + j], points[((ppl * i) + j) - ppl], points[(ppl * i) + j + 1]);
+					Util.NormalizeVector(p);
+					if(Util.GetDotProduct(p, World.Camera) > 0)
+					{
+						Color c = g.getColor();
+						if(c.equals(Color.red))
+							g.setColor(Color.blue);
+						else
+							g.setColor(Color.red);
+						int[] x = new int[3];
+						int[] y = new int[3];
+						x[0] = points[(ppl * i) + j].GetX() + xoffset;
+						x[1] = points[((ppl * i) + j) - ppl].GetX() + xoffset;
+						x[2] = points[(ppl * i) + j + 1].GetX() + xoffset;
+						y[0] = points[(ppl * i) + j].GetY() + yoffset;
+						y[1] = points[((ppl * i) + j) - ppl].GetY() + yoffset;
+						y[2] = points[(ppl * i) + j + 1].GetY() + yoffset;
+						Polygon poly = new Polygon(x, y, x.length);
+						g.fillPolygon(poly);
+						g.setColor(c);
+					}
+				}
+			}
+		}
+		/*g.setColor(Color.black);
 		for(int i = 1; i < points.length; i++)
 		{
 			g.setColor(i % 2 == 0 ? Color.black : Color.red);
 			g.drawLine(points[i-1].GetX() + xoffset, points[i-1].GetY() + yoffset, points[i].GetX() + xoffset, points[i].GetY() + yoffset);
-		}
+		}*/
 	}
 	public void mouseDragged(MouseEvent m) {
 		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
