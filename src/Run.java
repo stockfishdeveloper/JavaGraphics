@@ -31,18 +31,18 @@ class Run
 			world.t.RotateCounterClockwiseAboutYAxis(1f);
 			world.t.RotateCounterClockwiseAboutXAxis(1f);
 		}*/
-		world.t.Resize(5f);
-		/*for(int i = 0; i < 360; i++)
+		/*world.t.Resize(5f);
+		for(int i = 0; i < 360; i++)
 		{
-			Thread.sleep(40);
-			for(int j = 0; j < world.length * world.length * world.length; j++)
+			Thread.sleep(10);
+			for(int j = 0; j < 1; j++)
 			{
 					//Thread.sleep(0);
-					world.t[j].RotateClockwiseAboutYAxis(5f);
+					world.t.RotateClockwiseAboutYAxis(5f);
 					//Thread.sleep(0);
 					//world.t[j].TranslateVisiblePosition(1, 1);
 					//Thread.sleep(1);
-					world.t[j].RotateClockwiseAboutXAxis(5f);
+					world.t.RotateClockwiseAboutXAxis(5f);
 					//Thread.sleep(0);
 					//world.t[j].Resize(1.01f);
 					//Thread.sleep(0);
