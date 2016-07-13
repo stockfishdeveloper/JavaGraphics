@@ -7,7 +7,7 @@ class Triangle
 		points[1] = p2;
 		points[2] = p3;
 	}
-	public boolean Draw()
+	public boolean Should_Be_Drawn()
 	{
 		Point p = Util.GetNormalVector(points[0], points[1], points[2]);
 		double dotproduct = Util.GetDotProduct(p, World.Camera);
