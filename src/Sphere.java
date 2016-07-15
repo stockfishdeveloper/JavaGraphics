@@ -23,6 +23,7 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	boolean isSelected = false;
 	private Rectangle BoundingBox = new Rectangle();
 	Point[] points;
+	Triangle[] triangles;
 	int layers = 0;
 	int ppl = 0;
 	public Sphere()
@@ -31,9 +32,10 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	}
 	public Sphere(int layers, int ppl)
 	{
-		this.requestFocusInWindow();
 		this.layers = layers * 2;
 		this.ppl = ppl;
+		triangles = new Triangle[2 * layers * ( 2 * layers + ppl)];
+		for(int i = 0; i < triangles.length; i++) triangles[i] = new Triangle(new Point(0, 0, 0), new Point(0, 0, 0), new Point(0, 0, 0));
 		int count = 0;
 		double[] semicircle = new double[layers * 2];
 		for(int i = -layers; i < layers; i++)
@@ -57,7 +59,39 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 			}
 			scount++;
 		}
-		//for(Point p : points) System.out.println(p.GetY());
+		count = 0;
+		for(int i = 0; i < (2 * layers - 2); i++)
+		{
+			for(int j = 0; j < ppl; j++)
+			{
+					int[] x = new int[3];
+					int[] y = new int[3];
+					int[] z = new int[3];
+					x[0] = points[(ppl * i) + j].GetX() + xoffset;
+					x[1] = points[(ppl * i) + j + 1].GetX() + xoffset;
+					x[2] = points[(ppl * i) + j + ppl + 1].GetX() + xoffset;
+					y[0] = points[(ppl * i) + j].GetY() + yoffset;
+					y[1] = points[(ppl * i) + j + 1].GetY() + yoffset;
+					y[2] = points[(ppl * i) + j + ppl + 1].GetY() + yoffset;
+					z[0] = points[(ppl * i) + j].GetZ();
+					z[1] = points[(ppl * i) + j + 1].GetZ();
+					z[2] = points[(ppl * i) + j + ppl + 1].GetZ();
+					triangles[count++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
+				if(i > 0)
+				{
+						x[0] = points[(ppl * i) + j].GetX() + xoffset;
+						x[1] = points[((ppl * i) + j) - ppl].GetX() + xoffset;
+						x[2] = points[(ppl * i) + j + 1].GetX() + xoffset;
+						y[0] = points[(ppl * i) + j].GetY() + yoffset;
+						y[1] = points[((ppl * i) + j) - ppl].GetY() + yoffset;
+						y[2] = points[(ppl * i) + j + 1].GetY() + yoffset;
+						z[0] = points[(ppl * i) + j].GetZ();
+						z[1] = points[((ppl * i) + j) - ppl].GetZ();
+						z[2] = points[(ppl * i) + j + 1].GetZ();
+						triangles[count++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
+				}
+			}
+		}
 		UpdateBoundingBox();
 		repaint();
 	}
@@ -67,12 +101,12 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 		int ly = 10000;
 		int lx = 10000;
 		int gy = -10000;
-		for(int i = 0; i < points.length; i++)
+		for(Triangle t : triangles)
 		{
-			if(points[i].GetExX() > gx) gx = points[i].GetX();
-			if(points[i].GetExX() < lx) lx = points[i].GetX();
-			if(points[i].GetExY() > gy) gy = points[i].GetY();
-			if(points[i].GetExY() < ly) ly = points[i].GetY();
+			if(t.GreatestX() > gx) gx = t.GreatestX();
+			if(t.LeastX() < lx) lx = t.LeastX();
+			if(t.GreatestY() > gy) gy = t.GreatestY();
+			if(t.LeastY() < ly) ly = t.LeastY();
 		}
 		BoundingBox = new Rectangle();
 		BoundingBox.add(gx + xoffset, gy + yoffset);
@@ -90,329 +124,78 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	}
 	public void RotateCounterClockwiseAboutYAxis(float degrees)
 	{
-		for(Point p : points)
-		p.RotateCounterClockwiseAboutYAxis(degrees);
+		for(Triangle t : triangles)
+		t.RotateCounterClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(float degrees)
 	{
-		for(Point p : points)
-		p.RotateClockwiseAboutYAxis(degrees);
+		for(Triangle t : triangles)
+		t.RotateClockwiseAboutYAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(float degrees)
 	{
-		for(Point p : points)
-		p.RotateCounterClockwiseAboutXAxis(degrees);
+		for(Triangle t : triangles)
+		t.RotateCounterClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(float degrees)
 	{
-		for(Point p : points)
-		p.RotateClockwiseAboutXAxis(degrees);
+		for(Triangle t : triangles)
+		t.RotateClockwiseAboutXAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(float degrees)
 	{
-		for(Point p : points)
-		p.RotateCounterClockwiseAboutZAxis(degrees);
+		for(Triangle t : triangles)
+		t.RotateCounterClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(float degrees)
 	{
-		for(Point p : points)
-		p.RotateClockwiseAboutZAxis(degrees);
+		for(Triangle t : triangles)
+		t.RotateClockwiseAboutZAxis(degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
-		for(Point p : points)
-		{
-			p.SetX(p.GetExX() * scaleFactor);
-			p.SetY(p.GetExY() * scaleFactor);
-			p.SetZ(p.GetExZ() * scaleFactor);
-		}
+		for(Triangle t : triangles)
+			t.Resize(scaleFactor);
 		UpdateBoundingBox();
 		repaint();
 	}
 	public void DrawOutline(Graphics2D g)
 	{
-		/*Point one = Util.GetNormalVector(p1, p2, p4);
-		Point two = Util.GetNormalVector(p5, p6, p2);
-		double dotproduct = Util.GetDotProduct(one, World.Camera);
-		double dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p2.GetX() + xoffset, p2.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p5, p6, p2);
-		two = Util.GetNormalVector(p6, p5, p7);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p5.GetX() + xoffset, p5.GetY() + yoffset, p6.GetX() + xoffset, p6.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p5, p6, p2);
-		two = Util.GetNormalVector(p2, p6, p8);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p2.GetX() + xoffset, p2.GetY() + yoffset, p6.GetX() + xoffset, p6.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p5, p6, p2);
-		two = Util.GetNormalVector(p5, p1, p3);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p5.GetX() + xoffset, p5.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p3, p4, p8);
-		two = Util.GetNormalVector(p1, p2, p4);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p3, p4, p8);
-		two = Util.GetNormalVector(p6, p5, p7);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct < 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p7.GetX() + xoffset, p7.GetY() + yoffset, p8.GetX() + xoffset, p8.GetY() + yoffset);
-		}		
-		one = Util.GetNormalVector(p3, p4, p8);
-		two = Util.GetNormalVector(p2, p6, p8);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p4.GetX() + xoffset, p4.GetY() + yoffset, p8.GetX() + xoffset, p8.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p3, p4, p8);
-		two = Util.GetNormalVector(p5, p1, p3);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p3.GetX() + xoffset, p3.GetY() + yoffset, p7.GetX() + xoffset, p7.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p1, p2, p4);
-		two = Util.GetNormalVector(p2, p6, p8);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p2.GetX() + xoffset, p2.GetY() + yoffset, p4.GetX() + xoffset, p4.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p2, p6, p8);
-		two = Util.GetNormalVector(p6, p5, p7);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p6.GetX() + xoffset, p6.GetY() + yoffset, p8.GetX() + xoffset, p8.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p1, p2, p4);
-		two = Util.GetNormalVector(p5, p1, p3);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p1.GetX() + xoffset, p1.GetY() + yoffset, p3.GetX() + xoffset, p3.GetY() + yoffset);
-		}
-		one = Util.GetNormalVector(p5, p1, p3);
-		two = Util.GetNormalVector(p6, p5, p7);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(p7.GetX() + xoffset, p7.GetY() + yoffset, p5.GetX() + xoffset, p5.GetY() + yoffset);
-		}*/
+		
 	}
 	public void paintComponent(Graphics gr)
 	{
 		Graphics2D g = (Graphics2D)gr;
-		//super.paintComponent(gr);
-		//RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		//g.setRenderingHints(rh);
-		/*int[] x1 = new int[4];
-		int[] y1 = new int[4];
-		int[] x2 = new int[4];
-		int[] y2 = new int[4];
-		int[] x3 = new int[4];
-		int[] y3 = new int[4];
-		int[] x4 = new int[4];
-		int[] y4 = new int[4];
-		int[] x5 = new int[4];
-		int[] y5 = new int[4];
-		int[] x6 = new int[4];
-		int[] y6 = new int[4];
-		x1[0] = p2.GetX() + xoffset;
-		x1[1] = p1.GetX() + xoffset;
-		x1[2] = p3.GetX() + xoffset;
-		x1[3] = p4.GetX() + xoffset;
-		y1[0] = p2.GetY() + yoffset;
-		y1[1] = p1.GetY() + yoffset;
-		y1[2] = p3.GetY() + yoffset;
-		y1[3] = p4.GetY() + yoffset;
-		x2[0] = p6.GetX() + xoffset;
-		x2[1] = p5.GetX() + xoffset;
-		x2[2] = p7.GetX() + xoffset;
-		x2[3] = p8.GetX() + xoffset;
-		y2[0] = p6.GetY() + yoffset;
-		y2[1] = p5.GetY() + yoffset;
-		y2[2] = p7.GetY() + yoffset;
-		y2[3] = p8.GetY() + yoffset;
-		x3[0] = p1.GetX() + xoffset;
-		x3[1] = p5.GetX() + xoffset;
-		x3[2] = p7.GetX() + xoffset;
-		x3[3] = p3.GetX() + xoffset;
-		y3[0] = p1.GetY() + yoffset;
-		y3[1] = p5.GetY() + yoffset;
-		y3[2] = p7.GetY() + yoffset;
-		y3[3] = p3.GetY() + yoffset;
-		x4[0] = p2.GetX() + xoffset;
-		x4[1] = p6.GetX() + xoffset;
-		x4[2] = p8.GetX() + xoffset;
-		x4[3] = p4.GetX() + xoffset;
-		y4[0] = p2.GetY() + yoffset;
-		y4[1] = p6.GetY() + yoffset;
-		y4[2] = p8.GetY() + yoffset;
-		y4[3] = p4.GetY() + yoffset;
-		x5[0] = p1.GetX() + xoffset;
-		x5[1] = p2.GetX() + xoffset;
-		x5[2] = p6.GetX() + xoffset;
-		x5[3] = p5.GetX() + xoffset;
-		y5[0] = p1.GetY() + yoffset;
-		y5[1] = p2.GetY() + yoffset;
-		y5[2] = p6.GetY() + yoffset;
-		y5[3] = p5.GetY() + yoffset;
-		x6[0] = p3.GetX() + xoffset;
-		x6[1] = p4.GetX() + xoffset;
-		x6[2] = p8.GetX() + xoffset;
-		x6[3] = p7.GetX() + xoffset;
-		y6[0] = p3.GetY() + yoffset;
-		y6[1] = p4.GetY() + yoffset;
-		y6[2] = p8.GetY() + yoffset;
-		y6[3] = p7.GetY() + yoffset;
-		Point p = new Point(0, 0, 0);
-		p = Util.GetNormalVector(p1, p2, p4);
-		double dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
+		boolean blue = true;
+		for(Triangle t : triangles)
 		{
-			Polygon poly = new Polygon(x1, y1, x1.length);
-			g.setColor(Color.blue);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(p6, p5, p7);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x2, y2, x2.length);
-			g.setColor(Color.red);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(p5, p1, p3);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x3, y3, x3.length);
-			g.setColor(Color.yellow);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(p2, p6, p8);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x4, y4, x4.length);
-			g.setColor(Color.gray);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(p5, p6, p2);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x5, y5, x5.length);
-			g.setColor(Color.black);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(p3, p4, p8);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x6, y6, x6.length);
-			g.setColor(Color.magenta);
-			g.fillPolygon(poly);
-		}
-		if(isSelected)
-		{
-			g.setStroke(new BasicStroke(3));
-			g.setColor(Color.green);
-			DrawOutline(g);
-		}*/
-		for(int i = 0; i < layers - 2; i++)
-		{
-			g.setColor(i % 2 == 0 ? Color.red : Color.blue);
-			for(int j = 0; j < ppl; j++)
+			if(t.Should_Be_Drawn())
 			{
-				Point p = Util.GetNormalVector(points[(ppl * i) + j], points[(ppl * i) + j + 1], points[(ppl * i) + j + ppl + 1]);
-				Util.NormalizeVector(p);
-				if(Util.GetDotProduct(p, World.Camera) > 0)
+				g.setColor(blue ? Color.blue : Color.red);
+				int[] x = new int[3];
+				int[] y = new int[3];
+				for(int i = 0; i < 3; i++)
 				{
-					int[] x = new int[3];
-					int[] y = new int[3];
-					x[0] = points[(ppl * i) + j].GetX() + xoffset;
-					x[1] = points[(ppl * i) + j + 1].GetX() + xoffset;
-					x[2] = points[(ppl * i) + j + ppl + 1].GetX() + xoffset;
-					y[0] = points[(ppl * i) + j].GetY() + yoffset;
-					y[1] = points[(ppl * i) + j + 1].GetY() + yoffset;
-					y[2] = points[(ppl * i) + j + ppl + 1].GetY() + yoffset;
-					Polygon poly = new Polygon(x, y, x.length);
-					g.fillPolygon(poly);
+					x[i] = t.points[i].GetX() + xoffset;
+					y[i] = t.points[i].GetY() + yoffset;
 				}
-				if(i > 0)
-				{
-					p = Util.GetNormalVector(points[(ppl * i) + j], points[((ppl * i) + j) - ppl], points[(ppl * i) + j + 1]);
-					Util.NormalizeVector(p);
-					if(Util.GetDotProduct(p, World.Camera) > 0)
-					{
-						Color c = g.getColor();
-						if(c.equals(Color.red))
-							g.setColor(Color.blue);
-						else
-							g.setColor(Color.red);
-						int[] x = new int[3];
-						int[] y = new int[3];
-						x[0] = points[(ppl * i) + j].GetX() + xoffset;
-						x[1] = points[((ppl * i) + j) - ppl].GetX() + xoffset;
-						x[2] = points[(ppl * i) + j + 1].GetX() + xoffset;
-						y[0] = points[(ppl * i) + j].GetY() + yoffset;
-						y[1] = points[((ppl * i) + j) - ppl].GetY() + yoffset;
-						y[2] = points[(ppl * i) + j + 1].GetY() + yoffset;
-						Polygon poly = new Polygon(x, y, x.length);
-						g.fillPolygon(poly);
-						g.setColor(c);
-					}
-				}
+				Polygon poly = new Polygon(x, y, 3);
+				g.fillPolygon(poly);
+				//blue = !blue;
 			}
 		}
-		/*g.setColor(Color.black);
-		for(int i = 1; i < points.length; i++)
-		{
-			g.setColor(i % 2 == 0 ? Color.black : Color.red);
-			g.drawLine(points[i-1].GetX() + xoffset, points[i-1].GetY() + yoffset, points[i].GetX() + xoffset, points[i].GetY() + yoffset);
-		}*/
 	}
 	public void mouseDragged(MouseEvent m) {
 		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
