@@ -34,4 +34,22 @@ class Util
 	{
 		return ((p1.GetExX() * p2.GetExX()) + (p1.GetExY() * p2.GetExY()) + (p1.GetExZ() * p2.GetExZ()));
 	}
+	
+	static int[] GetSharedSide(Triangle t1, Triangle t2)
+	{
+		int[] coords = new int[4];
+		int count = 0;
+		for(int i = 0; i < 3; i++)
+		{
+			for(int j = 0; j < 3; j++)
+			{
+				if(t1.points[0].SameLocation(t1.points[i], t2.points[j]))
+				{
+					coords[count++] = t1.points[i].GetX();
+					coords[count++] = t2.points[j].GetY();
+				}
+			}
+		}
+		return coords;
+	}
 }
