@@ -149,224 +149,81 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 	}
 	public void DrawOutline(Graphics2D g)
 	{
-		Point one = Util.GetNormalVector(points[0], points[1], points[3]);
-		Point two = Util.GetNormalVector(points[4], points[5], points[1]);
-		double dotproduct = Util.GetDotProduct(one, World.Camera);
-		double dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[0].Should_Be_Drawn() && (!triangles[4].Should_Be_Drawn()) || !triangles[0].Should_Be_Drawn() && (triangles[4].Should_Be_Drawn()))
 		{
-			g.drawLine(points[0].GetX() + xoffset, points[0].GetY() + yoffset, points[1].GetX() + xoffset, points[1].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[0], triangles[4]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[4], points[5], points[1]);
-		two = Util.GetNormalVector(points[5], points[4], points[6]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[1].Should_Be_Drawn() && (!triangles[11].Should_Be_Drawn()) || !triangles[1].Should_Be_Drawn() && (triangles[11].Should_Be_Drawn()))
 		{
-			g.drawLine(points[4].GetX() + xoffset, points[4].GetY() + yoffset, points[5].GetX() + xoffset, points[5].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[1], triangles[11]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[4], points[5], points[1]);
-		two = Util.GetNormalVector(points[1], points[5], points[7]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[1].Should_Be_Drawn() && (!triangles[6].Should_Be_Drawn()) || !triangles[1].Should_Be_Drawn() && (triangles[6].Should_Be_Drawn()))
 		{
-			g.drawLine(points[1].GetX() + xoffset, points[1].GetY() + yoffset, points[5].GetX() + xoffset, points[5].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[1], triangles[6]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[4], points[5], points[1]);
-		two = Util.GetNormalVector(points[4], points[0], points[2]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[0].Should_Be_Drawn() && (!triangles[8].Should_Be_Drawn()) || !triangles[0].Should_Be_Drawn() && (triangles[8].Should_Be_Drawn()))
 		{
-			g.drawLine(points[0].GetX() + xoffset, points[0].GetY() + yoffset, points[4].GetX() + xoffset, points[4].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[0], triangles[8]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[2], points[3], points[7]);
-		two = Util.GetNormalVector(points[0], points[1], points[3]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[2].Should_Be_Drawn() && (!triangles[5].Should_Be_Drawn()) || !triangles[2].Should_Be_Drawn() && (triangles[5].Should_Be_Drawn()))
 		{
-			g.drawLine(points[3].GetX() + xoffset, points[3].GetY() + yoffset, points[2].GetX() + xoffset, points[2].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[2], triangles[5]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[2], points[3], points[7]);
-		two = Util.GetNormalVector(points[5], points[4], points[6]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct < 0 && dotproduct1 >= 0))
+		if(triangles[3].Should_Be_Drawn() && (!triangles[10].Should_Be_Drawn()) || !triangles[3].Should_Be_Drawn() && (triangles[10].Should_Be_Drawn()))
 		{
-			g.drawLine(points[6].GetX() + xoffset, points[6].GetY() + yoffset, points[7].GetX() + xoffset, points[7].GetY() + yoffset);
-		}		
-		one = Util.GetNormalVector(points[2], points[3], points[7]);
-		two = Util.GetNormalVector(points[1], points[5], points[7]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
-		{
-			g.drawLine(points[3].GetX() + xoffset, points[3].GetY() + yoffset, points[7].GetX() + xoffset, points[7].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[3], triangles[10]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[2], points[3], points[7]);
-		two = Util.GetNormalVector(points[4], points[0], points[2]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[3].Should_Be_Drawn() && (!triangles[7].Should_Be_Drawn()) || !triangles[3].Should_Be_Drawn() && (triangles[7].Should_Be_Drawn()))
 		{
-			g.drawLine(points[2].GetX() + xoffset, points[2].GetY() + yoffset, points[6].GetX() + xoffset, points[6].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[3], triangles[7]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[0], points[1], points[3]);
-		two = Util.GetNormalVector(points[1], points[5], points[7]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[2].Should_Be_Drawn() && (!triangles[9].Should_Be_Drawn()) || !triangles[2].Should_Be_Drawn() && (triangles[9].Should_Be_Drawn()))
 		{
-			g.drawLine(points[1].GetX() + xoffset, points[1].GetY() + yoffset, points[3].GetX() + xoffset, points[3].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[2], triangles[9]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[1], points[5], points[7]);
-		two = Util.GetNormalVector(points[5], points[4], points[6]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[5].Should_Be_Drawn() && (!triangles[10].Should_Be_Drawn()) || !triangles[5].Should_Be_Drawn() && (triangles[10].Should_Be_Drawn()))
 		{
-			g.drawLine(points[5].GetX() + xoffset, points[5].GetY() + yoffset, points[7].GetX() + xoffset, points[7].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[5], triangles[10]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[0], points[1], points[3]);
-		two = Util.GetNormalVector(points[4], points[0], points[2]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[4].Should_Be_Drawn() && (!triangles[8].Should_Be_Drawn()) || !triangles[4].Should_Be_Drawn() && (triangles[8].Should_Be_Drawn()))
 		{
-			g.drawLine(points[0].GetX() + xoffset, points[0].GetY() + yoffset, points[2].GetX() + xoffset, points[2].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[4], triangles[8]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
-		one = Util.GetNormalVector(points[4], points[0], points[2]);
-		two = Util.GetNormalVector(points[5], points[4], points[6]);
-		dotproduct = Util.GetDotProduct(one, World.Camera);
-		dotproduct1 = Util.GetDotProduct(two,  World.Camera);
-		if((dotproduct >= 0 && dotproduct1 <= 0) || (dotproduct <= 0 && dotproduct1 >= 0))
+		if(triangles[6].Should_Be_Drawn() && (!triangles[11].Should_Be_Drawn()) || !triangles[6].Should_Be_Drawn() && (triangles[11].Should_Be_Drawn()))
 		{
-			g.drawLine(points[6].GetX() + xoffset, points[6].GetY() + yoffset, points[4].GetX() + xoffset, points[4].GetY() + yoffset);
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[6], triangles[11]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
+		}
+		if(triangles[7].Should_Be_Drawn() && (!triangles[9].Should_Be_Drawn()) || !triangles[7].Should_Be_Drawn() && (triangles[9].Should_Be_Drawn()))
+		{
+			int[] coords = new int[4];
+			coords = Util.GetSharedSide(triangles[7], triangles[9]);
+			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
 	}
 	public void paintComponent(Graphics gr)
 	{
-		/*Graphics2D g = (Graphics2D)gr;
-		super.paintComponent(gr);
-		//RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		//g.setRenderingHints(rh);
-		int[] x1 = new int[4];
-		int[] y1 = new int[4];
-		int[] x2 = new int[4];
-		int[] y2 = new int[4];
-		int[] x3 = new int[4];
-		int[] y3 = new int[4];
-		int[] x4 = new int[4];
-		int[] y4 = new int[4];
-		int[] x5 = new int[4];
-		int[] y5 = new int[4];
-		int[] x6 = new int[4];
-		int[] y6 = new int[4];
-		x1[0] = points[1].GetX() + xoffset;
-		x1[1] = points[0].GetX() + xoffset;
-		x1[2] = points[2].GetX() + xoffset;
-		x1[3] = points[3].GetX() + xoffset;
-		y1[0] = points[1].GetY() + yoffset;
-		y1[1] = points[0].GetY() + yoffset;
-		y1[2] = points[2].GetY() + yoffset;
-		y1[3] = points[3].GetY() + yoffset;
-		x2[0] = points[5].GetX() + xoffset;
-		x2[1] = points[4].GetX() + xoffset;
-		x2[2] = points[6].GetX() + xoffset;
-		x2[3] = points[7].GetX() + xoffset;
-		y2[0] = points[5].GetY() + yoffset;
-		y2[1] = points[4].GetY() + yoffset;
-		y2[2] = points[6].GetY() + yoffset;
-		y2[3] = points[7].GetY() + yoffset;
-		x3[0] = points[0].GetX() + xoffset;
-		x3[1] = points[4].GetX() + xoffset;
-		x3[2] = points[6].GetX() + xoffset;
-		x3[3] = points[2].GetX() + xoffset;
-		y3[0] = points[0].GetY() + yoffset;
-		y3[1] = points[4].GetY() + yoffset;
-		y3[2] = points[6].GetY() + yoffset;
-		y3[3] = points[2].GetY() + yoffset;
-		x4[0] = points[1].GetX() + xoffset;
-		x4[1] = points[5].GetX() + xoffset;
-		x4[2] = points[7].GetX() + xoffset;
-		x4[3] = points[3].GetX() + xoffset;
-		y4[0] = points[1].GetY() + yoffset;
-		y4[1] = points[5].GetY() + yoffset;
-		y4[2] = points[7].GetY() + yoffset;
-		y4[3] = points[3].GetY() + yoffset;
-		x5[0] = points[0].GetX() + xoffset;
-		x5[1] = points[1].GetX() + xoffset;
-		x5[2] = points[5].GetX() + xoffset;
-		x5[3] = points[4].GetX() + xoffset;
-		y5[0] = points[0].GetY() + yoffset;
-		y5[1] = points[1].GetY() + yoffset;
-		y5[2] = points[5].GetY() + yoffset;
-		y5[3] = points[4].GetY() + yoffset;
-		x6[0] = points[2].GetX() + xoffset;
-		x6[1] = points[3].GetX() + xoffset;
-		x6[2] = points[7].GetX() + xoffset;
-		x6[3] = points[6].GetX() + xoffset;
-		y6[0] = points[2].GetY() + yoffset;
-		y6[1] = points[3].GetY() + yoffset;
-		y6[2] = points[7].GetY() + yoffset;
-		y6[3] = points[6].GetY() + yoffset;
-		Point p = new Point(0, 0, 0);
-		p = Util.GetNormalVector(points[0], points[1], points[3]);
-		double dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x1, y1, x1.length);
-			g.setColor(Color.blue);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(points[5], points[4], points[6]);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x2, y2, x2.length);
-			g.setColor(Color.red);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(points[4], points[0], points[2]);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x3, y3, x3.length);
-			g.setColor(Color.yellow);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(points[1], points[5], points[7]);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x4, y4, x4.length);
-			g.setColor(Color.gray);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(points[4], points[5], points[1]);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x5, y5, x5.length);
-			g.setColor(Color.black);
-			g.fillPolygon(poly);
-		}
-		p = Util.GetNormalVector(points[2], points[3], points[7]);
-		dotproduct = Util.GetDotProduct(p, World.Camera);
-		if(dotproduct < 0)
-		{
-			Polygon poly = new Polygon(x6, y6, x6.length);
-			g.setColor(Color.magenta);
-			g.fillPolygon(poly);
-		}
-		if(isSelected)
-		{
-			g.setStroke(new BasicStroke(3));
-			g.setColor(Color.green);
-			DrawOutline(g);
-		}*/
 		Graphics2D g = (Graphics2D)gr;
 		boolean blue = true;
 		for(Triangle t : triangles)
@@ -385,6 +242,12 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 				g.fillPolygon(poly);
 				blue = !blue;
 			}
+		}
+		if(isSelected)
+		{
+			g.setStroke(new BasicStroke(3));
+			g.setColor(Color.green);
+			DrawOutline(g);
 		}
 	}
 	public void mouseDragged(MouseEvent m) {
