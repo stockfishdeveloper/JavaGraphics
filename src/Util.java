@@ -52,4 +52,12 @@ class Util
 		}
 		return coords;
 	}
+	static void MovePointTowardsAnotherPoint(Point point, Point target, float distance)
+	{
+		double Distance = Distance_Between(point, target);
+		double changes = distance / Distance;
+		point.SetX(point.GetExX() + (changes * (target.GetExX() - point.GetExX())));
+		point.SetY(point.GetExY() + (changes * (target.GetExY() - point.GetExY())));
+		point.SetZ(point.GetExZ() + (changes * (target.GetExZ() - point.GetExZ())));
+	}
 }
