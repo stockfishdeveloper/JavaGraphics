@@ -127,6 +127,28 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		UpdateBoundingBox();
 		repaint();
 	}
+	public Point GetCenter()
+	{
+		double totx = 0;
+		double toty = 0;
+		double totz = 0;
+		for(Triangle t : triangles)
+		{
+			totx += t.points[0].GetExX();
+			totx += t.points[1].GetExX();
+			totx += t.points[2].GetExX();
+			toty += t.points[0].GetExY();
+			toty += t.points[1].GetExY();
+			toty += t.points[2].GetExY();
+			totz += t.points[0].GetExZ();
+			totz += t.points[1].GetExZ();
+			totz += t.points[2].GetExZ();
+		}
+		totx /= 12.0d;
+		toty /= 12.0d;
+		totz /= 12.0d;
+		return new Point(totx, toty, totz);
+	}
 	public void DrawOutline(Graphics2D g)
 	{
 		if(triangles[0].Should_Be_Drawn() && (!triangles[1].Should_Be_Drawn()) || !triangles[0].Should_Be_Drawn() && (triangles[1].Should_Be_Drawn()))
@@ -193,6 +215,26 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 			g.setColor(Color.green);
 			DrawOutline(g);
 		}
+	}
+	public void Move(Point target, float distance)
+	{
+		Point center = GetCenter();
+		Point orig = GetCenter();
+		Util.MovePointTowardsAnotherPoint(center, target, distance);
+		for(Triangle t : triangles)
+		{
+			t.points[0].SetX(t.points[0].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[0].SetY(t.points[0].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[0].SetZ(t.points[0].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+			t.points[1].SetX(t.points[1].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[1].SetY(t.points[1].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[1].SetZ(t.points[1].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+			t.points[2].SetX(t.points[2].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[2].SetY(t.points[2].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[2].SetZ(t.points[2].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+		}
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void mouseDragged(MouseEvent m) {
 		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
