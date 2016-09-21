@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -34,7 +35,7 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	{
 		this.layers = layers * 2;
 		this.ppl = ppl;
-		triangles = new Triangle[2 * layers * ( 2 * layers + ppl)];
+		triangles = new Triangle[(2 * layers * ( 2 * layers + ppl)) + (2 * ppl)];
 		for(int i = 0; i < triangles.length; i++) triangles[i] = new Triangle(new Point(0, 0, 0), new Point(0, 0, 0), new Point(0, 0, 0));
 		int count = 0;
 		double[] semicircle = new double[layers * 2];
@@ -44,8 +45,9 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 		}
 		count = 0;
 		int scount = 0;
-		points = new Point[layers * 2 * ppl];
+		points = new Point[(layers * 2 * ppl) + 2];
 		for(int i = 0; i < points.length; i++) points[i] = new Point(0, 0, 0);
+		points[count++] = new Point(0, layers / 2, 0);
 		for(int i = layers; i > -layers; i--)
 		{
 			for(int j = 0; j < ppl; j++)
@@ -59,8 +61,10 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 			}
 			scount++;
 		}
-		count = 0;
-		for(int i = 0; i < (2 * layers - 2); i++)
+		points[count++] = new Point(0, -(layers / 2), 0);
+		//count = 0;
+		int count2 = 0;
+		for(int i = 0; i < ((2 * layers) - 2); i++)
 		{
 			for(int j = 0; j < ppl; j++)
 			{
@@ -76,21 +80,38 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 					z[0] = points[(ppl * i) + j].GetZ();
 					z[1] = points[(ppl * i) + j + 1].GetZ();
 					z[2] = points[(ppl * i) + j + ppl + 1].GetZ();
-					triangles[count++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
-				if(i > 0)
-				{
-						x[0] = points[(ppl * i) + j].GetX() + xoffset;
-						x[1] = points[((ppl * i) + j) - ppl].GetX() + xoffset;
-						x[2] = points[(ppl * i) + j + 1].GetX() + xoffset;
-						y[0] = points[(ppl * i) + j].GetY() + yoffset;
-						y[1] = points[((ppl * i) + j) - ppl].GetY() + yoffset;
-						y[2] = points[(ppl * i) + j + 1].GetY() + yoffset;
-						z[0] = points[(ppl * i) + j].GetZ();
-						z[1] = points[((ppl * i) + j) - ppl].GetZ();
-						z[2] = points[(ppl * i) + j + 1].GetZ();
-						triangles[count++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
-				}
+					triangles[count2++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
+					if(i > 0)
+						{
+							x[0] = points[(ppl * i) + j].GetX() + xoffset;
+							x[1] = points[((ppl * i) + j) - ppl].GetX() + xoffset;
+							x[2] = points[(ppl * i) + j + 1].GetX() + xoffset;
+							y[0] = points[(ppl * i) + j].GetY() + yoffset;
+							y[1] = points[((ppl * i) + j) - ppl].GetY() + yoffset;
+							y[2] = points[(ppl * i) + j + 1].GetY() + yoffset;
+							z[0] = points[(ppl * i) + j].GetZ();
+							z[1] = points[((ppl * i) + j) - ppl].GetZ();
+							z[2] = points[(ppl * i) + j + 1].GetZ();
+							triangles[count2++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
+						}
 			}
+		}
+		count2 = 0;
+		for(int j = 1; j < ppl; j++)
+		{
+				int[] x = new int[3];
+				int[] y = new int[3];
+				int[] z = new int[3];
+				x[0] = points[0].GetX() + xoffset;
+				x[1] = points[j].GetX() + xoffset;
+				x[2] = points[j + 1].GetX() + xoffset;
+				y[0] = points[0].GetY() + yoffset;
+				y[1] = points[j].GetY() + yoffset;
+				y[2] = points[j + 1].GetY() + yoffset;
+				z[0] = points[0].GetZ();
+				z[1] = points[j].GetZ();
+				z[2] = points[j + 1].GetZ();
+				triangles[count2++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]));
 		}
 		UpdateBoundingBox();
 		repaint();
@@ -171,9 +192,39 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 		UpdateBoundingBox();
 		repaint();
 	}
+	public Point GetCenter()
+	{
+		double totx = 0;
+		double toty = 0;
+		double totz = 0;
+		for(Triangle t : triangles)
+		{
+			totx += t.points[0].GetExX();
+			totx += t.points[1].GetExX();
+			totx += t.points[2].GetExX();
+			toty += t.points[0].GetExY();
+			toty += t.points[1].GetExY();
+			toty += t.points[2].GetExY();
+			totz += t.points[0].GetExZ();
+			totz += t.points[1].GetExZ();
+			totz += t.points[2].GetExZ();
+		}
+		totx /= 12.0d;
+		toty /= 12.0d;
+		totz /= 12.0d;
+		return new Point(totx, toty, totz);
+	}
 	public void DrawOutline(Graphics2D g)
 	{
-		
+		for(int i = 0; i < triangles.length - ppl; i++)
+		{
+			if((triangles[i].Should_Be_Drawn() && !triangles[i + (ppl - 1)].Should_Be_Drawn()) || (!triangles[i].Should_Be_Drawn() && triangles[i + (ppl - 1)].Should_Be_Drawn()))
+			{
+				int[] coords = new int[4];
+				coords = Util.GetSharedSide(triangles[i], triangles[i + (ppl - 1)]);
+				g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
+			}
+		}
 	}
 	public void paintComponent(Graphics gr)
 	{
@@ -193,14 +244,37 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 				}
 				Polygon poly = new Polygon(x, y, 3);
 				g.fillPolygon(poly);
-				//blue = !blue;
 			}
 		}
+		if(isSelected)
+		{
+			g.setStroke(new BasicStroke(3));
+			g.setColor(Color.green);
+			DrawOutline(g);
+		}
+	}
+	public void Move(Point target, float distance)
+	{
+		Point center = GetCenter();
+		Point orig = GetCenter();
+		Util.MovePointTowardsAnotherPoint(center, target, distance);
+		for(Triangle t : triangles)
+		{
+			t.points[0].SetX(t.points[0].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[0].SetY(t.points[0].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[0].SetZ(t.points[0].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+			t.points[1].SetX(t.points[1].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[1].SetY(t.points[1].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[1].SetZ(t.points[1].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+			t.points[2].SetX(t.points[2].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[2].SetY(t.points[2].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[2].SetZ(t.points[2].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+		}
+		UpdateBoundingBox();
+		repaint();
 	}
 	public void mouseDragged(MouseEvent m) {
 		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
-		//if(c != null && c == (this) && isSelected == true)
-		//{
 		if(SwingUtilities.isRightMouseButton(m))
 		{
 			if(m.getX() < currx)
@@ -230,7 +304,6 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 			currx = m.getX();
 			curry = m.getY();
 		}
-		//}
 	}
 	public void mouseMoved(MouseEvent m) {
 		// TODO Auto-generated method stub
