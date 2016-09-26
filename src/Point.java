@@ -57,65 +57,101 @@ class Point
 	{
 		z = newz;
 	}
-	void RotateClockwiseAboutYAxis(float degrees)
+	void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
+		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
+		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
 		double s = Math.sin(-degrees / 57.2958);
 		double c = Math.cos(-degrees / 57.2958);
+		x += changex;
+		z += changez;
 		double hx = z * s;
 		hx = hx + (x * c);
 		double hz = z * c;
 		z = hz - (x * s);
 		x = hx;
+		x -= changex;
+		z -= changez;
 	}
-	void RotateCounterClockwiseAboutYAxis(float degrees)
+	void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
+		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
+		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
 		double s = Math.sin(degrees / 57.2958);
 		double c = Math.cos(degrees / 57.2958);
+		x += changex;
+		z += changez;
 		double hx = z * s;
 		hx = hx + (x * c);
 		double hz = z * c;
 		z = hz - (x * s);
 		x = hx;
+		x -= changex;
+		z -= changez;
 	}
-	void RotateClockwiseAboutXAxis(float degrees)
+	void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
+		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
+		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
 		double s = Math.sin(-degrees / 57.2958);
 		double c = Math.cos(-degrees / 57.2958);
+		y += changey;
+		z += changez;
 		double hy = y * c;
 		hy = hy - (z * s);
 		double hz = y * s;
 		z = hz + (z * c);
 		y = hy;
+		y -= changey;
+		z -= changez;
 	}
-	void RotateCounterClockwiseAboutXAxis(float degrees)
+	void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
+		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
+		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
 		double s = Math.sin(degrees / 57.2958);
 		double c = Math.cos(degrees / 57.2958);
+		y += changey;
+		z += changez;
 		double hy = y * c;
 		hy = hy - (z * s);
 		double hz = y * s;
 		z = hz + (z * c);
 		y = hy;
+		y -= changey;
+		z -= changez;
 	}
-	void RotateClockwiseAboutZAxis(float degrees)
+	void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
+		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
+		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
 		double s = Math.sin(-degrees / 57.2958);
 		double c = Math.cos(-degrees / 57.2958);
+		x += changex;
+		y += changey;
 		double hx = x * c;
 		hx = hx - (y * s);
 		double hy = x * s;
 		y = hy + (y * c);
 		x = hx;
+		x -= changex;
+		y -= changey;
 	}
-	void RotateCounterClockwiseAboutZAxis(float degrees)
+	void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
+		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
+		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
 		double s = Math.sin(degrees / 57.2958);
 		double c = Math.cos(degrees / 57.2958);
+		x += changex;
+		y += changey;
 		double hx = x * c;
 		hx = hx - (y * s);
 		double hy = x * s;
 		y = hy + (y * c);
 		x = hx;
+		x -= changex;
+		y -= changey;
 	}
 	public boolean SameLocation(Point p1, Point p2)
 	{
