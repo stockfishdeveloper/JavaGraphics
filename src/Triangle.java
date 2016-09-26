@@ -14,35 +14,35 @@ class Triangle
 		boolean draw = dotproduct < 0 ? true : false;
 		return draw;
 	}
-	public void RotateCounterClockwiseAboutYAxis(float degrees)
+	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
-		for(Point p : points)
-			p.RotateCounterClockwiseAboutYAxis(degrees);
+		for(Point p1 : points)
+			p1.RotateCounterClockwiseAboutYAxis(p, degrees);
 	}
-	public void RotateClockwiseAboutYAxis(float degrees)
+	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
-		for(Point p : points)
-			p.RotateClockwiseAboutYAxis(degrees);
+		for(Point p1 : points)
+			p1.RotateClockwiseAboutYAxis(p, degrees);
 	}
-	public void RotateCounterClockwiseAboutXAxis(float degrees)
+	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
-		for(Point p : points)
-			p.RotateCounterClockwiseAboutXAxis(degrees);
+		for(Point p1 : points)
+			p1.RotateCounterClockwiseAboutXAxis(p, degrees);
 	}
-	public void RotateClockwiseAboutXAxis(float degrees)
+	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
-		for(Point p : points)
-			p.RotateClockwiseAboutXAxis(degrees);
+		for(Point p1 : points)
+			p1.RotateClockwiseAboutXAxis(p, degrees);
 	}
-	public void RotateCounterClockwiseAboutZAxis(float degrees)
+	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
-		for(Point p : points)
-			p.RotateCounterClockwiseAboutZAxis(degrees);
+		for(Point p1 : points)
+			p1.RotateCounterClockwiseAboutZAxis(p, degrees);
 	}
-	public void RotateClockwiseAboutZAxis(float degrees)
+	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
-		for(Point p : points)
-			p.RotateClockwiseAboutZAxis(degrees);
+		for(Point p1 : points)
+			p1.RotateClockwiseAboutZAxis(p, degrees);
 	}
 	public void Resize(float scaleFactor)
 	{
