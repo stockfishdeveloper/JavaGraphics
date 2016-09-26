@@ -98,45 +98,45 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutYAxis(float degrees)
+	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateCounterClockwiseAboutYAxis(degrees);
+			t.RotateCounterClockwiseAboutYAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutYAxis(float degrees)
+	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateClockwiseAboutYAxis(degrees);
+			t.RotateClockwiseAboutYAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutXAxis(float degrees)
+	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateCounterClockwiseAboutXAxis(degrees);
+			t.RotateCounterClockwiseAboutXAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutXAxis(float degrees)
+	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateClockwiseAboutXAxis(degrees);
+			t.RotateClockwiseAboutXAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutZAxis(float degrees)
+	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateCounterClockwiseAboutZAxis(degrees);
+			t.RotateCounterClockwiseAboutZAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutZAxis(float degrees)
+	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateClockwiseAboutZAxis(degrees);
+			t.RotateClockwiseAboutZAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
@@ -164,9 +164,10 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
 		}
-		totx /= 12.0d;
-		toty /= 12.0d;
-		totz /= 12.0d;
+		totx /= 36.0d;
+		toty /= 36.0d;
+		totz /= 36.0d;
+		System.out.println(totx + " " + toty + " " + totz);
 		return new Point(totx, toty, totz);
 	}
 	public void DrawOutline(Graphics2D g)
@@ -312,22 +313,22 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 			if(m.getX() < currx)
 			{	
 				currx = m.getX();
-				RotateCounterClockwiseAboutYAxis(3.0f);
+				RotateCounterClockwiseAboutYAxis(GetCenter(), 3.0f);
 			}
 			if(m.getX() > currx)
 			{
 				currx = m.getX();
-				RotateClockwiseAboutYAxis(3.0f);
+				RotateClockwiseAboutYAxis(GetCenter(), 3.0f);
 			}
 			if(m.getY() > curry)
 			{
 				curry = m.getY();
-				RotateCounterClockwiseAboutXAxis(3.0f);
+				RotateCounterClockwiseAboutXAxis(GetCenter(), 3.0f);
 			}
 			if(m.getY() < curry)
 			{
 				curry = m.getY();
-				RotateClockwiseAboutXAxis(3.0f);
+				RotateClockwiseAboutXAxis(GetCenter(), 3.0f);
 			}
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
