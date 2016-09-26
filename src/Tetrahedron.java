@@ -78,45 +78,45 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutYAxis(float degrees)
+	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateCounterClockwiseAboutYAxis(degrees);
+			t.RotateCounterClockwiseAboutYAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutYAxis(float degrees)
+	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateClockwiseAboutYAxis(degrees);
+			t.RotateClockwiseAboutYAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutXAxis(float degrees)
+	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateCounterClockwiseAboutXAxis(degrees);
+			t.RotateCounterClockwiseAboutXAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutXAxis(float degrees)
+	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateClockwiseAboutXAxis(degrees);
+			t.RotateClockwiseAboutXAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutZAxis(float degrees)
+	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateCounterClockwiseAboutZAxis(degrees);
+			t.RotateCounterClockwiseAboutZAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutZAxis(float degrees)
+	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-			t.RotateClockwiseAboutZAxis(degrees);
+			t.RotateClockwiseAboutZAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
@@ -245,22 +245,22 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 			if(m.getX() < currx)
 			{	
 				currx = m.getX();
-				RotateCounterClockwiseAboutYAxis(3.0f);
+				RotateCounterClockwiseAboutYAxis(GetCenter(), 3.0f);
 			}
 			if(m.getX() > currx)
 			{
 				currx = m.getX();
-				RotateClockwiseAboutYAxis(3.0f);
+				RotateClockwiseAboutYAxis(GetCenter(), 3.0f);
 			}
 			if(m.getY() > curry)
 			{
 				curry = m.getY();
-				RotateCounterClockwiseAboutXAxis(3.0f);
+				RotateCounterClockwiseAboutXAxis(GetCenter(), 3.0f);
 			}
 			if(m.getY() < curry)
 			{
 				curry = m.getY();
-				RotateClockwiseAboutXAxis(3.0f);
+				RotateClockwiseAboutXAxis(GetCenter(), 3.0f);
 			}
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
