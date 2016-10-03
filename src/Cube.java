@@ -167,7 +167,6 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 		totx /= 36.0d;
 		toty /= 36.0d;
 		totz /= 36.0d;
-		System.out.println(totx + " " + toty + " " + totz);
 		return new Point(totx, toty, totz);
 	}
 	public void DrawOutline(Graphics2D g)
@@ -248,12 +247,13 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 	public void paintComponent(Graphics gr)
 	{
 		Graphics2D g = (Graphics2D)gr;
+		Color color = Color.blue;
 		boolean blue = true;
 		for(Triangle t : triangles)
 		{
+			g.setColor(color);
 			if(t.Should_Be_Drawn())
 			{
-				g.setColor(blue ? Color.blue : Color.red);
 				int[] x = new int[3];
 				int[] y = new int[3];
 				for(int i = 0; i < 3; i++)
@@ -264,6 +264,7 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 				Polygon poly = new Polygon(x, y, 3);
 				g.fillPolygon(poly);
 				blue = !blue;
+				color = blue ? Color.blue : Color.red;
 			}
 		}
 		if(isSelected)
