@@ -60,4 +60,15 @@ class Util
 		point.SetY(point.GetExY() + (changes * (target.GetExY() - point.GetExY())));
 		point.SetZ(point.GetExZ() + (changes * (target.GetExZ() - point.GetExZ())));
 	}
+	public static void MovePointAlongVector(Point point, Point direction, float distance)
+	{
+		Point normalized = direction;
+		Util.NormalizeVector(normalized);
+		double diffx = distance * normalized.GetExX();
+		double diffy = distance * normalized.GetExY();
+		double diffz = distance * normalized.GetExZ();
+		point.SetX(point.GetExX() + diffx);
+		point.SetY(point.GetExY() + diffy);
+		point.SetZ(point.GetExZ() + diffz);
+	}
 }
