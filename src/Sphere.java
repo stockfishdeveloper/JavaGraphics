@@ -55,7 +55,7 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 				points[count].SetY(i);
 				float degrees = (float)(j) * (360.0f / (float)(ppl));
 				Point p1 = new Point(semicircle[scount], 0, 0);
-				p1.RotateCounterClockwiseAboutYAxis(degrees);
+				p1.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
 				points[count].SetX(p1.GetExX());
 				points[count++].SetZ(p1.GetExZ());
 			}
@@ -143,45 +143,45 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutYAxis(float degrees)
+	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-		t.RotateCounterClockwiseAboutYAxis(degrees);
+		t.RotateCounterClockwiseAboutYAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutYAxis(float degrees)
+	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-		t.RotateClockwiseAboutYAxis(degrees);
+		t.RotateClockwiseAboutYAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutXAxis(float degrees)
+	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-		t.RotateCounterClockwiseAboutXAxis(degrees);
+		t.RotateCounterClockwiseAboutXAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutXAxis(float degrees)
+	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-		t.RotateClockwiseAboutXAxis(degrees);
+		t.RotateClockwiseAboutXAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateCounterClockwiseAboutZAxis(float degrees)
+	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-		t.RotateCounterClockwiseAboutZAxis(degrees);
+		t.RotateCounterClockwiseAboutZAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
-	public void RotateClockwiseAboutZAxis(float degrees)
+	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
-		t.RotateClockwiseAboutZAxis(degrees);
+		t.RotateClockwiseAboutZAxis(p, degrees);
 		UpdateBoundingBox();
 		repaint();
 	}
@@ -209,9 +209,9 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
 		}
-		totx /= 12.0d;
-		toty /= 12.0d;
-		totz /= 12.0d;
+		totx /= (triangles.length * 3);
+		toty /= (triangles.length * 3);
+		totz /= (triangles.length * 3);
 		return new Point(totx, toty, totz);
 	}
 	public void DrawOutline(Graphics2D g)
@@ -275,27 +275,30 @@ class Sphere extends JComponent implements MouseMotionListener, MouseListener, M
 	}
 	public void mouseDragged(MouseEvent m) {
 		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
-		if(SwingUtilities.isRightMouseButton(m))
+		if(c != null && c == (this) && isSelected == true)
 		{
-			if(m.getX() < currx)
-			{	
-				currx = m.getX();
-				RotateCounterClockwiseAboutYAxis(3.0f);
-			}
-			if(m.getX() > currx)
+			if(SwingUtilities.isRightMouseButton(m))
 			{
-				currx = m.getX();
-				RotateClockwiseAboutYAxis(3.0f);
-			}
-			if(m.getY() > curry)
-			{
-				curry = m.getY();
-				RotateCounterClockwiseAboutXAxis(3.0f);
-			}
-			if(m.getY() < curry)
-			{
-				curry = m.getY();
-				RotateClockwiseAboutXAxis(3.0f);
+				if(m.getX() < currx)
+				{	
+					currx = m.getX();
+					RotateCounterClockwiseAboutYAxis(GetCenter(), 3.0f);
+				}
+				if(m.getX() > currx)
+				{
+					currx = m.getX();
+					RotateClockwiseAboutYAxis(GetCenter(), 3.0f);
+				}
+				if(m.getY() > curry)
+				{
+					curry = m.getY();
+					RotateCounterClockwiseAboutXAxis(GetCenter(), 3.0f);
+				}
+				if(m.getY() < curry)
+				{
+					curry = m.getY();
+					RotateClockwiseAboutXAxis(GetCenter(), 3.0f);
+				}
 			}
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
