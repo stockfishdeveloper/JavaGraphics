@@ -7,6 +7,20 @@ class Triangle
 		points[1] = new Point(p2.GetExX(), p2.GetExY(), p2.GetExZ());
 		points[2] = new Point(p3.GetExX(), p3.GetExY(), p3.GetExZ());
 	}
+	public Triangle(Triangle triangle)
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			points[i] = new Point(triangle.points[i].GetExX(), triangle.points[i].GetExY(), triangle.points[i].GetExZ());
+		}
+	}
+	public void Print_Info()
+	{
+		for(Point p : points)
+		{
+			System.out.println(p.GetExX() + " " + p.GetExY() + " " + p.GetExZ());
+		}
+	}
 	public boolean Should_Be_Drawn()
 	{
 		Point p = Util.GetNormalVector(points[0], points[1], points[2]);
