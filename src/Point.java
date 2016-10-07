@@ -61,8 +61,8 @@ class Point
 	{
 		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
 		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
-		double s = Math.sin(-degrees / 57.2958);
-		double c = Math.cos(-degrees / 57.2958);
+		double s = Math.sin(Math.toRadians(degrees));
+		double c = Math.cos(Math.toRadians(degrees));
 		x += changex;
 		z += changez;
 		double hx = z * s;
@@ -77,8 +77,8 @@ class Point
 	{
 		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
 		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
-		double s = Math.sin(degrees / 57.2958);
-		double c = Math.cos(degrees / 57.2958);
+		double s = Math.sin(-Math.toRadians(degrees));
+		double c = Math.cos(-Math.toRadians(degrees));
 		x += changex;
 		z += changez;
 		double hx = z * s;
@@ -93,8 +93,8 @@ class Point
 	{
 		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
 		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
-		double s = Math.sin(-degrees / 57.2958);
-		double c = Math.cos(-degrees / 57.2958);
+		double s = Math.sin(Math.toRadians(degrees));
+		double c = Math.cos(Math.toRadians(degrees));
 		y += changey;
 		z += changez;
 		double hy = y * c;
@@ -109,8 +109,8 @@ class Point
 	{
 		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
 		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
-		double s = Math.sin(degrees / 57.2958);
-		double c = Math.cos(degrees / 57.2958);
+		double s = Math.sin(-Math.toRadians(degrees));
+		double c = Math.cos(-Math.toRadians(degrees));
 		y += changey;
 		z += changez;
 		double hy = y * c;
@@ -125,8 +125,8 @@ class Point
 	{
 		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
 		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
-		double s = Math.sin(-degrees / 57.2958);
-		double c = Math.cos(-degrees / 57.2958);
+		double s = Math.sin(-Math.toRadians(degrees));
+		double c = Math.cos(-Math.toRadians(degrees));
 		x += changex;
 		y += changey;
 		double hx = x * c;
@@ -141,8 +141,8 @@ class Point
 	{
 		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
 		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
-		double s = Math.sin(degrees / 57.2958);
-		double c = Math.cos(degrees / 57.2958);
+		double s = Math.sin(Math.toRadians(degrees));
+		double c = Math.cos(Math.toRadians(degrees));
 		x += changex;
 		y += changey;
 		double hx = x * c;
