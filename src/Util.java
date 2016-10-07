@@ -34,7 +34,10 @@ class Util
 	{
 		return ((p1.GetExX() * p2.GetExX()) + (p1.GetExY() * p2.GetExY()) + (p1.GetExZ() * p2.GetExZ()));
 	}
-	
+	public static double RadiansToDegrees(double radians)
+	{
+		return Math.toDegrees(radians);
+	}
 	static int[] GetSharedSide(Triangle t1, Triangle t2)
 	{
 		int[] coords = new int[4];
