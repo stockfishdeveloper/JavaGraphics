@@ -21,6 +21,13 @@ class Frustum
 		leastz = 10000000;
 		UpdateBounds();
 	}
+	public Frustum(Frustum frustum)
+	{
+		for(int i = 0; i < 8; i++)
+		{
+			points[i] = new Point(frustum.points[i].GetExX(), frustum.points[i].GetExY(), frustum.points[i].GetExZ());
+		}
+	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Point p1 : points)
