@@ -24,7 +24,7 @@ class Triangle
 	public boolean Should_Be_Drawn()
 	{
 		Point p = Util.GetNormalVector(points[0], points[1], points[2]);
-		double dotproduct = Util.GetDotProduct(p, World.Camera);
+		double dotproduct = Util.GetDotProduct(p, World.camera.direction);
 		boolean draw = dotproduct < 0 ? true : false;
 		return draw;
 	}
