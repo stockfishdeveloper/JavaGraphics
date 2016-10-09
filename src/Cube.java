@@ -19,8 +19,8 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 	int currx = 350;
 	int curry = 350;
 	static Point origin = new Point(350, 350, 0);
-	public int xoffset = 0;
-	public int yoffset = 0;
+	public int xoffset = 640;
+	public int yoffset = 500;
 	boolean isSelected = false;
 	private Rectangle BoundingBox = new Rectangle();
 	Point[] points = new Point[8];
@@ -68,7 +68,8 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 		triangles[9] = new Triangle(points[4], points[2], points[6]);
 		triangles[10] = new Triangle(points[1], points[5], points[7]);
 		triangles[11] = new Triangle(points[1], points[7], points[3]);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
+		setBounds(0, 0, 1280, 1000);
 		repaint();
 	}
 	public void UpdateBoundingBox()
@@ -102,49 +103,49 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutYAxis(p, degrees);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutYAxis(p, degrees);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutXAxis(p, degrees);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutXAxis(p, degrees);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutZAxis(p, degrees);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutZAxis(p, degrees);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
 		for(Triangle t : triangles)
 			t.Resize(scaleFactor);
-		UpdateBoundingBox();
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public Point GetCenter()
@@ -254,17 +255,24 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 			g.setColor(color);
 			if(t.Should_Be_Drawn())
 			{
-				int[] x = new int[3];
-				int[] y = new int[3];
-				for(int i = 0; i < 3; i++)
+				Triangle triangle = World.camera.LookAt(t);
+				//triangle.Print_Info();
+				if(triangle != null)
 				{
-					x[i] = t.points[i].GetX() + xoffset;
-					y[i] = t.points[i].GetY() + yoffset;
+					int[] x = new int[3];
+					int[] y = new int[3];
+					for(int i = 0; i < 3; i++)
+					{
+						x[i] = triangle.points[i].GetX() + xoffset;
+						y[i] = triangle.points[i].GetY() + yoffset;
+					}
+					Polygon poly = new Polygon(x, y, 3);
+					g.fillPolygon(poly);
+					blue = !blue;
+					color = blue ? Color.blue : Color.red;
 				}
-				Polygon poly = new Polygon(x, y, 3);
-				g.fillPolygon(poly);
-				blue = !blue;
-				color = blue ? Color.blue : Color.red;
+				else
+					System.out.println("Here");
 			}
 		}
 		if(isSelected)
@@ -314,22 +322,22 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 			if(m.getX() < currx)
 			{	
 				currx = m.getX();
-				RotateCounterClockwiseAboutYAxis(GetCenter(), 3.0f);
+				RotateClockwiseAboutYAxis(GetCenter(), 3.0f);
 			}
 			if(m.getX() > currx)
 			{
 				currx = m.getX();
-				RotateClockwiseAboutYAxis(GetCenter(), 3.0f);
+				RotateCounterClockwiseAboutYAxis(GetCenter(), 3.0f);
 			}
 			if(m.getY() > curry)
 			{
 				curry = m.getY();
-				RotateCounterClockwiseAboutXAxis(GetCenter(), 3.0f);
+				RotateClockwiseAboutXAxis(GetCenter(), 3.0f);
 			}
 			if(m.getY() < curry)
 			{
 				curry = m.getY();
-				RotateClockwiseAboutXAxis(GetCenter(), 3.0f);
+				RotateCounterClockwiseAboutXAxis(GetCenter(), 3.0f);
 			}
 		}
 		else if(SwingUtilities.isLeftMouseButton(m))
