@@ -66,6 +66,12 @@ class Frustum
 	}
 	public void UpdateBounds()
 	{
+                greatestx = -10000000;
+		leastx = 10000000;
+		greatesty = -10000000;
+		leasty = 10000000;
+		greatestz = -10000000;
+		leastz = 10000000;
 		for(int i = 0; i < 8; i++)
 		{
 			if(points[i].GetExX() < leastx)
@@ -83,7 +89,7 @@ class Frustum
 		}
 	}
 	public boolean Contains(Point p)
-	{
+        {
 		return (p.GetExX() > leastx && p.GetExX() < greatestx && 
 				p.GetExY() > leasty && p.GetExY() < greatesty &&
 				p.GetExZ() > leastz && p.GetExZ() < greatestz);
