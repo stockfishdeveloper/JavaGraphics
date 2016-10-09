@@ -34,8 +34,9 @@ class Camera
 		this.eye = new Point(camera.eye.GetExX(), camera.eye.GetExY(), camera.eye.GetExZ());
 	}
 	
-	public void PrintInfo()
+	public void Print_Info()
 	{
+                System.out.println("Camera info:\n=============================\n");
 		System.out.println("Frustum points are:");
 		for(Point p : frustum.points)
 		{
@@ -110,6 +111,7 @@ class Camera
 	{
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, direction, distance);
+                frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, direction, distance);
 		Util.MovePointAlongVector(eye, direction, distance);
 	}
@@ -118,6 +120,7 @@ class Camera
 		Point newdir = new Point(-direction.GetExX(), -direction.GetExY(), -direction.GetExZ());
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, newdir, distance);
+                frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, newdir, distance);
 		Util.MovePointAlongVector(eye, newdir, distance);
 	}
@@ -125,6 +128,7 @@ class Camera
 	{
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, left, distance);
+                frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, left, distance);
 		Util.MovePointAlongVector(eye, left, distance);
 	}
@@ -132,6 +136,7 @@ class Camera
 	{
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, right, distance);
+                frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, right, distance);
 		Util.MovePointAlongVector(eye, right, distance);
 	}
@@ -139,7 +144,7 @@ class Camera
 	{
 		for(Point p : triangle.points)
 		{
-			if(frustum.Contains(p) == false)
+			if(frustum.Contains(p) != true)
 				return null;
 		}
 		Triangle t = new Triangle(triangle);
@@ -210,18 +215,18 @@ class Camera
 		object = new Triangle(t);
 		for(int i = 0; i < 3; i++)
 		{
-			double diff_x = t.points[i].GetExX() - cam.eye.GetExX();
+			double diff_x = t.points[i].GetExX()/* - cam.eye.GetExX()*/;
 			double eyetoscreen = Util.Distance_Between(cam.eye, cam.location);
 			double bigleg = Util.Distance_Between(cam.eye, new Point(t.points[i].GetExX(), cam.eye.GetExY(), t.points[i].GetExZ()));
 			double ratio = bigleg / eyetoscreen;
 			double finalx = diff_x / ratio;
 			object.points[i].SetX(cam.eye.GetExX() + finalx);
 			
-			double diff_y = t.points[i].GetExY() - cam.eye.GetExY();
+			double diff_y = t.points[i].GetExY()/* - cam.eye.GetExY()*/;
 			double finaly = diff_y / ratio;
 			object.points[i].SetY(cam.eye.GetExY() + finaly);
 		}
-		cam.PrintInfo();
+		//cam.PrintInfo();
 		return object;
 	}
 }
