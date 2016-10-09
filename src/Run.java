@@ -1,52 +1,33 @@
+import java.util.Random;
+
 class Run
 {
 	public static void main(String[] args) throws InterruptedException
 	{
 		World world = new World();
-		/*for(int i = 0; i < 1000; i++)
+		/*for(int i = 0; i < 360; i++)
 		{
-			world.t.Resize(1.001f);
-		}*/
-		/*for(int i = 0; i < 3600; i++)
-		{
-			try {
-				Thread.sleep(10);
-				world.t.RotateClockwiseAboutXAxis(2f);
-				Thread.sleep(10);
-				world.t.RotateClockwiseAboutYAxis(2f);
-				Thread.sleep(10);
-				world.t.TranslateVisiblePosition(1, 1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}*/
-		/*for(int i = 0; i < 10000; i++)
-		{
-			world.t.RotateClockwiseAboutYAxis(1f);
-			world.t.RotateClockwiseAboutXAxis(1f);
-			world.t.RotateClockwiseAboutZAxis(1f);
-			world.t.RotateCounterClockwiseAboutZAxis(1f);
-			world.t.RotateCounterClockwiseAboutYAxis(1f);
-			world.t.RotateCounterClockwiseAboutXAxis(1f);
-		}*/
-		/*world.t.Resize(5f);
-		for(int i = 0; i < 360; i++)
-		{
-			Thread.sleep(10);
-			for(int j = 0; j < 1; j++)
+			Thread.sleep(100);
+			for(int j = 0; j < 100; j++)
 			{
-					//Thread.sleep(0);
-					world.t.RotateClockwiseAboutYAxis(5f);
+					Thread.sleep(10);
+					world.t.Move(new Point(100, 0, 0), 3f);
 					//Thread.sleep(0);
 					//world.t[j].TranslateVisiblePosition(1, 1);
 					//Thread.sleep(1);
-					world.t.RotateClockwiseAboutXAxis(5f);
+					//////////////////////world.t.RotateClockwiseAboutXAxis(5f);
 					//Thread.sleep(0);
 					//world.t[j].Resize(1.01f);
 					//Thread.sleep(0);
 			}
 		}*/
+		/*World.camera.MoveForward(3275);
+                Point p = new Point(300, 0, 1000);
+                System.out.println(World.camera.frustum.Contains(p));*/
+                for(int i = 0; i < 10000; i++){
+			World.t.RotateClockwiseAboutYAxis(World.t.GetCenter(), 1);
+                        World.c.RotateCounterClockwiseAboutYAxis(World.c.GetCenter(), 1);
+                        World.camera.Print_Info();
+			/*World.camera.MoveForward(5);*/World.t.repaint();World.c.repaint();Thread.sleep(10);}
 	}
 }
