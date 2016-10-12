@@ -66,7 +66,7 @@ class Frustum
 	}
 	public void UpdateBounds()
 	{
-                greatestx = -10000000;
+        greatestx = -10000000;
 		leastx = 10000000;
 		greatesty = -10000000;
 		leasty = 10000000;
