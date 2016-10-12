@@ -21,6 +21,11 @@ class Point
 		y = fy;
 		z = fz;
 	}
+        public void Print_Info()
+        {
+        	System.out.println("Point:\n=============================");
+            System.out.println(x + " " + y + " " + z);
+        }
 	int GetX()
 	{
 		return (int) Math.round(x);
@@ -59,8 +64,8 @@ class Point
 	}
 	void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
-		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
-		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
+		double changex = -p.GetExX();
+		double changez = -p.GetExZ();
 		double s = Math.sin(Math.toRadians(degrees));
 		double c = Math.cos(Math.toRadians(degrees));
 		x += changex;
@@ -75,8 +80,8 @@ class Point
 	}
 	void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
-		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
-		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
+		double changex = -p.GetExX();
+		double changez = -p.GetExZ();
 		double s = Math.sin(-Math.toRadians(degrees));
 		double c = Math.cos(-Math.toRadians(degrees));
 		x += changex;
@@ -91,8 +96,8 @@ class Point
 	}
 	void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
-		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
-		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
+		double changey = -p.GetExY();
+		double changez = -p.GetExZ();
 		double s = Math.sin(Math.toRadians(degrees));
 		double c = Math.cos(Math.toRadians(degrees));
 		y += changey;
@@ -107,8 +112,8 @@ class Point
 	}
 	void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
-		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
-		double changez = p.GetExZ() > 0 ? -p.GetExZ() : p.GetExZ();
+		double changey = -p.GetExY();
+		double changez = -p.GetExZ();
 		double s = Math.sin(-Math.toRadians(degrees));
 		double c = Math.cos(-Math.toRadians(degrees));
 		y += changey;
@@ -123,8 +128,8 @@ class Point
 	}
 	void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
-		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
-		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
+		double changex = -p.GetExX();
+		double changey = -p.GetExY();
 		double s = Math.sin(-Math.toRadians(degrees));
 		double c = Math.cos(-Math.toRadians(degrees));
 		x += changex;
@@ -139,8 +144,8 @@ class Point
 	}
 	void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
-		double changex = p.GetExX() > 0 ? -p.GetExX() : p.GetExX();
-		double changey = p.GetExY() > 0 ? -p.GetExY() : p.GetExY();
+		double changex = -p.GetExX();
+		double changey = -p.GetExY();
 		double s = Math.sin(Math.toRadians(degrees));
 		double c = Math.cos(Math.toRadians(degrees));
 		x += changex;
