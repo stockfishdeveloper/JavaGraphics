@@ -36,7 +36,7 @@ class Camera
 	
 	public void Print_Info()
 	{
-                System.out.println("Camera info:\n=============================\n");
+        System.out.println("Camera info:\n=============================\n");
 		System.out.println("Frustum points are:");
 		for(Point p : frustum.points)
 		{
@@ -142,10 +142,14 @@ class Camera
 	}
 	public Triangle LookAt(Triangle triangle)
 	{
-		for(Point p : triangle.points)
+		/*for(Point p : triangle.points)
 		{
-			if(frustum.Contains(p) != true)
+			if(frustum.Contains(p) == true)
 				return null;
+		}*/
+		if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
+		{
+			return null;
 		}
 		Triangle t = new Triangle(triangle);
 		Triangle object;
