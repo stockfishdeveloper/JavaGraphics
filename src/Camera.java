@@ -147,10 +147,10 @@ class Camera
 			if(frustum.Contains(p) == true)
 				return null;
 		}*/
-		if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
+		/*if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
 		{
 			return null;
-		}
+		}*/
 		Triangle t = new Triangle(triangle);
 		Triangle object;
 		Camera cam = new Camera(this);
