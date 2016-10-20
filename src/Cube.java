@@ -269,10 +269,10 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 					Polygon poly = new Polygon(x, y, 3);
 					g.fillPolygon(poly);
 					blue = !blue;
-					color = blue ? Color.blue : Color.red;
+					color = blue ? Color.blue : Color.gray;
 				}
-				else
-					System.out.println("Here");
+				/*else
+					System.out.println("Here");*/
 			}
 		}
 		if(isSelected)
