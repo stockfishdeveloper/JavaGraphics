@@ -19,8 +19,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 	int currx = 350;
 	int curry = 350;
 	static Point origin = new Point(350, 350, 0);
-	public int xoffset = 0;
-	public int yoffset = 0;
+	public int xoffset = 640;
+	public int yoffset = 500;
 	boolean isSelected = false;
 	private Rectangle BoundingBox = new Rectangle();
 	Point[] points = new Point[8];
@@ -68,7 +68,8 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 		triangles[9] = new Triangle(points[4], points[2], points[6]);
 		triangles[10] = new Triangle(points[1], points[5], points[7]);
 		triangles[11] = new Triangle(points[1], points[7], points[3]);
-		UpdateBoundingBox();
+		setBounds(0, 0, 1280, 1000);
+		//UpdateBoundingBox();
 		repaint();
 	}
 	public void UpdateBoundingBox()
@@ -247,22 +248,31 @@ class RectangularPrism extends JComponent implements MouseMotionListener, MouseL
 	public void paintComponent(Graphics gr)
 	{
 		Graphics2D g = (Graphics2D)gr;
+		Color color = Color.blue;
 		boolean blue = true;
 		for(Triangle t : triangles)
 		{
+			g.setColor(color);
 			if(t.Should_Be_Drawn())
 			{
-				g.setColor(blue ? Color.blue : Color.red);
-				int[] x = new int[3];
-				int[] y = new int[3];
-				for(int i = 0; i < 3; i++)
+				Triangle triangle = World.camera.LookAt(t);
+				//triangle.Print_Info();
+				if(triangle != null)
 				{
-					x[i] = t.points[i].GetX() + xoffset;
-					y[i] = t.points[i].GetY() + yoffset;
+					int[] x = new int[3];
+					int[] y = new int[3];
+					for(int i = 0; i < 3; i++)
+					{
+						x[i] = triangle.points[i].GetX() + xoffset;
+						y[i] = triangle.points[i].GetY() + yoffset;
+					}
+					Polygon poly = new Polygon(x, y, 3);
+					g.fillPolygon(poly);
+					blue = !blue;
+					color = blue ? Color.blue : Color.gray;
 				}
-				Polygon poly = new Polygon(x, y, 3);
-				g.fillPolygon(poly);
-				blue = !blue;
+				/*else
+					System.out.println("Here");*/
 			}
 		}
 		if(isSelected)
