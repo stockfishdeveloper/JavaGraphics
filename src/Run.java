@@ -21,13 +21,12 @@ class Run
 					//Thread.sleep(0);
 			}
 		}*/
-		/*World.camera.MoveForward(3275);
-                Point p = new Point(300, 0, 1000);
-                System.out.println(World.camera.frustum.Contains(p));*/
-                for(int i = 0; i < 10000; i++){
-			World.t.RotateClockwiseAboutYAxis(World.t.GetCenter(), 1);
-                        World.c.RotateCounterClockwiseAboutYAxis(World.c.GetCenter(), 1);
-                        World.camera.Print_Info();
-			/*World.camera.MoveForward(5);*/World.t.repaint();World.c.repaint();Thread.sleep(10);}
+		//World.camera.MoveForward(300);
+		      			while(true){
+		    	        //World.t.repaint();
+                        //World.c.repaint();
+		      				for(RectangularPrism r : World.t) r.repaint();
+                        Thread.sleep(10);
+                        }
 	}
 }
