@@ -11,7 +11,7 @@ class Triangle
 	{
 		for(int i = 0; i < 3; i++)
 		{
-			points[i] = new Point(triangle.points[i].GetExX(), triangle.points[i].GetExY(), triangle.points[i].GetExZ());
+			this.points[i] = new Point(triangle.points[i].GetExX(), triangle.points[i].GetExY(), triangle.points[i].GetExZ());
 		}
 	}
 	public void Print_Info()
