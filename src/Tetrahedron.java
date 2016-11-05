@@ -237,7 +237,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		repaint();
 	}
 	public void mouseDragged(MouseEvent m) {
-		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		Component c = (Component) Run.panel.getComponentAt(m.getX(), m.getY());
 		if(c != null && c == (this) && isSelected == true)
 		{
 		if(SwingUtilities.isRightMouseButton(m))
@@ -276,7 +276,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 		
 	}
 	public void mouseClicked(MouseEvent m) {
-		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		Component c = (Component) Run.panel.getComponentAt(m.getX(), m.getY());
 		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
 		{
 		isSelected = (isSelected == true ? false : true);
@@ -295,7 +295,7 @@ class Tetrahedron extends JComponent implements MouseMotionListener, MouseListen
 	}
 	@Override
 	public void mousePressed(MouseEvent m) {
-		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
+		Component c = (Component) Run.panel.getComponentAt(m.getX(), m.getY());
 		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
 		{
 			currx = m.getX();
