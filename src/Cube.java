@@ -1,20 +1,7 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-@SuppressWarnings("serial")
-class Cube extends JComponent implements MouseMotionListener, MouseListener, MouseWheelListener
+class Cube
 {
 	int currx = 350;
 	int curry = 350;
@@ -69,8 +56,6 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 		triangles[10] = new Triangle(points[1], points[5], points[7]);
 		triangles[11] = new Triangle(points[1], points[7], points[3]);
 		//UpdateBoundingBox();
-		setBounds(0, 0, 1280, 1000);
-		repaint();
 	}
 	public void UpdateBoundingBox()
 	{
@@ -90,63 +75,54 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 		BoundingBox.add(gx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, ly + yoffset);
 		BoundingBox.add(lx + xoffset, gy + yoffset);
-		this.setBounds(BoundingBox);
 	}
 	public void TranslateVisiblePosition(int x, int y)
 	{
 		xoffset += x;
 		yoffset += y;
 		UpdateBoundingBox();
-		repaint();
 	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutYAxis(p, degrees);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutYAxis(p, degrees);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutXAxis(p, degrees);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutXAxis(p, degrees);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutZAxis(p, degrees);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutZAxis(p, degrees);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public void Resize(float scaleFactor)
 	{
 		for(Triangle t : triangles)
 			t.Resize(scaleFactor);
 		//UpdateBoundingBox();
-		repaint();
 	}
 	public Point GetCenter()
 	{
@@ -245,41 +221,23 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
 	}
-	public void paintComponent(Graphics gr)
+	public void Render()
 	{
-		Graphics2D g = (Graphics2D)gr;
 		Color color = Color.blue;
 		boolean blue = true;
 		for(Triangle t : triangles)
 		{
-			g.setColor(color);
 			if(t.Should_Be_Drawn())
 			{
 				Triangle triangle = World.camera.LookAt(t);
-				//triangle.Print_Info();
 				if(triangle != null)
 				{
-					int[] x = new int[3];
-					int[] y = new int[3];
-					for(int i = 0; i < 3; i++)
-					{
-						x[i] = triangle.points[i].GetX() + xoffset;
-						y[i] = triangle.points[i].GetY() + yoffset;
-					}
-					Polygon poly = new Polygon(x, y, 3);
-					g.fillPolygon(poly);
 					blue = !blue;
 					color = blue ? Color.blue : Color.gray;
+					triangle.SetColor(color);
+					World.triangles.add(triangle);
 				}
-				/*else
-					System.out.println("Here");*/
 			}
-		}
-		if(isSelected)
-		{
-			g.setStroke(new BasicStroke(3));
-			g.setColor(Color.green);
-			DrawOutline(g);
 		}
 	}
 	public void AnimateSmoothly(int x, int y, int milliseconds) throws InterruptedException
@@ -311,84 +269,5 @@ class Cube extends JComponent implements MouseMotionListener, MouseListener, Mou
 			t.points[2].SetZ(t.points[2].GetExZ() + (center.GetExZ() - orig.GetExZ()));
 		}
 		UpdateBoundingBox();
-		repaint();
-	}
-	public void mouseDragged(MouseEvent m) {
-		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
-		if(c != null && c == (this) && isSelected == true)
-		{
-		if(SwingUtilities.isRightMouseButton(m))
-		{
-			if(m.getX() < currx)
-			{	
-				currx = m.getX();
-				RotateClockwiseAboutYAxis(GetCenter(), 3.0f);
-			}
-			if(m.getX() > currx)
-			{
-				currx = m.getX();
-				RotateCounterClockwiseAboutYAxis(GetCenter(), 3.0f);
-			}
-			if(m.getY() > curry)
-			{
-				curry = m.getY();
-				RotateClockwiseAboutXAxis(GetCenter(), 3.0f);
-			}
-			if(m.getY() < curry)
-			{
-				curry = m.getY();
-				RotateCounterClockwiseAboutXAxis(GetCenter(), 3.0f);
-			}
-		}
-		else if(SwingUtilities.isLeftMouseButton(m))
-		{
-			TranslateVisiblePosition(m.getX() - currx, m.getY() - curry);
-			currx = m.getX();
-			curry = m.getY();
-		}
-		}
-	}
-	public void mouseMoved(MouseEvent m) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void mouseClicked(MouseEvent m) {
-		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
-		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
-		{
-		isSelected = (isSelected == true ? false : true);
-		repaint();
-		}
-	}
-	@Override
-	public void mouseEntered(MouseEvent m) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent m) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mousePressed(MouseEvent m) {
-		Component c = (Component) World.panel.getComponentAt(m.getX(), m.getY());
-		if(c != null && c == (this) && SwingUtilities.isLeftMouseButton(m))
-		{
-			currx = m.getX();
-			curry = m.getY();
-		}
-	}
-	@Override
-	public void mouseReleased(MouseEvent m) {
-		// TODO Auto-generated method stub
-	}
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent m) {
-		if(m.getPreciseWheelRotation() < 0)
-			Resize(1.1f);
-		else
-			Resize(0.9f);	
-		
 	}
 }
