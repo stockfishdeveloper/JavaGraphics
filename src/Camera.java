@@ -111,7 +111,7 @@ class Camera
 	{
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, direction, distance);
-                frustum.UpdateBounds();
+        frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, direction, distance);
 		Util.MovePointAlongVector(eye, direction, distance);
 	}
@@ -120,7 +120,7 @@ class Camera
 		Point newdir = new Point(-direction.GetExX(), -direction.GetExY(), -direction.GetExZ());
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, newdir, distance);
-                frustum.UpdateBounds();
+        frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, newdir, distance);
 		Util.MovePointAlongVector(eye, newdir, distance);
 	}
@@ -128,7 +128,7 @@ class Camera
 	{
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, left, distance);
-                frustum.UpdateBounds();
+        frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, left, distance);
 		Util.MovePointAlongVector(eye, left, distance);
 	}
@@ -136,7 +136,7 @@ class Camera
 	{
 		for(Point p : frustum.points)
 			Util.MovePointAlongVector(p, right, distance);
-                frustum.UpdateBounds();
+        frustum.UpdateBounds();
 		Util.MovePointAlongVector(location, right, distance);
 		Util.MovePointAlongVector(eye, right, distance);
 	}
