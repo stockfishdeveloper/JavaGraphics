@@ -1,6 +1,9 @@
-class Triangle
+import java.awt.Color;
+
+class Triangle implements Comparable<Triangle>
 {
 	Point[] points = new Point[3];
+	Color color = Color.black;
 	public Triangle(Point p1, Point p2, Point p3)
 	{
 		points[0] = new Point(p1.GetExX(), p1.GetExY(), p1.GetExZ());
@@ -74,6 +77,10 @@ class Triangle
 		double z = (points[0].GetExZ() + points[1].GetExZ() + points[2].GetExZ()) / 3.0;
 		return new Point(x, y, z);
 	}
+	public void SetColor(Color c)
+	{
+		color = c;
+	}
 	public int GreatestX()
 	{
 		int gx = -10000;
@@ -97,5 +104,16 @@ class Triangle
 		int ly = 10000;
 		for(Point p : points) if(p.GetExY() < ly) ly = p.GetY();
 		return ly;
+	}
+        @Override
+	public int compareTo(Triangle t) 
+	{
+		if (this.GetCenter().GetExZ() <= t.GetCenter().GetExZ()) {
+            return 1;
+        } else if (this.GetCenter().GetExZ() > t.GetCenter().GetExZ()) {
+            return -1;
+        } else {
+            return 0;
+        }
 	}
 }
