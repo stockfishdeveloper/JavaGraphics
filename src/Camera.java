@@ -4,6 +4,7 @@ class Camera
 	public Point direction;
 	public Point left;
 	public Point right;
+	public Point up;
 	Point eye;
 	Frustum frustum;
 	public Camera()
@@ -12,6 +13,7 @@ class Camera
 		direction = new Point(0, 0, 1);
 		left = new Point(-1, 0, 0);
 		right = new Point(1, 0, 0);
+		up = new Point(0, 1, 0);
 		eye = new Point(0, 0, -5200 / 3);
 		Point[] points = new Point[8];
 		points[0] = new Point(640, 500, 0);
@@ -32,6 +34,7 @@ class Camera
 		this.left = new Point(camera.left.GetExX(), camera.left.GetExY(), camera.left.GetExZ());
 		this.right = new Point(camera.right.GetExX(), camera.right.GetExY(), camera.right.GetExZ());
 		this.eye = new Point(camera.eye.GetExX(), camera.eye.GetExY(), camera.eye.GetExZ());
+		this.up = new Point(camera.up.GetExX(), camera.up.GetExY(), camera.up.GetExZ());
 	}
 	
 	public void Print_Info()
@@ -73,39 +76,74 @@ class Camera
 	}
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
-		frustum.RotateCounterClockwiseAboutXAxis(p, degrees);
-		direction.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
-		eye.RotateCounterClockwiseAboutXAxis(p, degrees);
-		location.RotateCounterClockwiseAboutXAxis(p, degrees);
-		left.RotateCounterClockwiseAboutXAxis(p, degrees);
-		right.RotateCounterClockwiseAboutXAxis(p, degrees);
+		double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ()));
+		if(direction.GetExZ() > 0 && direction.GetExY() > 0)
+		{
+			if(angle + degrees > 90)
+				return;
+		}
+               if(direction.GetExZ() < 0 && direction.GetExY() < 0)
+                {
+                    if(angle + degrees > 90)
+                        return;
+                }
+		
+			frustum.RotateCounterClockwiseAboutXAxis(p, degrees);
+			direction.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
+			eye.RotateCounterClockwiseAboutXAxis(p, degrees);
+			location.RotateCounterClockwiseAboutXAxis(p, degrees);
+			left.RotateCounterClockwiseAboutXAxis(p, degrees);
+			right.RotateCounterClockwiseAboutXAxis(p, degrees);
+			up.RotateCounterClockwiseAboutXAxis(p, degrees);
+		
 	}
 	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
-		frustum.RotateClockwiseAboutXAxis(p, degrees);
-		direction.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
-		eye.RotateClockwiseAboutXAxis(p, degrees);
-		location.RotateClockwiseAboutXAxis(p, degrees);
-		left.RotateClockwiseAboutXAxis(p, degrees);
-		right.RotateClockwiseAboutXAxis(p, degrees);
+		double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ()));
+		if(direction.GetExZ() > 0 && direction.GetExY() < 0)
+		{
+			if(angle + degrees > 90)
+				return;
+		}
+                if(direction.GetExZ() < 0 && direction.GetExY() > 0)
+                {
+                    if(angle + degrees > 90)
+                        return;
+                }
+			frustum.RotateClockwiseAboutXAxis(p, degrees);
+			direction.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
+			eye.RotateClockwiseAboutXAxis(p, degrees);
+			location.RotateClockwiseAboutXAxis(p, degrees);
+			left.RotateClockwiseAboutXAxis(p, degrees);
+			right.RotateClockwiseAboutXAxis(p, degrees);
+			up.RotateClockwiseAboutXAxis(p, degrees);
+		
 	}
 	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
-		frustum.RotateCounterClockwiseAboutZAxis(p, degrees);
-		direction.RotateCounterClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
-		eye.RotateCounterClockwiseAboutZAxis(p, degrees);
-		location.RotateCounterClockwiseAboutZAxis(p, degrees);
-		left.RotateCounterClockwiseAboutZAxis(p, degrees);
-		right.RotateCounterClockwiseAboutZAxis(p, degrees);
+		if(Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ())) + degrees <= 90)
+		{
+			frustum.RotateCounterClockwiseAboutZAxis(p, degrees);
+			direction.RotateCounterClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
+			eye.RotateCounterClockwiseAboutZAxis(p, degrees);
+			location.RotateCounterClockwiseAboutZAxis(p, degrees);
+			left.RotateCounterClockwiseAboutZAxis(p, degrees);
+			right.RotateCounterClockwiseAboutZAxis(p, degrees);
+			up.RotateCounterClockwiseAboutZAxis(p, degrees);
+		}
 	}
 	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
-		frustum.RotateClockwiseAboutZAxis(p, degrees);
-		direction.RotateClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
-		eye.RotateClockwiseAboutZAxis(p, degrees);
-		location.RotateClockwiseAboutZAxis(p, degrees);
-		left.RotateClockwiseAboutZAxis(p, degrees);
-		right.RotateClockwiseAboutZAxis(p, degrees);
+		if(Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ())) + degrees <= 90)
+		{
+			frustum.RotateClockwiseAboutZAxis(p, degrees);
+			direction.RotateClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
+			eye.RotateClockwiseAboutZAxis(p, degrees);
+			location.RotateClockwiseAboutZAxis(p, degrees);
+			left.RotateClockwiseAboutZAxis(p, degrees);
+			right.RotateClockwiseAboutZAxis(p, degrees);
+			up.RotateClockwiseAboutZAxis(p, degrees);
+		}
 	}
 	public void MoveForward(float distance)
 	{
