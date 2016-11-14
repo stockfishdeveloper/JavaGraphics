@@ -42,12 +42,12 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
             camera = new Camera();
             triangles = new ArrayList<>();
             skybox = new SkyBox();
-            skybox.SetFrontFace("C:\\Users\\DesktopHP\\workspace\\3DSquare\\bin\\sky_fr.jpg");
-    		skybox.SetBackFace("C:\\Users\\DesktopHP\\workspace\\3DSquare\\bin\\sky_bk.jpg");
-    		skybox.SetLeftFace("C:\\Users\\DesktopHP\\workspace\\3DSquare\\bin\\sky_lf.jpg");
-    		skybox.SetRightFace("C:\\Users\\DesktopHP\\workspace\\3DSquare\\bin\\sky_rt.jpg");
-    		skybox.SetUpFace("C:\\Users\\DesktopHP\\workspace\\3DSquare\\bin\\sky_up.jpg");
-    		skybox.SetDownFace("C:\\Users\\DesktopHP\\workspace\\3DSquare\\bin\\sky_dn.jpg");
+            skybox.SetFrontFace("F:\\3DSquare\\bin\\sky_fr.jpg");
+    	    skybox.SetBackFace("F:\\3DSquare\\bin\\sky_bk.jpg");
+    	    skybox.SetLeftFace("F:\\3DSquare\\bin\\sky_lf.jpg");
+    	    skybox.SetRightFace("F:\\3DSquare\\bin\\sky_rt.jpg");
+    	    skybox.SetUpFace("F:\\3DSquare\\bin\\sky_up.jpg");
+    	    skybox.SetDownFace("F:\\3DSquare\\bin\\sky_dn.jpg");
             this.setBounds(0, 0, 1280, 1000);
          }
         @Override
@@ -55,8 +55,8 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	{
 		Graphics2D g = (Graphics2D)gr;
 		skybox.Render(g, camera.direction);
-		for(RectangularPrism c : t)
-			c.Render();
+		/*for(RectangularPrism c : t)
+			c.Render();*/
 		Collections.sort(triangles);
 		for(Triangle t : triangles)
 		{
@@ -83,13 +83,13 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	@Override
 	public void mouseMoved(MouseEvent m) {
 		if(m.getX() > currx)
-			camera.RotateClockwiseAboutYAxis(camera.location, 0.3f);
+			camera.RotateClockwiseAboutYAxis(camera.location, 3f);
 		else if(m.getX() < currx)
-			camera.RotateCounterClockwiseAboutYAxis(camera.location, 0.3f);
+			camera.RotateCounterClockwiseAboutYAxis(camera.location, 3f);
 		if(m.getY() > curry)
-			camera.RotateCounterClockwiseAboutXAxis(camera.location, 0.3f);
+			camera.RotateClockwiseAboutXAxis(camera.location, 3f);
 		else if(m.getY() < curry)
-			camera.RotateClockwiseAboutXAxis(camera.location, 0.3f);
+			camera.RotateCounterClockwiseAboutXAxis(camera.location, 3f);
 		currx = m.getX();
 		curry = m.getY();
 		repaint();
