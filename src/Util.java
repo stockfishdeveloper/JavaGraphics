@@ -63,7 +63,7 @@ class Util
 		point.SetY(point.GetExY() + (changes * (target.GetExY() - point.GetExY())));
 		point.SetZ(point.GetExZ() + (changes * (target.GetExZ() - point.GetExZ())));
 	}
-	public static void MovePointAlongVector(Point point, Point direction, float distance)
+	public static void MovePointAlongVector(Point point, Point direction, double distance)
 	{
 		Point normalized = direction;
 		Util.NormalizeVector(normalized);
@@ -73,5 +73,22 @@ class Util
 		point.SetX(point.GetExX() + diffx);
 		point.SetY(point.GetExY() + diffy);
 		point.SetZ(point.GetExZ() + diffz);
+	}
+	public static double Get_Angle_Between_Vectors(Point p1, Point p2, Point p3)
+	{
+		Point one = new Point(p1.GetExX(), p1.GetExY(), p1.GetExZ());
+		Point two = new Point(p2.GetExX(), p2.GetExY(), p2.GetExZ());
+		Point three = new Point(p3.GetExX(), p3.GetExY(), p3.GetExZ());
+                double dist = Distance_Between(two, new Point(0, 0, 0));
+                if(two.GetExX() == 0.0 && two.GetExY() == 0.0 && two.GetExY() == 0.0)
+                    two = new Point(0.0000001, 0.0000001, 0.0000001);
+                MovePointAlongVector(one, new Point(-two.GetExX(), -two.GetExY(), -two.GetExZ()), dist);
+		MovePointAlongVector(three, new Point(-two.GetExX(), -two.GetExY(), -two.GetExZ()), dist);
+		MovePointAlongVector(two, new Point(-two.GetExX(), -two.GetExY(), -two.GetExZ()), dist);
+                NormalizeVector(one);
+                NormalizeVector(three);
+                double dot = GetDotProduct(one, three);
+		double angle = Math.toDegrees(Math.acos(dot));
+		return angle;
 	}
 }
