@@ -74,6 +74,7 @@ class SkyBox
 	{
 		BufferedImage leftmost;
 		BufferedImage rightmost;
+                BufferedImage toporbot = cameradirection.GetExY() > 0 ? up : down;
 		if(cameradirection.GetExZ() > 0)
 		{
 			if(cameradirection.GetExX() > 0)
@@ -81,38 +82,55 @@ class SkyBox
 				leftmost = front;
 				rightmost = right;
 				double tan = Math.toDegrees(Math.atan(cameradirection.GetExX() / cameradirection.GetExZ()));
-				System.out.println("TAN: " + tan);
-				int coorx = (int) (tan * 7.111111);
-				g.drawImage(leftmost, coorx - 640, 0, 1280, 1000, null);
-				g.drawImage(rightmost, coorx + 640, 0, 1280, 1000, null);
+				int coorx = (int) (tan * -14.222222);
+				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
+				g.drawImage(leftmost, coorx, (int)(ycoor), 1280, 1000, null);
+				g.drawImage(rightmost, coorx + 1280, (int)(ycoor), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx + 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 			else
 			{
 				leftmost = left;
 				rightmost = front;
 				double tan = Math.toDegrees(Math.atan(cameradirection.GetExX() / cameradirection.GetExZ()));
-				System.out.println("TAN: " + tan);
-				int coorx = (int) (tan * 7.111111);
-				g.drawImage(leftmost, coorx - 640, 0, 1280, 1000, null);
-				g.drawImage(rightmost, coorx + 640, 0, 1280, 1000, null);
+				int coorx = (int) (tan * -14.222222);
+				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
+				g.drawImage(leftmost, coorx - 1280, (int)(ycoor), 1280, 1000, null);
+				g.drawImage(rightmost, coorx, (int)(ycoor), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx - 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 		}
 		else
 		{
 			if(cameradirection.GetExX() > 0)
 			{
-				leftmost = right;
-				rightmost = back;
+				leftmost = back;
+				rightmost = right;
+				Point turned = new Point(-cameradirection.GetExX(), cameradirection.GetExY(), -cameradirection.GetExZ());
+				double tan = Math.toDegrees(Math.atan(turned.GetExZ() / turned.GetExX()));
+				int coorx = (int) (tan * 14.222222);
+				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
+				g.drawImage(leftmost, coorx + 1280, (int)(ycoor), 1280, 1000, null);
+				g.drawImage(rightmost, coorx, (int)(ycoor), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx + 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 			else
 			{
 				leftmost = back;
 				rightmost = left;
+                                
+				Point turned = new Point(-cameradirection.GetExX(), cameradirection.GetExY(), -cameradirection.GetExZ());
+				double tan = Math.toDegrees(Math.atan(turned.GetExZ() / turned.GetExX()));
+				int coorx = (int) (tan * 14.222222);
+				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
+				g.drawImage(leftmost, coorx - 1280, (int)(ycoor), 1280, 1000, null);
+				g.drawImage(rightmost, coorx, (int)(ycoor), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx - 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
-			/*double tan = Math.toDegrees(Math.atan(cameradirection.GetExX() / cameradirection.GetExZ()));
-			int coorx = (int) (tan * 7.111111);
-			g.drawImage(leftmost, coorx, 0, 1280, 1000, null);
-			g.drawImage(rightmost, coorx + 1280, 0, 1280, 1000, null);*/
 		}
 	}
 }
