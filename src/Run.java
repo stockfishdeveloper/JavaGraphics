@@ -1,5 +1,3 @@
-
-import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -21,15 +19,10 @@ class Run
             frame.add(panel);
             frame.setVisible(true);
             /*while(true){
-            	for(int
-            			i = 0; i < 4; i++)
-            		w.t[i].RotateClockwiseAboutXAxis(new Point(0, 0, 0), 5.0f);
-            	for(int i = 4; i < 8; i++)
-            		w.t[i].RotateClockwiseAboutYAxis(new Point(0, 0, 0), 5.0f);
-            	for(int i = 8; i < 12; i++)
-            		w.t[i].RotateClockwiseAboutZAxis(new Point(0, 0, 0), 5.0f);
+            	w.cube.RotateClockwiseAboutYAxis(w.cube.GetCenter(), 0.9f);
+                w.cube.RotateClockwiseAboutXAxis(w.cube.GetCenter(), 5.0f);
             	w.repaint();
-            	Thread.sleep(30);
+            	Thread.sleep(10);
               }*/
             }
 }
