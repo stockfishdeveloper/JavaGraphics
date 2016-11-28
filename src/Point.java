@@ -1,8 +1,8 @@
 class Point
 {
-	private double x;
-	private double y;
-	private double z;
+	protected double x;
+	protected double y;
+	protected double z;
 	Point()
 	{
 		x = 0;
@@ -66,8 +66,8 @@ class Point
 	{
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
-		double s = Math.sin(Math.toRadians(degrees));
-		double c = Math.cos(Math.toRadians(degrees));
+		double s = Util.sin(degrees);
+		double c = Util.cos(degrees);
 		x += changex;
 		z += changez;
 		double hx = z * s;
@@ -82,8 +82,8 @@ class Point
 	{
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
-		double s = Math.sin(-Math.toRadians(degrees));
-		double c = Math.cos(-Math.toRadians(degrees));
+		double s = Util.sin(-degrees);
+		double c = Util.cos(-degrees);
 		x += changex;
 		z += changez;
 		double hx = z * s;
@@ -98,8 +98,8 @@ class Point
 	{
 		double changey = -p.GetExY();
 		double changez = -p.GetExZ();
-		double s = Math.sin(Math.toRadians(degrees));
-		double c = Math.cos(Math.toRadians(degrees));
+		double s = Util.sin(degrees);
+		double c = Util.cos(degrees);
 		y += changey;
 		z += changez;
 		double hy = y * c;
@@ -114,8 +114,8 @@ class Point
 	{
 		double changey = -p.GetExY();
 		double changez = -p.GetExZ();
-		double s = Math.sin(-Math.toRadians(degrees));
-		double c = Math.cos(-Math.toRadians(degrees));
+		double s = Util.sin(-degrees);
+		double c = Util.cos(-degrees);
 		y += changey;
 		z += changez;
 		double hy = y * c;
@@ -130,8 +130,8 @@ class Point
 	{
 		double changex = -p.GetExX();
 		double changey = -p.GetExY();
-		double s = Math.sin(-Math.toRadians(degrees));
-		double c = Math.cos(-Math.toRadians(degrees));
+		double s = Util.sin(-degrees);
+		double c = Util.cos(-degrees);
 		x += changex;
 		y += changey;
 		double hx = x * c;
@@ -146,8 +146,8 @@ class Point
 	{
 		double changex = -p.GetExX();
 		double changey = -p.GetExY();
-		double s = Math.sin(Math.toRadians(degrees));
-		double c = Math.cos(Math.toRadians(degrees));
+		double s = Util.sin(degrees);
+		double c = Util.cos(degrees);
 		x += changex;
 		y += changey;
 		double hx = x * c;
