@@ -86,8 +86,8 @@ class SkyBox
 				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
 				g.drawImage(leftmost, coorx, (int)(ycoor), 1280, 1000, null);
 				g.drawImage(rightmost, coorx + 1280, (int)(ycoor), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx + 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                //g.drawImage(toporbot, coorx + 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 			else
 			{
@@ -98,8 +98,8 @@ class SkyBox
 				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
 				g.drawImage(leftmost, coorx - 1280, (int)(ycoor), 1280, 1000, null);
 				g.drawImage(rightmost, coorx, (int)(ycoor), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx - 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                //g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 		}
 		else
@@ -114,8 +114,8 @@ class SkyBox
 				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
 				g.drawImage(leftmost, coorx + 1280, (int)(ycoor), 1280, 1000, null);
 				g.drawImage(rightmost, coorx, (int)(ycoor), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx + 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                g.drawImage(toporbot, coorx + 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                //g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 			else
 			{
@@ -128,8 +128,8 @@ class SkyBox
 				double ycoor = (cameradirection.GetExY() > 0 ? 1 : -1) * 11.111111 * Util.Get_Angle_Between_Vectors(cameradirection, new Point(0, 0, 0), new Point(cameradirection.GetExX(), 0, cameradirection.GetExZ()));
 				g.drawImage(leftmost, coorx - 1280, (int)(ycoor), 1280, 1000, null);
 				g.drawImage(rightmost, coorx, (int)(ycoor), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx - 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
-                                g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                g.drawImage(toporbot, coorx - 1280, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
+                //g.drawImage(toporbot, coorx, toporbot == up ? (int)(ycoor - 1000) : (int)(ycoor + 1000), 1280, 1000, null);
 			}
 		}
 	}
