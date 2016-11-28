@@ -28,7 +28,7 @@ class Camera
 	}
 	public Camera(Camera camera)
 	{
-		this.frustum = new Frustum(camera.frustum);
+		//this.frustum = new Frustum(camera.frustum);
 		this.location = new Point(camera.location.GetExX(), camera.location.GetExY(), camera.location.GetExZ());
 		this.direction = new Point(camera.direction.GetExX(), camera.direction.GetExY(), camera.direction.GetExZ());
 		this.left = new Point(camera.left.GetExX(), camera.left.GetExY(), camera.left.GetExZ());
@@ -268,6 +268,87 @@ class Camera
 			double finaly = diff_y / ratio;
 			object.points[i].SetY(cam.eye.GetExY() + finaly);
 		}
+		//cam.PrintInfo();
+		return object;
+	}
+	public Point LookAt(Point point)
+	{
+		/*for(Point p : triangle.points)
+		{
+			if(frustum.Contains(p) == true)
+				return null;
+		}*/
+		if(!(frustum.Contains(point)))
+		{
+			return null;
+		}
+		Point p = new Point(point.GetExX(), point.GetExY(), point.GetExZ());
+		Point object;
+		Camera cam = new Camera(this);
+		double tan = Util.atan((float)cam.direction.GetExX(), (float)cam.direction.GetExZ());
+		if(cam.direction.GetExZ() > 0)
+		{
+			if(cam.direction.GetExX() > 0)
+			{
+				cam.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), (float)(90d - Util.RadiansToDegrees(tan)));
+				p.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), (float)(90d - Util.RadiansToDegrees(tan)));
+			}
+			else if(cam.direction.GetExX() < 0)
+			{
+				cam.RotateClockwiseAboutYAxis(new Point(0, 0, 0), (float)(90d + Util.RadiansToDegrees(tan)));
+				p.RotateClockwiseAboutYAxis(new Point(0, 0, 0), (float)(90d + Util.RadiansToDegrees(tan)));
+			}
+		}
+		else if(cam.direction.GetExZ() < 0)
+		{
+			if(cam.direction.GetExX() < 0)
+			{
+				cam.RotateClockwiseAboutYAxis(new Point(0, 0, 0), (float) (Util.RadiansToDegrees(tan) + 90d));
+				p.RotateClockwiseAboutYAxis(new Point(0, 0, 0), (float) (Util.RadiansToDegrees(tan) + 90d));
+			}
+			else if(cam.direction.GetExX() > 0)
+			{
+				cam.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), (float) (-Util.RadiansToDegrees(tan) + 90d));
+				p.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), (float) (-Util.RadiansToDegrees(tan) + 90d));
+			}
+		}
+		tan = Util.atan((float)cam.direction.GetExY(), (float)cam.direction.GetExZ());
+		if(cam.direction.GetExY() > 0)
+		{
+			if(cam.direction.GetExZ() > 0)
+			{
+				cam.RotateClockwiseAboutXAxis(new Point(0, 0, 0), (float)(Util.RadiansToDegrees(tan)));
+				p.RotateClockwiseAboutXAxis(new Point(0, 0, 0), (float)(Util.RadiansToDegrees(tan)));
+			}
+			else if(cam.direction.GetExZ() < 0)
+			{
+				cam.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), (float)(-Util.RadiansToDegrees(tan)));
+				p.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), (float)(-Util.RadiansToDegrees(tan)));
+			}
+		}
+		else if(cam.direction.GetExY() < 0)
+		{
+			if(cam.direction.GetExZ() < 0)
+			{
+				cam.RotateClockwiseAboutXAxis(new Point(0, 0, 0), (float) (Util.RadiansToDegrees(tan)));
+				p.RotateClockwiseAboutXAxis(new Point(0, 0, 0), (float) (Util.RadiansToDegrees(tan)));
+			}
+			else if(cam.direction.GetExZ() > 0)
+			{
+				cam.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), (float) (-Util.RadiansToDegrees(tan)));
+				p.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), (float) (-Util.RadiansToDegrees(tan)));
+			}
+		}
+		object = new Point(p.GetExX(), p.GetExY(), p.GetExZ());
+		double diff_x = p.GetExX()/* - cam.eye.GetExX()*/;
+		double eyetoscreen = Util.Distance_Between(cam.eye, cam.location);
+		double bigleg = Util.Distance_Between(cam.eye, new Point(p.GetExX(), cam.eye.GetExY(), p.GetExZ()));
+		double ratio = bigleg / eyetoscreen;
+		double finalx = diff_x / ratio;
+		object.SetX(cam.eye.GetExX() + finalx);
+		double diff_y = p.GetExY()/* - cam.eye.GetExY()*/;
+		double finaly = diff_y / ratio;
+		object.SetY(cam.eye.GetExY() + finaly);
 		//cam.PrintInfo();
 		return object;
 	}
