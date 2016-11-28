@@ -1,22 +1,27 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 class Cube
 {
-	int currx = 350;
-	int curry = 350;
-	static Point origin = new Point(350, 350, 0);
 	public int xoffset = 640;
 	public int yoffset = 500;
 	boolean isSelected = false;
 	private Rectangle BoundingBox = new Rectangle();
 	Point[] points = new Point[8];
 	Triangle[] triangles = new Triangle[12];
+	BufferedImage img;
+	Pixel[][][] pixels;
 	public Cube()
 	{
 		
 	}
-	public Cube(Point center, int radius)
+	public Cube(Point center, int radius, String texture)
 	{
 		for(int i = 0; i < 8; i++) points[i] = new Point(0, 0, 0);
 		points[0].SetX(center.GetExX() - radius);
@@ -43,18 +48,126 @@ class Cube
 		points[7].SetX(center.GetExX() + radius);
 		points[7].SetY(center.GetExY() - radius);
 		points[7].SetZ(center.GetExZ() + radius);
-		triangles[0] = new Triangle(points[0], points[1], points[2]);
+		/*triangles[0] = new Triangle(points[0], points[1], points[2]);
 		triangles[1] = new Triangle(points[1], points[3], points[2]);
-		triangles[2] = new Triangle(points[5], points[4], points[6]);
-		triangles[3] = new Triangle(points[5], points[6], points[7]);
-		triangles[4] = new Triangle(points[4], points[1], points[0]);
-		triangles[5] = new Triangle(points[4], points[5], points[1]);
-		triangles[6] = new Triangle(points[2], points[3], points[7]);
-		triangles[7] = new Triangle(points[2], points[7], points[6]);
-		triangles[8] = new Triangle(points[4], points[0], points[2]);
-		triangles[9] = new Triangle(points[4], points[2], points[6]);
-		triangles[10] = new Triangle(points[1], points[5], points[7]);
-		triangles[11] = new Triangle(points[1], points[7], points[3]);
+		triangles[2] = new Triangle(points[5], points[4], points[7]);
+		triangles[3] = new Triangle(points[4], points[6], points[7]);
+		triangles[4] = new Triangle(points[4], points[5], points[0]);
+		triangles[5] = new Triangle(points[5], points[1], points[0]);
+		triangles[6] = new Triangle(points[2], points[3], points[6]);
+		triangles[7] = new Triangle(points[3], points[7], points[6]);
+		triangles[8] = new Triangle(points[4], points[0], points[6]);
+		triangles[9] = new Triangle(points[0], points[2], points[6]);
+		triangles[10] = new Triangle(points[1], points[5], points[3]);
+		triangles[11] = new Triangle(points[5], points[7], points[3]);*/
+		try {
+            img = ImageIO.read(new File(texture));
+        } catch (IOException ex) {
+         		}
+		pixels = new Pixel[6][img.getWidth()][img.getHeight()];
+		double unitsperpixel = (double)((radius * 2) / (double)(img.getWidth()));
+		//Front
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[0][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() - radius, new Color(img.getRGB(i, j)));
+			}
+		}
+		//Back
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[1][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() + radius, new Color(img.getRGB(i, j)));
+			}
+		}
+		//Top
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[2][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() + radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+			}
+		}
+		//Bottom
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[3][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() - radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+			}
+		}
+		//Left
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[4][i][j] = new Pixel(center.GetExX() - radius, (unitsperpixel *  (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+			}
+		}
+		//Right
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[5][i][j] = new Pixel(center.GetExX() + radius, (unitsperpixel * (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+			}
+		}
+		ArrayList<Pixel> pix = new ArrayList<Pixel>();
+		ArrayList<Pixel> pix2 = new ArrayList<Pixel>();
+		int inc = img.getWidth();
+		for(int p = 0; p < 6; p++)
+		{
+			for(int i = 0; i < img.getWidth(); i++)
+			{
+				for(int j = 0; j < img.getHeight(); j++)
+				{
+					if(j < inc)
+					{
+						pix.add(pixels[p][i][j]);
+					}
+					else
+					{
+						pix2.add(pixels[p][i][j]);
+					}
+				}
+				inc--;
+			}
+			if(p == 0)
+			{
+				triangles[0] = new Triangle(points[0], points[1], points[2], pix);
+				triangles[1] = new Triangle(points[1], points[3], points[2], pix2);
+			}
+			else if(p == 1)
+			{
+				triangles[2] = new Triangle(points[5], points[4], points[7], pix);
+				triangles[3] = new Triangle(points[4], points[6], points[7], pix2);
+			}
+			else if(p == 2)
+			{
+				triangles[4] = new Triangle(points[4], points[5], points[0], pix);
+				triangles[5] = new Triangle(points[5], points[1], points[0], pix2);
+			}
+			else if(p == 3)
+			{
+				triangles[6] = new Triangle(points[2], points[3], points[6], pix);
+				triangles[7] = new Triangle(points[3], points[7], points[6], pix2);
+			}
+			else if(p == 4)
+			{
+				triangles[8] = new Triangle(points[4], points[0], points[6], pix);
+				triangles[9] = new Triangle(points[0], points[2], points[6], pix2);
+			}
+			else if(p == 5)
+			{
+				triangles[10] = new Triangle(points[1], points[5], points[3], pix);
+				triangles[11] = new Triangle(points[5], points[7], points[3], pix2);
+			}
+			inc = img.getWidth();
+			pix.clear();
+			pix2.clear();
+		}
 		//UpdateBoundingBox();
 	}
 	public void UpdateBoundingBox()
@@ -86,37 +199,79 @@ class Cube
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutYAxis(p, degrees);
-		//UpdateBoundingBox();
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[h][i][j].RotateCounterClockwiseAboutYAxis(p, degrees);
+			}
+		}*/
 	}
 	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutYAxis(p, degrees);
-		//UpdateBoundingBox();
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[h][i][j].RotateClockwiseAboutYAxis(p, degrees);
+			}
+		}*/
 	}
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutXAxis(p, degrees);
-		//UpdateBoundingBox();
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[h][i][j].RotateCounterClockwiseAboutXAxis(p, degrees);
+			}
+		}*/
 	}
 	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutXAxis(p, degrees);
-		//UpdateBoundingBox();
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[h][i][j].RotateClockwiseAboutXAxis(p, degrees);
+			}
+		}*/
 	}
 	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateCounterClockwiseAboutZAxis(p, degrees);
-		//UpdateBoundingBox();
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[h][i][j].RotateCounterClockwiseAboutZAxis(p, degrees);
+			}
+		}*/
 	}
 	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
 			t.RotateClockwiseAboutZAxis(p, degrees);
-		//UpdateBoundingBox();
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+		{
+			for(int j = 0; j < img.getHeight(); j++)
+			{
+				pixels[h][i][j].RotateClockwiseAboutZAxis(p, degrees);
+			}
+		}*/
 	}
 	public void Resize(float scaleFactor)
 	{
@@ -221,23 +376,22 @@ class Cube
 			g.drawLine(coords[0] + xoffset, coords[1] + yoffset, coords[2] + xoffset, coords[3] + yoffset);
 		}
 	}
-	public void Render()
+	public void Render(BufferedImage buf)
 	{
-		Color color = Color.blue;
-		boolean blue = true;
+		/*for(int h = 0; h < 6; h++)
+		for(int i = 0; i < img.getWidth(); i++)
+	    {
+			for(int j = 0; j < img.getHeight(); j++)
+				{
+					Point p = new Point(pixels[h][i][j].GetExX(), pixels[h][i][j].GetExY(), pixels[h][i][j].GetExZ()); 
+					p = World.camera.LookAt(p);
+					if(p.GetX() >= 0 && p.GetX() < 1280 && p.GetY() >= 0 && p.GetY() < 1000)
+						buf.setRGB(p.GetX() + 100, p.GetY() + 100, pixels[h][i][j].GetColor());
+				}
+	    }*/
 		for(Triangle t : triangles)
 		{
-			if(t.Should_Be_Drawn())
-			{
-				Triangle triangle = World.camera.LookAt(t);
-				if(triangle != null)
-				{
-					blue = !blue;
-					color = blue ? Color.blue : Color.gray;
-					triangle.SetColor(color);
-					World.triangles.add(triangle);
-				}
-			}
+			t.Render(buf);
 		}
 	}
 	public void AnimateSmoothly(int x, int y, int milliseconds) throws InterruptedException
@@ -269,5 +423,13 @@ class Cube
 			t.points[2].SetZ(t.points[2].GetExZ() + (center.GetExZ() - orig.GetExZ()));
 		}
 		UpdateBoundingBox();
+	}
+	public void SetTexture(String file)
+	{
+		try {
+            img = ImageIO.read(new File(file));
+        } catch (IOException ex) {
+         		}
+
 	}
 }
