@@ -28,7 +28,7 @@ class Camera
 	}
 	public Camera(Camera camera)
 	{
-		//this.frustum = new Frustum(camera.frustum);
+		this.frustum = new Frustum(camera.frustum);
 		this.location = new Point(camera.location.GetExX(), camera.location.GetExY(), camera.location.GetExZ());
 		this.direction = new Point(camera.direction.GetExX(), camera.direction.GetExY(), camera.direction.GetExZ());
 		this.left = new Point(camera.left.GetExX(), camera.left.GetExY(), camera.left.GetExZ());
