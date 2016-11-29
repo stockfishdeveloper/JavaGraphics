@@ -18,11 +18,9 @@ class Run
             panel.addMouseWheelListener(w);
             frame.add(panel);
             frame.setVisible(true);
-            /*while(true){
-            	w.cube.RotateClockwiseAboutYAxis(w.cube.GetCenter(), 0.9f);
-                w.cube.RotateClockwiseAboutXAxis(w.cube.GetCenter(), 5.0f);
+            while(true){
             	w.repaint();
             	Thread.sleep(10);
-              }*/
+              }
             }
 }
