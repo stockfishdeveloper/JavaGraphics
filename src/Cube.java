@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +14,53 @@ class Cube
 	Triangle[] triangles = new Triangle[12];
 	BufferedImage img;
 	Pixel[][][] pixels;
+        Color color;
 	public Cube()
 	{
 		
 	}
+        public Cube(Point center, int radius, Color c)
+	{
+                color = c;
+                pixels = null;
+		for(int i = 0; i < 8; i++) points[i] = new Point(0, 0, 0);
+		points[0].SetX(center.GetExX() - radius);
+		points[0].SetY(center.GetExY() + radius);
+		points[0].SetZ(center.GetExZ() - radius);
+		points[1].SetX(center.GetExX() + radius);
+		points[1].SetY(center.GetExY() + radius);
+		points[1].SetZ(center.GetExZ() - radius);
+		points[2].SetX(center.GetExX() - radius);
+		points[2].SetY(center.GetExY() - radius);
+		points[2].SetZ(center.GetExZ() - radius);
+		points[3].SetX(center.GetExX() + radius);
+		points[3].SetY(center.GetExY() - radius);
+		points[3].SetZ(center.GetExZ() - radius);
+		points[4].SetX(center.GetExX() - radius);
+		points[4].SetY(center.GetExY() + radius);
+		points[4].SetZ(center.GetExZ() + radius);
+		points[5].SetX(center.GetExX() + radius);
+		points[5].SetY(center.GetExY() + radius);
+		points[5].SetZ(center.GetExZ() + radius);
+		points[6].SetX(center.GetExX() - radius);
+		points[6].SetY(center.GetExY() - radius);
+		points[6].SetZ(center.GetExZ() + radius);
+		points[7].SetX(center.GetExX() + radius);
+		points[7].SetY(center.GetExY() - radius);
+		points[7].SetZ(center.GetExZ() + radius);
+		triangles[0] = new Triangle(points[0], points[1], points[2], c);
+		triangles[1] = new Triangle(points[1], points[3], points[2], c);
+		triangles[2] = new Triangle(points[5], points[4], points[7], c);
+		triangles[3] = new Triangle(points[4], points[6], points[7], c);
+		triangles[4] = new Triangle(points[4], points[5], points[0], c);
+		triangles[5] = new Triangle(points[5], points[1], points[0], c);
+		triangles[6] = new Triangle(points[2], points[3], points[6], c);
+		triangles[7] = new Triangle(points[3], points[7], points[6], c);
+		triangles[8] = new Triangle(points[4], points[0], points[6], c);
+		triangles[9] = new Triangle(points[0], points[2], points[6], c);
+		triangles[10] = new Triangle(points[1], points[5], points[3], c);
+		triangles[11] = new Triangle(points[5], points[7], points[3], c);
+        }
 	public Cube(Point center, int radius, String texture)
 	{
 		for(int i = 0; i < 8; i++) points[i] = new Point(0, 0, 0);
@@ -229,6 +273,13 @@ class Cube
                 t.Render(buf);
             }
 	}
+        /*public void Render(Graphics2D g)
+	{
+            for(Triangle t : triangles)
+            {
+                t.Render(g);
+            }
+	}*/
 	public void Move(Point target, float distance)
 	{
 		Point center = GetCenter();
