@@ -127,16 +127,40 @@ class Triangle implements Comparable<Triangle>
 	{
 		if(Should_Be_Drawn())
 		{
-                    for(int i = 0; i < pixels.length; i++)
-			{
-				Point p = World.camera.LookAt(pixels[i]);
-				if(p != null)
-				if(p.GetX() > -640 && p.GetX() < 640 && p.GetY() > -500 && p.GetY() < 500)
-					image.setRGB(p.GetX() + 640, p.GetY() + 500, pixels[i].GetColor());
-			}
+                    if(pixels != null)
+                    {
+                        for(int i = 0; i < pixels.length; i++)
+                        {
+                            Point p = World.camera.LookAt(pixels[i]);
+                            if(p != null)
+                            if(p.GetX() > -640 && p.GetX() < 640 && p.GetY() > -500 && p.GetY() < 500)
+                            image.setRGB(p.GetX() + 640, p.GetY() + 500, pixels[i].GetColor());
+                        }
+                    }
+                else
+                {
+                    Graphics2D g = image.createGraphics();
+                    g.setColor(color);
+                    int[] x = new int[3];
+                    int[] y = new int[3];
+                    Triangle t = World.camera.LookAt(this);
+                    for(int i = 0; i < 3; i++)
+                    {                        
+                        if(t != null)
+                        {
+                            x[i] = t.points[i].GetX() + 640;
+                            y[i] = t.points[i].GetY() + 500;
+                        }
+                    }
+                    if(t != null)
+                    {
+                        Polygon poly = new Polygon(x, y, 3);
+                        g.fillPolygon(poly);
+                    }
                 }
+            }
 	}
-        public void Render(Graphics2D g)
+        /*public void Render(Graphics2D g)
         {
             g.setColor(color);
             Triangle t = new Triangle(World.camera.LookAt(this));
@@ -149,13 +173,13 @@ class Triangle implements Comparable<Triangle>
                 }
             Polygon poly = new Polygon(x, y, 3);
             g.fillPolygon(poly);
-        }
+        }*/
 	public void Draw_Mesh(Graphics2D g)
 	{
                 Triangle t = new Triangle(World.camera.LookAt(this));
-		g.drawLine(t.points[0].GetX() + 200, t.points[0].GetY() + 200, t.points[1].GetX() + 200, t.points[1].GetY() + 200);
-		g.drawLine(t.points[1].GetX() + 200, t.points[1].GetY() + 200, t.points[2].GetX() + 200, t.points[2].GetY() + 200);
-		g.drawLine(t.points[0].GetX() + 200, t.points[0].GetY() + 200, t.points[2].GetX() + 200, t.points[2].GetY() + 200);
+		g.drawLine(t.points[0].GetX() + 640, t.points[0].GetY() + 500, t.points[1].GetX() + 640, t.points[1].GetY() + 500);
+		g.drawLine(t.points[1].GetX() + 640, t.points[1].GetY() + 500, t.points[2].GetX() + 640, t.points[2].GetY() + 500);
+		g.drawLine(t.points[0].GetX() + 640, t.points[0].GetY() + 500, t.points[2].GetX() + 640, t.points[2].GetY() + 500);
 	}
 	public int GreatestX()
 	{
