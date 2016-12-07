@@ -1,7 +1,10 @@
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 class Sphere
@@ -9,99 +12,65 @@ class Sphere
 	public int xoffset = 640;
 	public int yoffset = 500;
 	Point[] points;
-	Triangle[] triangles;
+	ArrayList<Triangle> triangles;
 	BufferedImage img;
 	Pixel[][][] pixels;
-        Color color;
+    Color color;
 	public Sphere()
 	{
 		
 	}
-        public Sphere(int layers, int ppl, Color c)
+    public Sphere(int layers, int ppl, Color c)
 	{
-                color = c;
-                pixels = null;
-		int Layers = layers * 2;
-		int PPL = ppl;
-		triangles = new Triangle[(2 * layers * ( 2 * layers + ppl)) + (2 * ppl)];
-		for(int i = 0; i < triangles.length; i++) triangles[i] = new Triangle(new Point(0, 0, 0), new Point(0, 0, 0), new Point(0, 0, 0), c);
-		int count = 0;
-		double[] semicircle = new double[layers * 2];
-		for(int i = -layers; i < layers; i++)
+        triangles = new ArrayList<>();
+        points = new Point[(((layers - 2) * ppl) + 2)];
+    	points[0] = new Point(0, (double)(layers) / 2, 0);
+    	points[points.length - 1] = new Point(0, -(double)(layers) / 2, 0);
+    	Point[] semicircle = new Point[layers];
+    	semicircle[0] = new Point(0, ((double)(layers)) / 2, 0);
+    	float degreesperiter = 180.0f / ((float)(layers - 1));
+    	for(int i = 1; i < layers - 1; i++)
+    	{
+    		semicircle[i] = new Point(semicircle[0]);
+    		semicircle[i].RotateClockwiseAboutZAxis(new Point(0, 0, 0), i * degreesperiter);
+    	}
+    	semicircle[layers - 1] = new Point(semicircle[0]);
+		semicircle[layers - 1].RotateClockwiseAboutZAxis(new Point(0, 0, 0), 180);
+		degreesperiter = (360.0f) / (float)(ppl);
+		int count = 1;
+		for(int i = 0; i < layers - 2; i++)
 		{
-                    semicircle[count++] = Math.sqrt((double)((layers * layers) - (i * i)));
-		}
-		count = 0;
-		int scount = 0;
-		points = new Point[(layers * 2 * ppl) + 2];
-		for(int i = 0; i < points.length; i++) points[i] = new Point(0, 0, 0);
-		points[count++] = new Point(0, layers / 2, 0);
-		for(int i = layers; i > -layers; i--)
-		{
-                    for(int j = 0; j < ppl; j++)
-                    {
-			points[count].SetY(i);
-			float degrees = (float)(j) * (360.0f / (float)(ppl));
-			Point p1 = new Point(semicircle[scount], 0, 0);
-			p1.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
-			points[count].SetX(p1.GetExX());
-			points[count++].SetZ(p1.GetExZ());
-                    }
-                    scount++;
-		}
-		points[count++] = new Point(0, -(layers / 2), 0);
-		//count = 0;
-		int count2 = 0;
-		for(int i = 0; i < ((2 * layers) - 2); i++)
-		{
-                    for(int j = 0; j < ppl; j++)
-                    {
-			int[] x = new int[3];
-			int[] y = new int[3];
-			int[] z = new int[3];
-			x[0] = points[(ppl * i) + j].GetX();
-			x[1] = points[(ppl * i) + j + 1].GetX();
-			x[2] = points[(ppl * i) + j + ppl + 1].GetX();
-			y[0] = points[(ppl * i) + j].GetY();
-			y[1] = points[(ppl * i) + j + 1].GetY();
-			y[2] = points[(ppl * i) + j + ppl + 1].GetY();
-			z[0] = points[(ppl * i) + j].GetZ();
-			z[1] = points[(ppl * i) + j + 1].GetZ();
-			z[2] = points[(ppl * i) + j + ppl + 1].GetZ();
-			triangles[count2++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]), c);
-			if(i > 0)
+			for(int j = 0; j < ppl; j++)
 			{
-                            x[0] = points[(ppl * i) + j].GetX();
-                            x[1] = points[((ppl * i) + j) - ppl].GetX();
-                            x[2] = points[(ppl * i) + j + 1].GetX();
-                            y[0] = points[(ppl * i) + j].GetY();
-                            y[1] = points[((ppl * i) + j) - ppl].GetY();
-                            y[2] = points[(ppl * i) + j + 1].GetY();
-                            z[0] = points[(ppl * i) + j].GetZ();
-                            z[1] = points[((ppl * i) + j) - ppl].GetZ();
-                            z[2] = points[(ppl * i) + j + 1].GetZ();
-                            triangles[count2++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]), c);
+				points[count] = new Point(semicircle[i + 1]);
+				points[count++].RotateCounterClockwiseAboutYAxis(new Point(0, semicircle[i + 1].GetExY(), 0), degreesperiter);
 			}
-                    }
 		}
-		count2 = 0;
-		for(int j = 1; j < ppl; j++)
+		System.out.println(points[4].GetY());
+		count = 0;
+		for(int i = 0; i < ppl; i++)
 		{
-                    int[] x = new int[3];
-                    int[] y = new int[3];
-                    int[] z = new int[3];
-                    x[0] = points[0].GetX();
-                    x[1] = points[j].GetX();
-                    x[2] = points[j + 1].GetX();
-                    y[0] = points[0].GetY();
-                    y[1] = points[j].GetY();
-                    y[2] = points[j + 1].GetY();
-                    z[0] = points[0].GetZ();
-                    z[1] = points[j].GetZ();
-                    z[2] = points[j + 1].GetZ();
-                    triangles[count2++] = new Triangle(new Point(x[0], y[0], z[0]), new Point(x[1], y[1], z[1]), new Point(x[2], y[2], z[2]), c);
-                }
-        }
+			Point p1 = new Point(points[0]);
+			Point p2 = new Point(points[i + 2]);
+			Point p3 = new Point(points[i + 1]);
+			triangles.add(new Triangle(p1, p2, p3, Color.blue));
+		}
+		for(int i = ppl; i < (points.length - 1) - ppl; i++)
+		{
+			Point p1 = new Point(points[i]);
+			Point p2 = new Point(points[i + 2]);
+			Point p3 = new Point(points[i + 1]);
+			triangles.add(new Triangle(p1, p2, p3, Color.red));
+		}
+		for(int i = points.length - ppl; i < points.length - 1; i++)
+		{
+			Point p1 = new Point(points[i]);
+			Point p2 = new Point(points[i + 1]);
+			Point p3 = new Point(points[i]);
+			triangles.add(new Triangle(p1, p2, p3, Color.green));
+		}
+		System.out.println(triangles.size());
+	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
@@ -154,9 +123,9 @@ class Sphere
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
 		}
-		totx /= 3 * triangles.length;
-		toty /= 3 * triangles.length;
-		totz /= 3 * triangles.length;
+		totx /= 3 * triangles.size();
+		toty /= 3 * triangles.size();
+		totz /= 3 * triangles.size();
 		return new Point(totx, toty, totz);
 	}
 	public void Render(BufferedImage buf)
@@ -166,11 +135,18 @@ class Sphere
                 t.Render(buf);
             }
 	}
-        /*public void Render(Graphics2D g)
+        public void Draw_Mesh(BufferedImage buf)
 	{
             for(Triangle t : triangles)
             {
-                t.Render(g);
+                t.Draw_Mesh(buf);
+            }
+        }
+        /*public void Render(Graphics2D g)
+	{
+            for(int i = 0; i < 100; i++)
+            {
+                g.drawLine(points[i].GetX() + 200, points[i].GetY() + 200, points[i + 1].GetX() + 200, points[i + 1].GetY() + 200);
             }
 	}*/
 	public void Move(Point target, float distance)
