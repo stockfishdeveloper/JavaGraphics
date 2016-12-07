@@ -14,16 +14,16 @@ class Camera
 		left = new Point(-1, 0, 0);
 		right = new Point(1, 0, 0);
 		up = new Point(0, 1, 0);
-		eye = new Point(0, 0, -5200 / 3);
+		eye = new Point(0, 0, -320);
 		Point[] points = new Point[8];
-		points[0] = new Point(640, 500, 0);
-		points[1] = new Point(640, -500, 0);
-		points[2] = new Point(-640, -500, 0);
-		points[3] = new Point(-640, 500, 0);
-		points[4] = new Point(1280, 1040, 5200);
-		points[5] = new Point(1280, -1040, 5200);
-		points[6]  = new Point(-1280, -1040, 5200);
-		points[7] = new Point(-1280, 1040, 5200);
+		points[0] = new Point(320, 250, 0);
+		points[1] = new Point(320, -250, 0);
+		points[2] = new Point(-320, -250, 0);
+		points[3] = new Point(-320, 250, 0);
+		points[4] = new Point(1320, 520, 1000);
+		points[5] = new Point(1320, -520, 1000);
+		points[6]  = new Point(-1320, -520, 100);
+		points[7] = new Point(-1320, 520, 100);
 		frustum = new Frustum(points);
 	}
 	public Camera(Camera camera)
@@ -185,10 +185,10 @@ class Camera
 			if(frustum.Contains(p) == true)
 				return null;
 		}*/
-		/*if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
+		if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
 		{
 			return null;
-		}*/
+		}
 		Triangle t = new Triangle(triangle);
 		Triangle object;
 		Camera cam = new Camera(this);
@@ -267,21 +267,19 @@ class Camera
 			double diff_y = t.points[i].GetExY()/* - cam.eye.GetExY()*/;
 			double finaly = diff_y / ratio;
 			object.points[i].SetY(cam.eye.GetExY() + finaly);
+                        object.points[i].SetX(object.points[i].GetExX() * 2);
+                        object.points[i].SetY(object.points[i].GetExY() * 2);
+                        object.points[i].SetZ(object.points[i].GetExZ() * 2);
 		}
 		//cam.PrintInfo();
 		return object;
 	}
 	public Point LookAt(Point point)
 	{
-		/*for(Point p : triangle.points)
-		{
-			if(frustum.Contains(p) == true)
-				return null;
-		}*/
-		if(!(frustum.Contains(point)))
+		/*if(!(frustum.Contains(point)))
 		{
 			return null;
-		}
+		}*/
 		Point p = new Point(point.GetExX(), point.GetExY(), point.GetExZ());
 		Point object;
 		Camera cam = new Camera(this);
@@ -350,6 +348,9 @@ class Camera
 		double finaly = diff_y / ratio;
 		object.SetY(cam.eye.GetExY() + finaly);
 		//cam.PrintInfo();
+                object.SetX(object.GetExX() * 2);
+                object.SetY(object.GetExY() * 2);
+                object.SetZ(object.GetExZ() * 2);
 		return object;
 	}
 }
