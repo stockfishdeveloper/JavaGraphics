@@ -273,13 +273,13 @@ class Cube
                 t.Render(buf);
             }
 	}
-        /*public void Render(Graphics2D g)
-	{
-            for(Triangle t : triangles)
-            {
-                t.Render(g);
-            }
-	}*/
+    public void Draw_Mesh(BufferedImage buf)
+    {
+        for(Triangle t : triangles)
+        {
+            t.Draw_Mesh(buf);
+        }
+    }
 	public void Move(Point target, float distance)
 	{
 		Point center = GetCenter();
