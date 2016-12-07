@@ -217,6 +217,13 @@ class RectangularPrism
                 t.Render(buf);
             }
 	}
+        public void Draw_Mesh(BufferedImage buf)
+	{
+            for(Triangle t : triangles)
+            {
+                t.Draw_Mesh(buf);
+            }
+        }
 	public void Move(Point target, float distance)
 	{
 		Point center = GetCenter();
