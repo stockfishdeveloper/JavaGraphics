@@ -17,14 +17,22 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	int currx = 0;
 	int curry = 0;
 	public Cube cube;
-        public static Camera camera;
+	public static Camera camera;
+	static double[][] distancefromscreen = new double[1280][1000];
 	       
 	public World()
 	{
-            cube = new Cube(new Point(0, 0, 0), 64, /*"F:\\grid_cool2.jpg"*/Color.blue);
+            cube = new Cube(new Point(0, 0, 0), 30,"L:\\grid_cool2.jpg"/*Color.gray*/);
             camera = new Camera();
             screen = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
             blank = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
+            for(int i = 0; i < 1280; i++)
+            {
+            	for(int j = 0; j < 1000; j++)
+            	{
+            		distancefromscreen[i][j] = Double.MAX_VALUE;
+            	}
+            }
             for(int i = 0; i < screen.getWidth(); i++)
 		{
                     for(int j = 0; j < screen.getHeight(); j++)
@@ -42,7 +50,14 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 		Graphics2D graphics = screen.createGraphics();
 		graphics.fillRect(0, 0, 1280, 1000);
 		cube.Render(screen);
-                g.drawImage(screen, 0, 0, 1280, 1000, null);
+		g.drawImage(screen, 0, 0, 1280, 1000, null);
+		for(int i = 0; i < 1280; i++)
+        {
+        	for(int j = 0; j < 1000; j++)
+        	{
+        		distancefromscreen[i][j] = Double.MAX_VALUE;
+        	}
+        }
         }
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
@@ -53,31 +68,30 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	public void mouseMoved(MouseEvent m) {
 		if(m.getX() > currx)
                 {
-                    camera.RotateClockwiseAboutYAxis(cube.GetCenter(), 0.1f);
+                    cube.RotateClockwiseAboutYAxis(cube.GetCenter(), 1f);
                 }
 		else if(m.getX() < currx)
                 {
-                    camera.RotateCounterClockwiseAboutYAxis(cube.GetCenter(), 0.1f);
+					cube.RotateCounterClockwiseAboutYAxis(cube.GetCenter(), 1f);
                 }
 		if(m.getY() > curry)
                 {
-                    camera.RotateClockwiseAboutXAxis(cube.GetCenter(), 0.1f);
+					cube.RotateClockwiseAboutXAxis(cube.GetCenter(), 1f);
                 }
 		else if(m.getY() < curry)
                 {
-                    camera.RotateCounterClockwiseAboutXAxis(cube.GetCenter(), 0.1f);
+                    cube.RotateCounterClockwiseAboutXAxis(cube.GetCenter(), 1f);
                 }
 		currx = m.getX();
 		curry = m.getY();
-                camera.Print_Info();
 		//repaint();
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent m) {
 		if(m.getPreciseWheelRotation() < 0)
-			camera.MoveForward(200);
+			camera.MoveForward(50);
 		else
-			camera.MoveBackward(200);	
+			camera.MoveBackward(50);	
         }
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
