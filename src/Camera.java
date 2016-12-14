@@ -14,16 +14,16 @@ class Camera
 		left = new Point(-1, 0, 0);
 		right = new Point(1, 0, 0);
 		up = new Point(0, 1, 0);
-		eye = new Point(0, 0, -320);
+		eye = new Point(0, 0, -800);
 		Point[] points = new Point[8];
 		points[0] = new Point(320, 250, 0);
 		points[1] = new Point(320, -250, 0);
 		points[2] = new Point(-320, -250, 0);
 		points[3] = new Point(-320, 250, 0);
-		points[4] = new Point(1320, 520, 1000);
-		points[5] = new Point(1320, -520, 1000);
-		points[6]  = new Point(-1320, -520, 100);
-		points[7] = new Point(-1320, 520, 100);
+		points[4] = new Point(1320, 1030, 1000);
+		points[5] = new Point(1320, -1030, 1000);
+		points[6]  = new Point(-1320, -1030, 1000);
+		points[7] = new Point(-1320, 1030, 1000);
 		frustum = new Frustum(points);
 	}
 	public Camera(Camera camera)
@@ -185,10 +185,10 @@ class Camera
 			if(frustum.Contains(p) == true)
 				return null;
 		}*/
-		if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
+		/*if(!(frustum.Contains(triangle.points[0]) || frustum.Contains(triangle.points[1]) || frustum.Contains(triangle.points[2])))
 		{
 			return null;
-		}
+		}*/
 		Triangle t = new Triangle(triangle);
 		Triangle object;
 		Camera cam = new Camera(this);
@@ -254,6 +254,19 @@ class Camera
 					p.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), (float) (-Util.RadiansToDegrees(tan)));
 			}
 		}
+		for(Point p : t.points)
+		{
+			if(p.GetExZ() <= eye.GetExZ())
+				return null;
+			if(p.GetExX() - 320 > p.GetExZ())
+				return null;
+			if(-p.GetExX() - 320 > p.GetExZ())
+				return null;
+			if((p.GetExZ() * 0.78) + 250 < p.GetExY())
+				return null;
+			if((p.GetExZ() * -0.78) + 250 < p.GetExY())
+				return null;
+		}
 		object = new Triangle(t);
 		for(int i = 0; i < 3; i++)
 		{
@@ -271,7 +284,7 @@ class Camera
                         object.points[i].SetY(object.points[i].GetExY() * 2);
                         object.points[i].SetZ(object.points[i].GetExZ() * 2);
 		}
-		//cam.PrintInfo();
+		//cam.Print_Info();
 		return object;
 	}
 	public Point LookAt(Point point)
@@ -337,6 +350,14 @@ class Camera
 				p.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), (float) (-Util.RadiansToDegrees(tan)));
 			}
 		}
+		if(p.GetExX() - 320 > p.GetExZ())
+			return null;
+		if(-p.GetExX() - 320 > p.GetExZ())
+			return null;
+		if((p.GetExZ() * 0.78) + 250 < p.GetExY())
+			return null;
+		if((p.GetExZ() * -0.78) + 250 < p.GetExY())
+			return null;
 		object = new Point(p.GetExX(), p.GetExY(), p.GetExZ());
 		double diff_x = p.GetExX()/* - cam.eye.GetExX()*/;
 		double eyetoscreen = Util.Distance_Between(cam.eye, cam.location);
