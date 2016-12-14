@@ -188,11 +188,14 @@ class Triangle implements Comparable<Triangle>
 		{
             Graphics2D g = buf.createGraphics();
             g.setColor(color);
-            Triangle t = new Triangle(World.camera.LookAt(this));
-            g.drawLine(t.points[0].GetX() + 640, t.points[0].GetY() + 500, t.points[1].GetX() + 640, t.points[1].GetY() + 500);
-            g.drawLine(t.points[1].GetX() + 640, t.points[1].GetY() + 500, t.points[2].GetX() + 640, t.points[2].GetY() + 500);
-            g.drawLine(t.points[0].GetX() + 640, t.points[0].GetY() + 500, t.points[2].GetX() + 640, t.points[2].GetY() + 500);
-                }
+            Triangle t = World.camera.LookAt(this);
+            if(t != null)
+            {
+            	g.drawLine(t.points[0].GetX() + 640, t.points[0].GetY() + 500, t.points[1].GetX() + 640, t.points[1].GetY() + 500);
+            	g.drawLine(t.points[1].GetX() + 640, t.points[1].GetY() + 500, t.points[2].GetX() + 640, t.points[2].GetY() + 500);
+            	g.drawLine(t.points[0].GetX() + 640, t.points[0].GetY() + 500, t.points[2].GetX() + 640, t.points[2].GetY() + 500);
+            }
+        }
 	}
 	public int GreatestX()
 	{
