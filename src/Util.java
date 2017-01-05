@@ -1,3 +1,7 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Logger;
+
 class Util
 {
 	private static final int ATAN2_BITS = 7;
@@ -95,7 +99,7 @@ class Util
 		}
 		return coords;
 	}
-	static void MovePointTowardsAnotherPoint(Point point, Point target, float distance)
+	static void MovePointTowardsAnotherPoint(Point point, Point target, double distance)
 	{
 		double Distance = Distance_Between(point, target);
 		double changes = distance / Distance;
@@ -105,7 +109,7 @@ class Util
 	}
 	public static void MovePointAlongVector(Point point, Point direction, double distance)
 	{
-		Point normalized = direction;
+		Point normalized = new Point(direction);
 		Util.NormalizeVector(normalized);
 		double diffx = distance * normalized.GetExX();
 		double diffy = distance * normalized.GetExY();
