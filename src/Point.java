@@ -21,6 +21,12 @@ class Point
 		y = fy;
 		z = fz;
 	}
+	Point(Point other)
+	{
+		this.x = other.GetExX();
+		this.y = other.GetExY();
+		this.z = other.GetExZ();
+	}
         public void Print_Info()
         {
         	System.out.println("Point:\n=============================");
@@ -62,7 +68,7 @@ class Point
 	{
 		z = newz;
 	}
-	void RotateClockwiseAboutYAxis(Point p, float degrees)
+	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
@@ -78,7 +84,7 @@ class Point
 		x -= changex;
 		z -= changez;
 	}
-	void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
+	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
@@ -94,7 +100,7 @@ class Point
 		x -= changex;
 		z -= changez;
 	}
-	void RotateClockwiseAboutXAxis(Point p, float degrees)
+	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
 		double changey = -p.GetExY();
 		double changez = -p.GetExZ();
@@ -110,7 +116,7 @@ class Point
 		y -= changey;
 		z -= changez;
 	}
-	void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
+	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
 		double changey = -p.GetExY();
 		double changez = -p.GetExZ();
@@ -142,7 +148,7 @@ class Point
 		x -= changex;
 		y -= changey;
 	}
-	void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
+	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
 		double changex = -p.GetExX();
 		double changey = -p.GetExY();
