@@ -14,7 +14,7 @@ class SampleMesh
 		int[] elevation = new int[2500];
 		for(int i = 0; i < 2500; i++)
 		{
-			elevation[i] = center.GetY() + (int)(Math.random() * 5);
+			elevation[i] = center.GetY() + (int)(Math.random() * 1);
 		}
 		for(int i = 0; i < 50; i++)
 		{
