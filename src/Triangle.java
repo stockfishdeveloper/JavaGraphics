@@ -55,15 +55,15 @@ class Triangle implements Comparable<Triangle>
 	public boolean Should_Be_Drawn()
 	{
 		Point p = Util.GetNormalVector(points[0], points[1], points[2]);
-		double dotproduct = Util.GetDotProduct(p, World.camera.direction);
-		boolean draw = dotproduct < 0 ? true : false;
+		double dotproduct = Util.GetDotProduct(p, World.camera.GetDirection());
+		boolean draw = dotproduct < 0.1 ? true : false;
 		return draw;
 	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Point p1 : points)
 			p1.RotateCounterClockwiseAboutYAxis(p, degrees);
-                if(pixels != null)
+        if(pixels != null)
 		for(Pixel p2 : pixels)
 			p2.RotateCounterClockwiseAboutYAxis(p, degrees);
 	}
@@ -71,7 +71,7 @@ class Triangle implements Comparable<Triangle>
 	{
 		for(Point p1 : points)
 			p1.RotateClockwiseAboutYAxis(p, degrees);
-                if(pixels != null)
+        if(pixels != null)
 		for(Pixel p2 : pixels)
 			p2.RotateClockwiseAboutYAxis(p, degrees);
 	}
@@ -79,7 +79,7 @@ class Triangle implements Comparable<Triangle>
 	{
 		for(Point p1 : points)
 			p1.RotateCounterClockwiseAboutXAxis(p, degrees);
-                if(pixels != null)
+        if(pixels != null)
 		for(Pixel p2 : pixels)
 			p2.RotateCounterClockwiseAboutXAxis(p, degrees);
 	}
@@ -87,7 +87,7 @@ class Triangle implements Comparable<Triangle>
 	{
 		for(Point p1 : points)
 			p1.RotateClockwiseAboutXAxis(p, degrees);
-                if(pixels != null)
+        if(pixels != null)
 		for(Pixel p2 : pixels)
 			p2.RotateClockwiseAboutXAxis(p, degrees);
 	}
@@ -95,7 +95,7 @@ class Triangle implements Comparable<Triangle>
 	{
 		for(Point p1 : points)
 			p1.RotateCounterClockwiseAboutZAxis(p, degrees);
-                if(pixels != null)
+        if(pixels != null)
 		for(Pixel p2 : pixels)
 			p2.RotateCounterClockwiseAboutZAxis(p, degrees);
 	}
@@ -103,7 +103,7 @@ class Triangle implements Comparable<Triangle>
 	{
 		for(Point p1 : points)
 			p1.RotateClockwiseAboutZAxis(p, degrees);
-                if(pixels != null)
+        if(pixels != null)
 		for(Pixel p2 : pixels)
 			p2.RotateClockwiseAboutZAxis(p, degrees);
 	}
