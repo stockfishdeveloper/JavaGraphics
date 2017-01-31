@@ -10,28 +10,46 @@ class SampleMesh
 	{
 		color = c;
 		triangles = new ArrayList<>();
-		Point[][] points = new Point[50][50];
-		int[] elevation = new int[2500];
-		for(int i = 0; i < 2500; i++)
+		Point[][] points = new Point[100][100];
+		int[] elevation = new int[10000];
+		for(int i = 0; i < 10000; i++)
 		{
-			elevation[i] = center.GetY() + (int)(Math.random() * 1);
+			elevation[i] = center.GetY() + (int)(Math.random() * 3);
 		}
-		for(int i = 0; i < 50; i++)
+		for(int i = 0; i < 100; i++)
 		{
-			for(int j = 0; j < 50; j++)
+			for(int j = 0; j < 100; j++)
 			{
-				points[i][j] = new Point(((i - 25) * 1) + center.GetExX(), elevation[i * j], (((j - 25) * 1) + center.GetExZ()));
+				points[i][j] = new Point(((i - 50) * 1) + center.GetExX(), elevation[i * j], (((50 - j) * 1) + center.GetExZ()));
 			}
 		}
-		for(int i = 0; i < 49; i++)
+		java.util.Random rand = new java.util.Random(0);
+		float r;
+		float g;
+		float b;
+		for(int j = 0; j < 99; j++)
 		{
-			for(int j = 0; j < 49; j++)
+			for(int i = 0; i < 99; i++)
 			{
-				triangles.add(new Triangle(points[i][j], points[i + 1][j + 1], points[i + 1][j], color));
-				triangles.add(new Triangle(points[i][j], points[i][j + 1], points[i + 1][j + 1], color));
-			}
+                                r = rand.nextFloat();
+				g = rand.nextFloat();
+				b = rand.nextFloat();
+				triangles.add(new Triangle(points[i][j], points[i + 1][j + 1], points[i][j + 1], new Color(r, g, b)));
+                                r = rand.nextFloat();
+				g = rand.nextFloat();
+				b = rand.nextFloat();
+                                triangles.add(new Triangle(points[i][j], points[i + 1][j + 1], points[i][j + 1], new Color(r, g, b)));
+                                r = rand.nextFloat();
+				g = rand.nextFloat();
+				b = rand.nextFloat();
+                                triangles.add(new Triangle(points[i][j], points[i + 1][j], points[i + 1][j + 1], new Color(r, g, b)));
+                                r = rand.nextFloat();
+				g = rand.nextFloat();
+				b = rand.nextFloat();
+                                triangles.add(new Triangle(points[i][j], points[i + 1][j], points[i + 1][j + 1], new Color(r, g, b)));
+                        }
 		}
-	}
+        }
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		for(Triangle t : triangles)
