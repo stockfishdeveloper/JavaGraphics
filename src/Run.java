@@ -26,11 +26,11 @@ class Run
         {
         	if(System.currentTimeMillis() >= nextframe)
             {
-        		//w.camera.RotateClockwiseAboutYAxis(new Point(0, 0, 0), 1f);
-        		//World.camera.Print_Info();
-        		//System.out.println(Util.Distance_Between(World.camera.GetLeft(), new Point(0, 0, 0)));
+        		//w.camera.RotateClockwiseAboutUpAxis(1f);
+        		//World.camera.GetDirection().Print_Info();
+                //System.out.println(Util.Distance_Between(World.camera.GetLeft(), new Point(0, 0, 0)));
         		w.repaint();
-        		nextframe += 100;
+                nextframe += 100;
             }
         }
     }
