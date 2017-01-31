@@ -27,10 +27,11 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	       
 	public World()
 	{
-		cube = new Cube(new Point(0, 0, 20), 5,/*"L:\\grid_cool2.jpg"*/Color.blue);
-        sample = new SampleMesh(new Point(0, 0, 20), Color.red);
+		cube = new Cube(new Point(0, 0, 0), 10,/*"L:\\grid_cool2.jpg"*/Color.blue);
+        sample = new SampleMesh(new Point(0, 0, 0), Color.red);
         camera = new Camera();
-        camera.MoveUp(10);
+        camera.MoveUp(20);
+        camera.MoveBackward(20);
         screen = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
         blank = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
         for(int i = 0; i < 1280; i++)
@@ -56,7 +57,7 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 		Graphics2D g = (Graphics2D)gr;
 		Graphics2D graphics = screen.createGraphics();
 		graphics.fillRect(0, 0, 1280, 1000);
-        sample.Draw_Mesh(screen);
+        sample.Render(screen);
 		cube.Render(screen);
 		g.drawImage(screen, 0, 0, 1280, 1000, null);
         for(int i = 0; i < 1280; i++)
@@ -76,27 +77,19 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	public void mouseMoved(MouseEvent m) {
 		if(m.getX() > currx)
         {
-			//cube.RotateClockwiseAboutYAxis(new Point(0, 0, 0), 1f);
-            //sample.RotateClockwiseAboutYAxis(new Point(0, 0, 0), 1f);
-			camera.RotateClockwiseAboutUpAxis(camera.GetLocation(), 1f);
+			camera.RotateClockwiseAboutUpAxis(1f);
         }
 		else if(m.getX() < currx)
         {
-			//cube.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), 1f);
-			//sample.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), 1f);
-			camera.RotateCounterClockwiseAboutUpAxis(camera.GetLocation(), 1f);
+			camera.RotateCounterClockwiseAboutUpAxis(1f);
         }
 		if(m.getY() > curry)
         {
-			//cube.RotateClockwiseAboutXAxis(new Point(0, 0, 0), 1f);
-                            //sample.RotateClockwiseAboutXAxis(new Point(0, 0, 0), 1f);
-			camera.RotateClockwiseAboutRightAxis(camera.GetLocation(), 1f);
+			camera.RotateClockwiseAboutRightAxis(1f);
         }
 		else if(m.getY() < curry)
         {
-			//cube.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), 1f);
-			//sample.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), 1f);
-			camera.RotateCounterClockwiseAboutRightAxis(camera.GetLocation(), 1f);
+			camera.RotateCounterClockwiseAboutRightAxis(1f);
         }
 		currx = m.getX();
 		curry = m.getY();
@@ -142,15 +135,23 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
     @Override
     public void keyPressed(KeyEvent k) {
         if(k.getKeyCode() == KeyEvent.VK_LEFT)
-            camera.MoveLeft(5.0f);
+            camera.MoveLeft(1.0f);
         else if(k.getKeyCode() == KeyEvent.VK_RIGHT)
-            camera.MoveRight(5.0f);
+            camera.MoveRight(1.0f);
         else if(k.getKeyCode() == KeyEvent.VK_UP)
-            camera.MoveUp(5.0f);
+            camera.MoveUp(1.0f);
         else if(k.getKeyCode() == KeyEvent.VK_DOWN)
-            camera.MoveDown(5.0f);
+            camera.MoveDown(1.0f);
         else if(k.getKeyCode() == KeyEvent.VK_CONTROL)
             camera.Print_Info();
+        else if(k.getKeyCode() == KeyEvent.VK_A)
+            camera.RotateCounterClockwiseAboutUpAxis(1f);
+        else if(k.getKeyCode() == KeyEvent.VK_D)
+        	camera.RotateClockwiseAboutUpAxis(1f);
+        else if(k.getKeyCode() == KeyEvent.VK_W)
+        	camera.RotateCounterClockwiseAboutRightAxis(1f);
+        else if(k.getKeyCode() == KeyEvent.VK_S)
+        	camera.RotateClockwiseAboutRightAxis(1f);
     }
 
     @Override
