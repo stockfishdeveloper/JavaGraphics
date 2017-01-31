@@ -184,7 +184,7 @@ class Triangle implements Comparable<Triangle>
         }*/
 	public void Draw_Mesh(BufferedImage buf)
 	{
-            if(Should_Be_Drawn())
+            //if(Should_Be_Drawn())
 		{
             Graphics2D g = buf.createGraphics();
             g.setColor(color);
