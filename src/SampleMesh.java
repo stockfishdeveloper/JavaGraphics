@@ -6,30 +6,30 @@ class SampleMesh
 {
 	public ArrayList<Triangle> triangles;
 	public Color color;
-	public SampleMesh(Point center, Color c)
+	public SampleMesh(Point center, Color c, int dimension)
 	{
 		color = c;
 		triangles = new ArrayList<>();
-		Point[][] points = new Point[100][100];
-		int[] elevation = new int[10000];
-		for(int i = 0; i < 10000; i++)
+		Point[][] points = new Point[dimension][dimension];
+		int[] elevation = new int[dimension * dimension];
+		for(int i = 0; i < dimension * dimension; i++)
 		{
-			elevation[i] = center.GetY() + (int)(Math.random() * 3);
+			elevation[i] = center.GetY() + (int)(Math.random() * 10);
 		}
-		for(int i = 0; i < 100; i++)
+		for(int i = 0; i < dimension; i++)
 		{
-			for(int j = 0; j < 100; j++)
+			for(int j = 0; j < dimension; j++)
 			{
-				points[i][j] = new Point(((i - 50) * 1) + center.GetExX(), elevation[i * j], (((50 - j) * 1) + center.GetExZ()));
+				points[i][j] = new Point(((i - 50) * 100) + center.GetExX(), elevation[i * j], (((50 - j) * 100) + center.GetExZ()));
 			}
 		}
 		java.util.Random rand = new java.util.Random(0);
 		float r;
 		float g;
 		float b;
-		for(int j = 0; j < 99; j++)
+		for(int j = 0; j < dimension - 1; j++)
 		{
-			for(int i = 0; i < 99; i++)
+			for(int i = 0; i < dimension - 1; i++)
 			{
                                 r = rand.nextFloat();
 				g = rand.nextFloat();
