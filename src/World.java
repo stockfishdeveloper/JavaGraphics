@@ -24,12 +24,16 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	public static Camera camera;
 	SampleMesh sample;
 	static double[][] distancefromscreen = new double[1280][1000];
+	ArrayList<MouseEvent> events;
 	       
 	public World()
 	{
-		cube = new Cube(new Point(0, 0, 0), 10,/*"L:\\grid_cool2.jpg"*/Color.blue);
-        sample = new SampleMesh(new Point(0, 0, 0), Color.red);
+		cube = new Cube(new Point(0, 0, 0), 5,/*"L:\\grid_cool2.jpg"*/Color.black);
+		events = new ArrayList<>();
         camera = new Camera();
+        //camera.MoveBackward(20);
+        //camera.MoveUp(100);
+        sample = new SampleMesh(new Point(0, 0, 0), Color.red, 100);
         camera.MoveUp(20);
         camera.MoveBackward(20);
         screen = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
@@ -51,9 +55,35 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 		}
         this.setBounds(0, 0, 1280, 1000);
 	}
+	void ApplyEvents()
+	{
+		for(MouseEvent m : events)
+		{
+			if(m.getX() > currx)
+	        {
+				camera.RotateClockwiseAboutUpAxis(3f);
+	        }
+			else if(m.getX() < currx)
+	        {
+				camera.RotateCounterClockwiseAboutUpAxis(3f);
+	        }
+			if(m.getY() > curry)
+	        {
+				camera.RotateClockwiseAboutRightAxis(3f);
+	        }
+			else if(m.getY() < curry)
+	        {
+				camera.RotateCounterClockwiseAboutRightAxis(3f);
+	        }
+			currx = m.getX();
+			curry = m.getY();
+		}
+		events.clear();
+	}
 	@Override
     public void paintComponent(Graphics gr)
 	{
+		ApplyEvents();
 		Graphics2D g = (Graphics2D)gr;
 		Graphics2D graphics = screen.createGraphics();
 		graphics.fillRect(0, 0, 1280, 1000);
@@ -75,24 +105,7 @@ class World extends JComponent implements MouseMotionListener, MouseListener, Mo
 	}
 	@Override
 	public void mouseMoved(MouseEvent m) {
-		if(m.getX() > currx)
-        {
-			camera.RotateClockwiseAboutUpAxis(1f);
-        }
-		else if(m.getX() < currx)
-        {
-			camera.RotateCounterClockwiseAboutUpAxis(1f);
-        }
-		if(m.getY() > curry)
-        {
-			camera.RotateClockwiseAboutRightAxis(1f);
-        }
-		else if(m.getY() < curry)
-        {
-			camera.RotateCounterClockwiseAboutRightAxis(1f);
-        }
-		currx = m.getX();
-		curry = m.getY();
+		events.add(m);
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent m) {
