@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,13 +7,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 class Cube
 {
-	public int xoffset = 640;
-	public int yoffset = 500;
 	Point[] points = new Point[8];
-	Triangle[] triangles = new Triangle[12];
+	Square[] squares = new Square[6];
 	BufferedImage img;
 	Pixel[][][] pixels;
-        Color color;
+    Color color;
 	public Cube()
 	{
 		
@@ -48,19 +45,13 @@ class Cube
 		points[7].SetX(center.GetExX() + radius);
 		points[7].SetY(center.GetExY() - radius);
 		points[7].SetZ(center.GetExZ() + radius);
-		triangles[0] = new Triangle(points[0], points[1], points[2], c);
-		triangles[1] = new Triangle(points[1], points[3], points[2], c);
-		triangles[2] = new Triangle(points[5], points[4], points[7], c);
-		triangles[3] = new Triangle(points[4], points[6], points[7], c);
-		triangles[4] = new Triangle(points[4], points[5], points[0], c);
-		triangles[5] = new Triangle(points[5], points[1], points[0], c);
-		triangles[6] = new Triangle(points[2], points[3], points[6], c);
-		triangles[7] = new Triangle(points[3], points[7], points[6], c);
-		triangles[8] = new Triangle(points[4], points[0], points[6], c);
-		triangles[9] = new Triangle(points[0], points[2], points[6], c);
-		triangles[10] = new Triangle(points[1], points[5], points[3], c);
-		triangles[11] = new Triangle(points[5], points[7], points[3], c);
-        }
+		squares[0] = new Square(points[0], points[1], points[3], points[2], c);
+		squares[1] = new Square(points[5], points[4], points[6], points[7], c);
+		squares[2] = new Square(points[4], points[5], points[1], points[0], c);
+		squares[3] = new Square(points[2], points[3], points[7], points[6], c);
+		squares[4] = new Square(points[0], points[2], points[6], points[4], c);
+		squares[5] = new Square(points[1], points[5], points[7], points[3], c);
+	}
 	public Cube(Point center, int radius, String texture)
 	{
 		for(int i = 0; i < 8; i++) points[i] = new Point(0, 0, 0);
@@ -104,144 +95,97 @@ class Cube
             img = ImageIO.read(new File(texture));
         } catch (IOException ex) {
          		}
-		pixels = new Pixel[6][img.getWidth()][img.getHeight()];
+		pixels = new Pixel[6][img.getWidth() + 1][img.getHeight() + 1];
 		double unitsperpixel = (double)((radius * 2) / (double)(img.getWidth()));
 		//Front
-		for(int i = 0; i < img.getWidth(); i++)
+		for(int i = 0; i < img.getWidth() + 1; i++)
 		{
-			for(int j = 0; j < img.getHeight(); j++)
+			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[0][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() - radius, new Color(img.getRGB(i, j)));
+				pixels[0][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() - radius, new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Back
-		for(int i = 0; i < img.getWidth(); i++)
+		for(int i = 0; i < img.getWidth() + 1; i++)
 		{
-			for(int j = 0; j < img.getHeight(); j++)
+			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[1][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() + radius, new Color(img.getRGB(i, j)));
+				pixels[1][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() + radius, new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Top
-		for(int i = 0; i < img.getWidth(); i++)
+		for(int i = 0; i < img.getWidth() + 1; i++)
 		{
-			for(int j = 0; j < img.getHeight(); j++)
+			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[2][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() + radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+				pixels[2][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() + radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Bottom
-		for(int i = 0; i < img.getWidth(); i++)
+		for(int i = 0; i < img.getWidth() + 1; i++)
 		{
-			for(int j = 0; j < img.getHeight(); j++)
+			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[3][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() - radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+				pixels[3][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() - radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Left
-		for(int i = 0; i < img.getWidth(); i++)
+		for(int i = 0; i < img.getWidth() + 1; i++)
 		{
-			for(int j = 0; j < img.getHeight(); j++)
+			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[4][i][j] = new Pixel(center.GetExX() - radius, (unitsperpixel *  (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+				pixels[4][i][j] = new Pixel(center.GetExX() - radius, (unitsperpixel *  (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Right
-		for(int i = 0; i < img.getWidth(); i++)
+		for(int i = 0; i < img.getWidth() + 1; i++)
 		{
-			for(int j = 0; j < img.getHeight(); j++)
+			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[5][i][j] = new Pixel(center.GetExX() + radius, (unitsperpixel * (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB(i, j)));
+				pixels[5][i][j] = new Pixel(center.GetExX() + radius, (unitsperpixel * (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
-		ArrayList<Pixel> pix = new ArrayList<>();
-		ArrayList<Pixel> pix2 = new ArrayList<>();
 		int inc = img.getWidth();
-		for(int p = 0; p < 6; p++)
-		{
-			for(int i = 0; i < img.getWidth(); i++)
-			{
-				for(int j = 0; j < img.getHeight(); j++)
-				{
-					if(j < inc)
-					{
-						pix.add(pixels[p][i][j]);
-					}
-					else
-					{
-						pix2.add(pixels[p][i][j]);
-					}
-				}
-				inc--;
-			}
-			if(p == 0)
-			{
-				triangles[0] = new Triangle(points[0], points[1], points[2], pix);
-				triangles[1] = new Triangle(points[1], points[3], points[2], pix2);
-			}
-			else if(p == 1)
-			{
-				triangles[2] = new Triangle(points[5], points[4], points[7], pix);
-				triangles[3] = new Triangle(points[4], points[6], points[7], pix2);
-			}
-			else if(p == 2)
-			{
-				triangles[4] = new Triangle(points[4], points[5], points[0], pix);
-				triangles[5] = new Triangle(points[5], points[1], points[0], pix2);
-			}
-			else if(p == 3)
-			{
-				triangles[6] = new Triangle(points[2], points[3], points[6], pix);
-				triangles[7] = new Triangle(points[3], points[7], points[6], pix2);
-			}
-			else if(p == 4)
-			{
-				triangles[8] = new Triangle(points[4], points[0], points[6], pix);
-				triangles[9] = new Triangle(points[0], points[2], points[6], pix2);
-			}
-			else if(p == 5)
-			{
-				triangles[10] = new Triangle(points[1], points[5], points[3], pix);
-				triangles[11] = new Triangle(points[5], points[7], points[3], pix2);
-			}
-			inc = img.getWidth();
-			pix.clear();
-			pix2.clear();
-		}
+		squares[0] = new Square(points[0], points[1], points[3], points[2], pixels[0], inc);
+		squares[1] = new Square(points[5], points[4], points[6], points[7], pixels[1], inc);
+		squares[2] = new Square(points[4], points[5], points[1], points[0], pixels[2], inc);
+		squares[3] = new Square(points[2], points[3], points[7], points[6], pixels[3], inc);
+		squares[4] = new Square(points[0], points[2], points[6], points[4], pixels[4], inc);
+		squares[5] = new Square(points[1], points[5], points[7], points[3], pixels[5], inc);
 	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.RotateCounterClockwiseAboutYAxis(p, degrees);
         }
 	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.RotateClockwiseAboutYAxis(p, degrees);
 	}
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.RotateCounterClockwiseAboutXAxis(p, degrees);
 	}
 	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.RotateClockwiseAboutXAxis(p, degrees);
 	}
 	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.RotateCounterClockwiseAboutZAxis(p, degrees);
 	}
 	public void RotateClockwiseAboutZAxis(Point p, float degrees)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.RotateClockwiseAboutZAxis(p, degrees);
 	}
 	public void Resize(float scaleFactor)
 	{
-		for(Triangle t : triangles)
+		for(Square t : squares)
 			t.Resize(scaleFactor);
 	}
 	public Point GetCenter()
@@ -249,33 +193,36 @@ class Cube
 		double totx = 0;
 		double toty = 0;
 		double totz = 0;
-		for(Triangle t : triangles)
+		for(Square t : squares)
 		{
 			totx += t.points[0].GetExX();
 			totx += t.points[1].GetExX();
 			totx += t.points[2].GetExX();
+            totx += t.points[3].GetExX();
 			toty += t.points[0].GetExY();
 			toty += t.points[1].GetExY();
 			toty += t.points[2].GetExY();
+            toty += t.points[3].GetExY();
 			totz += t.points[0].GetExZ();
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
+            totz += t.points[3].GetExZ();
 		}
-		totx /= 36.0d;
-		toty /= 36.0d;
-		totz /= 36.0d;
+		totx /= 24.0d;
+		toty /= 24.0d;
+		totz /= 24.0d;
 		return new Point(totx, toty, totz);
 	}
 	public void Render(BufferedImage buf)
 	{
-            for(Triangle t : triangles)
+            for(Square t : squares)
             {
                 t.Render(buf);
             }
 	}
     public void Draw_Mesh(BufferedImage buf)
     {
-        for(Triangle t : triangles)
+        for(Square t : squares)
         {
             t.Draw_Mesh(buf);
         }
@@ -285,7 +232,7 @@ class Cube
 		Point center = GetCenter();
 		Point orig = GetCenter();
 		Util.MovePointTowardsAnotherPoint(center, target, distance);
-		for(Triangle t : triangles)
+		for(Square t : squares)
 		{
 			t.points[0].SetX(t.points[0].GetExX() + (center.GetExX() - orig.GetExX()));
 			t.points[0].SetY(t.points[0].GetExY() + (center.GetExY() - orig.GetExY()));
@@ -296,6 +243,9 @@ class Cube
 			t.points[2].SetX(t.points[2].GetExX() + (center.GetExX() - orig.GetExX()));
 			t.points[2].SetY(t.points[2].GetExY() + (center.GetExY() - orig.GetExY()));
 			t.points[2].SetZ(t.points[2].GetExZ() + (center.GetExZ() - orig.GetExZ()));
+            t.points[3].SetX(t.points[3].GetExX() + (center.GetExX() - orig.GetExX()));
+			t.points[3].SetY(t.points[3].GetExY() + (center.GetExY() - orig.GetExY()));
+			t.points[3].SetZ(t.points[3].GetExZ() + (center.GetExZ() - orig.GetExZ()));
 		}
 	}
 	public void SetTexture(String file)
