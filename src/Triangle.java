@@ -56,7 +56,7 @@ class Triangle implements Comparable<Triangle>
 	{
 		Point p = Util.GetNormalVector(points[0], points[1], points[2]);
 		double dotproduct = Util.GetDotProduct(p, World.camera.GetDirection());
-		boolean draw = dotproduct < 0.1 ? true : false;
+		boolean draw = dotproduct < 0 ? true : false;
 		return draw;
 	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
