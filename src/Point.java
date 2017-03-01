@@ -87,6 +87,17 @@ class Point
 	}
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
+		/*if(degrees == 0.0) return;
+		Point exp = new Point(p);
+		double dist = Util.Distance_Between(exp, new Point(0, 0, 0));
+		Util.NormalizeVector(exp);
+		Util.MovePointAlongVector(this, new Point(-exp.GetExX(), -exp.GetExY(), -exp.GetExZ()), dist);
+		double[] values = { Util.cos(degrees), 0, -Util.sin(degrees),	
+							0, 1, 0,
+							Util.sin(degrees), 0, Util.cos(degrees) };
+		Matrix m = new Matrix(values);
+		m.Multiply(this);
+		Util.MovePointAlongVector(this, exp, dist);*/
 		if(degrees == 0.0) return;
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
@@ -101,6 +112,7 @@ class Point
 		x = hx;
 		x -= changex;
 		z -= changez;
+
 	}
 	public void RotateClockwiseAboutXAxis(Point p, float degrees)
 	{
