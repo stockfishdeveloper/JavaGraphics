@@ -20,7 +20,7 @@ class SampleMesh
 		{
 			for(int j = 0; j < dimension; j++)
 			{
-				points[i][j] = new Point(((i - 50) * 100) + center.GetExX(), elevation[i * j], (((50 - j) * 100) + center.GetExZ()));
+				points[i][j] = new Point(((i - 50) * 10) + center.GetExX(), elevation[i * j], (((50 - j) * 10) + center.GetExZ()));
 			}
 		}
 		java.util.Random rand = new java.util.Random(0);
@@ -84,7 +84,7 @@ class SampleMesh
     {
         for(int i = 0; i < triangles.size(); i++)
         {
-            triangles.get(i).Draw_Mesh(buf);
+        	triangles.get(i).Draw_Mesh(buf);
         }
     }
 	public void Render(BufferedImage buf)
