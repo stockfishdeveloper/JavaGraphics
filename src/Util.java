@@ -1,7 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.logging.Logger;
-
 class Util
 {
 	private static final int ATAN2_BITS = 7;
@@ -70,6 +66,7 @@ class Util
 		double z = p.GetExZ();
 		Point origin = new Point(0, 0, 0);
 		double distance = Distance_Between(origin, p);
+		if(distance == 0) return;
 		p.SetX(x / distance);
 		p.SetY(y / distance);
 		p.SetZ(z / distance);
@@ -135,7 +132,7 @@ class Util
 		double angle = Math.toDegrees(Math.acos(dot));
 		return angle;
 	}
-	public static final float atan(float y, float x)
+	public static final float atan(double y, double x)
 	   {
 	      float add, mul;
 
@@ -171,7 +168,7 @@ class Util
 	         add = 0.0f;
 	      }
 
-	      float invDiv = 1.0f / (((x < y) ? y : x) * INV_ATAN2_DIM_MINUS_1);
+	      double invDiv = 1.0f / (((x < y) ? y : x) * INV_ATAN2_DIM_MINUS_1);
 
 	      int xi = (int) (x * invDiv);
 	      int yi = (int) (y * invDiv);
