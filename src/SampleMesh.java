@@ -89,7 +89,7 @@ class SampleMesh
     }
 	public void Render(BufferedImage buf)
 	{
-            for(int i = 0; i < triangles.size(); i+=2)
+            for(int i = 0; i < triangles.size(); i++)
             {
             	triangles.get(i).Render(buf);
             }
