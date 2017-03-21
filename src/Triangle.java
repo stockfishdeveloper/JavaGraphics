@@ -127,64 +127,47 @@ class Triangle implements Comparable<Triangle>
 	{
 		if(Should_Be_Drawn())
 		{
-                    if(pixels != null)
+            if(pixels != null)
+            {
+                for(int i = 0; i < pixels.length; i++)
+                {
+                    Point p = World.camera.LookAt(pixels[i]);
+                    if(p != null)
                     {
-                        for(int i = 0; i < pixels.length; i++)
-                        {
-                            Point p = World.camera.LookAt(pixels[i]);
-                            if(p != null)
-                            {
-                            	if(p.GetX() > -640 && p.GetX() < 640 && p.GetY() > -500 && p.GetY() < 500)
-                            	{
-                            		if(World.distancefromscreen[(int) Math.round(p.GetExX()) + 640][(int) Math.round(p.GetExY()) + 500] > p.GetExZ())
-                            		{
-                            			image.setRGB((int) Math.round(p.GetExX()) + 640, (int) Math.round(p.GetExY()) + 500, pixels[i].GetColor());
-                            			World.distancefromscreen[(int) Math.round(p.GetExX()) + 640][(int) Math.round(p.GetExY()) + 500] = p.GetExZ();
-                            		}
-                            	}
-                            }
-                        }
-                    }
-                    else
-                    {
-                    	Graphics2D g = image.createGraphics();
-                    	g.setColor(color);
-                    	int[] x = new int[3];
-                    	int[] y = new int[3];
-                    	Triangle t = World.camera.LookAt(this);
-                    	for(int i = 0; i < 3; i++)
-                    	{                        
-                    		if(t != null)
+                    	if(p.GetX() > -640 && p.GetX() < 640 && p.GetY() > -500 && p.GetY() < 500)
+                    	{
+                    		if(World.distancefromscreen[(int) Math.round(p.GetExX()) + 640][(int) Math.round(p.GetExY()) + 500] > p.GetExZ())
                     		{
-                    			x[i] = t.points[i].GetX()  + 640;
-                    			y[i] = t.points[i].GetY() + 500;
+                    			image.setRGB((int) Math.round(p.GetExX()) + 640, (int) Math.round(p.GetExY()) + 500, pixels[i].GetColor());
+                    			World.distancefromscreen[(int) Math.round(p.GetExX()) + 640][(int) Math.round(p.GetExY()) + 500] = p.GetExZ();
                     		}
                     	}
-                    	if(t != null)
-                    	{
-                    		Polygon poly = new Polygon(x, y, 3);
-                    		g.fillPolygon(poly);
-                    	}
+                    }
                 }
             }
-	}
-        /*public void Render(Graphics2D g)
-        {
-            g.setColor(color);
-            Triangle t = new Triangle(World.camera.LookAt(this));
-            int[] x = new int[3];
-            int[] y = new int[3];
-            for(int i = 0; i < 3; i++)
-                {
-                    x[i] = t.points[i].GetX() + 640;
-                    y[i] = t.points[i].GetY() + 500;
-                }
-            Polygon poly = new Polygon(x, y, 3);
-            g.fillPolygon(poly);
-        }*/
-	public void Draw_Mesh(BufferedImage buf)
+            else
+            {
+            	Graphics2D g = image.createGraphics();
+            	g.setColor(color);
+            	int[] x = new int[3];
+            	int[] y = new int[3];
+            	Triangle t = World.camera.LookAt(this);
+            	if(t != null && t.GetCenter().GetExZ() >= World.camera.GetLocation().GetExZ())
+            	{
+            		for(int i = 0; i < 3; i++)
+            		{   
+            			x[i] = t.points[i].GetX()  + 640;
+            			y[i] = t.points[i].GetY() + 500;
+            		}
+            		Polygon poly = new Polygon(x, y, 3);
+            		g.fillPolygon(poly);
+            	}
+            }
+        }
+    }
+public void Draw_Mesh(BufferedImage buf)
 	{
-            //if(Should_Be_Drawn())
+        if(Should_Be_Drawn())
 		{
             Graphics2D g = buf.createGraphics();
             g.setColor(color);
