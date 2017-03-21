@@ -139,34 +139,34 @@ class Square implements Comparable<Triangle>
         Graphics2D g = image.createGraphics();
 		if(Should_Be_Drawn())
 		{
-                    if(pixels != null)
-                    {
-                        for(int i = 0; i < pixdim - 1; i++)
-                            for(int j = 0; j < pixdim - 1; j++)
-                        {
-                            Square p = World.camera.LookAt(new Square(pixels[i][j], pixels[i + 1][j], pixels[i + 1][j + 1], pixels[i][j + 1], new Color(pixels[i][j].GetColor())));
-                            if(p != null)
-                            {
-                            	if(p.GetCenter().GetX() >= -640 && p.GetCenter().GetX() < 640 && p.GetCenter().GetY() >= -500 && p.GetCenter().GetY() < 500)
-                            	{
-                            		if(World.distancefromscreen[(int) Math.round(p.GetCenter().GetExX()) + 640][(int) Math.round(p.GetCenter().GetExY()) + 500] > p.GetCenter().GetExZ())
-                            		{
-                            			g.setColor(new Color(pixels[i][j].GetColor()));
-                                                int[] x = new int[4];
-                                                int[] y = new int[4];
-                                                for(int q = 0; q < 4; q++)
-                                                {                        
-                                                        x[q] = p.points[q].GetX()  + 640;
-                                                        y[q] = p.points[q].GetY() + 500;
-                                                }
-                                                Polygon poly = new Polygon(x, y, 4);
-                                                g.fillPolygon(poly);
-                                                World.distancefromscreen[(int) Math.round(p.GetCenter().GetExX()) + 640][(int) Math.round(p.GetCenter().GetExY()) + 500] = p.GetCenter().GetExZ();
-                                        }
-                                }
-                            }
-                        }
-                    }
+	        if(pixels != null)
+	        {
+	            for(int i = 0; i < pixdim - 1; i++)
+	                for(int j = 0; j < pixdim - 1; j++)
+	            {
+	                Square p = World.camera.LookAt(new Square(pixels[i][j], pixels[i + 1][j], pixels[i + 1][j + 1], pixels[i][j + 1], new Color(pixels[i][j].GetColor())));
+	                if(p != null)
+	                {
+	                	if(p.GetCenter().GetX() >= -640 && p.GetCenter().GetX() < 640 && p.GetCenter().GetY() >= -500 && p.GetCenter().GetY() < 500)
+	                	{
+	                		if(World.distancefromscreen[(int) Math.round(p.GetCenter().GetExX()) + 640][(int) Math.round(p.GetCenter().GetExY()) + 500] >= p.GetCenter().GetExZ())
+	                		{
+	                			g.setColor(new Color(pixels[i][j].GetColor()));
+	                            int[] x = new int[4];
+	                            int[] y = new int[4];
+	                            for(int q = 0; q < 4; q++)
+	                            {                        
+	                                    x[q] = p.points[q].GetX()  + 640;
+	                                    y[q] = p.points[q].GetY() + 500;
+	                            }
+	                            Polygon poly = new Polygon(x, y, 4);
+	                            g.fillPolygon(poly);
+	                            World.distancefromscreen[(int) Math.round(p.GetCenter().GetExX()) + 640][(int) Math.round(p.GetCenter().GetExY()) + 500] = p.GetCenter().GetExZ();
+	                            }
+	                    }
+	                }
+	            }
+	        }
                     else
                     {
                     	g.setColor(color);
