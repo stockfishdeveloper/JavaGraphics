@@ -10,12 +10,12 @@ class Camera
 	Matrix RotMat;
 	public Camera()
 	{
-		location = new Point(0, 0, 0);
+		location = new Point(0, 0, 32);
 		direction = new Point(0, 0, 1);
 		left = new Point(-1, 0, 0);
 		right = new Point(1, 0, 0);
 		up = new Point(0, 1, 0);
-		eye = new Point(0, 0, -32);
+		eye = new Point(0, 0, 0);
 		Point[] points = new Point[8];
 		points[0] = new Point(32, 25, 0);
 		points[1] = new Point(32, -25, 0);
@@ -200,12 +200,12 @@ class Camera
             {
                     if(direction.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutYAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutYAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                             ry = new Rotation(false, Axis.Y, (float)(90d - Util.RadiansToDegrees(tan)));
                     }
                     else if(direction.GetExX() < 0)
                     {
-                            RotateClockwiseAboutYAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutYAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                             ry = new Rotation(true, Axis.Y, (float)(90d + Util.RadiansToDegrees(tan)));
                     }
             }
@@ -213,12 +213,12 @@ class Camera
             {
                     if(direction.GetExX() < 0)
                     {
-                            RotateClockwiseAboutYAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                            RotateClockwiseAboutYAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                             ry = new Rotation(true, Axis.Y, (float)(Util.RadiansToDegrees(tan) + 90d));
                     }
                     else if(direction.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutYAxis(location, (float) (-Util.RadiansToDegrees(tan) + 90d));
+                            RotateCounterClockwiseAboutYAxis(eye, (float) (-Util.RadiansToDegrees(tan) + 90d));
                             ry = new Rotation(false, Axis.Y, (float)(-Util.RadiansToDegrees(tan) + 90d));
                     }
             }
@@ -227,12 +227,12 @@ class Camera
             {
                     if(direction.GetExZ() > 0)
                     {
-                            RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                             rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                     }
                     else if(direction.GetExZ() < 0)
                     {
-                            RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                             rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                     }
             }
@@ -240,12 +240,12 @@ class Camera
             {
                     if(direction.GetExZ() < 0)
                     {
-                            RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                             rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                     }
                     else if(direction.GetExZ() > 0)
                     {
-                            RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                             rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                     }
             }
@@ -254,12 +254,12 @@ class Camera
             {
                     if(up.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutZAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutZAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                             rz = new Rotation(false, Axis.Z, (float)(90d - Util.RadiansToDegrees(tan)));
                     }
                     else if(up.GetExX() < 0)
                     {
-                            RotateClockwiseAboutZAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutZAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                             rz = new Rotation(true, Axis.Z, (float)(90d + Util.RadiansToDegrees(tan)));
                     }
             }
@@ -267,16 +267,16 @@ class Camera
             {
                     if(up.GetExX() < 0)
                     {
-                            RotateClockwiseAboutZAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                            RotateClockwiseAboutZAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                             rz = new Rotation(true, Axis.Z, (float)(Util.RadiansToDegrees(tan) + 90d));
                     }
                     else if(up.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutZAxis(location, (float)(-Util.RadiansToDegrees(tan) + 90d));
+                            RotateCounterClockwiseAboutZAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 90d));
                             rz = new Rotation(false, Axis.Z, (float)(-Util.RadiansToDegrees(tan) + 90d));
                     }
             }
-            RotateCounterClockwiseAboutYAxis(location, degrees);
+            RotateCounterClockwiseAboutYAxis(eye, degrees);
             //Undo_Rotation(rz);
             Undo_Rotation(rx);
             Undo_Rotation(ry);
@@ -292,12 +292,12 @@ class Camera
             {
                     if(direction.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutYAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutYAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                             ry = new Rotation(false, Axis.Y, (float)(90d - Util.RadiansToDegrees(tan)));
                     }
                     else if(direction.GetExX() < 0)
                     {
-                            RotateClockwiseAboutYAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutYAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                             ry = new Rotation(true, Axis.Y, (float)(90d + Util.RadiansToDegrees(tan)));
                     }
             }
@@ -305,12 +305,12 @@ class Camera
             {
                     if(direction.GetExX() < 0)
                     {
-                            RotateClockwiseAboutYAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                            RotateClockwiseAboutYAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                             ry = new Rotation(true, Axis.Y, (float)(Util.RadiansToDegrees(tan) + 90d));
                     }
                     else if(direction.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutYAxis(location, (float) (-Util.RadiansToDegrees(tan) + 90d));
+                            RotateCounterClockwiseAboutYAxis(eye, (float) (-Util.RadiansToDegrees(tan) + 90d));
                             ry = new Rotation(false, Axis.Y, (float)(-Util.RadiansToDegrees(tan) + 90d));
                     }
             }
@@ -319,12 +319,12 @@ class Camera
             {
                     if(direction.GetExZ() > 0)
                     {
-                            RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                             rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                     }
                     else if(direction.GetExZ() < 0)
                     {
-                            RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                             rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                     }
             }
@@ -332,12 +332,12 @@ class Camera
             {
                     if(direction.GetExZ() < 0)
                     {
-                            RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                             rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                     }
                     else if(direction.GetExZ() > 0)
                     {
-                            RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                             rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                     }
             }
@@ -346,12 +346,12 @@ class Camera
             {
                     if(up.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutZAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                            RotateCounterClockwiseAboutZAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                             rz = new Rotation(false, Axis.Z, (float)(90d - Util.RadiansToDegrees(tan)));
                     }
                     else if(up.GetExX() < 0)
                     {
-                            RotateClockwiseAboutZAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                            RotateClockwiseAboutZAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                             rz = new Rotation(true, Axis.Z, (float)(90d + Util.RadiansToDegrees(tan)));
                     }
             }
@@ -359,16 +359,16 @@ class Camera
             {
                     if(up.GetExX() < 0)
                     {
-                            RotateClockwiseAboutZAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                            RotateClockwiseAboutZAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                             rz = new Rotation(true, Axis.Z, (float)(Util.RadiansToDegrees(tan) + 90d));
                     }
                     else if(up.GetExX() > 0)
                     {
-                            RotateCounterClockwiseAboutZAxis(location, (float)(-Util.RadiansToDegrees(tan) + 90d));
+                            RotateCounterClockwiseAboutZAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 90d));
                             rz = new Rotation(false, Axis.Z, (float)(-Util.RadiansToDegrees(tan) + 90d));
                     }
             }
-            RotateClockwiseAboutYAxis(location, degrees);
+            RotateClockwiseAboutYAxis(eye, degrees);
             //Undo_Rotation(rz);
             Undo_Rotation(rx);
             Undo_Rotation(ry);
@@ -395,12 +395,12 @@ class Camera
         {
                 if(direction.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutYAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                        RotateCounterClockwiseAboutYAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                         ry = new Rotation(false, Axis.Y, (float)(90d - Util.RadiansToDegrees(tan)));
                 }
                 else if(direction.GetExX() < 0)
                 {
-                        RotateClockwiseAboutYAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutYAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                         ry = new Rotation(true, Axis.Y, (float)(90d + Util.RadiansToDegrees(tan)));
                 }
         }
@@ -408,12 +408,12 @@ class Camera
         {
                 if(direction.GetExX() < 0)
                 {
-                        RotateClockwiseAboutYAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                        RotateClockwiseAboutYAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                         ry = new Rotation(true, Axis.Y, (float)(Util.RadiansToDegrees(tan) + 90d));
                 }
                 else if(direction.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutYAxis(location, (float)(-Util.RadiansToDegrees(tan) + 90d));
+                        RotateCounterClockwiseAboutYAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 90d));
                         ry = new Rotation(false, Axis.Y, (float)(-Util.RadiansToDegrees(tan) + 90d));
                 }
         }
@@ -422,12 +422,12 @@ class Camera
         {
                 if(direction.GetExZ() > 0)
                 {
-                        RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                         rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                 }
                 else if(direction.GetExZ() < 0)
                 {
-                        RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                        RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                         rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                 }
         }
@@ -435,12 +435,12 @@ class Camera
         {
                 if(direction.GetExZ() < 0)
                 {
-                        RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                         rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                 }
                 else if(direction.GetExZ() > 0)
                 {
-                        RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                        RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                         rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                 }
         }
@@ -449,12 +449,12 @@ class Camera
         {
                 if(up.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutZAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                        RotateCounterClockwiseAboutZAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                         rz = new Rotation(false, Axis.Z, (float)(90d - Util.RadiansToDegrees(tan)));
                 }
                 else if(up.GetExX() < 0)
                 {
-                        RotateClockwiseAboutZAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutZAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                         rz = new Rotation(true, Axis.Z, (float)(90d + Util.RadiansToDegrees(tan)));
                 }
         }
@@ -462,16 +462,16 @@ class Camera
         {
                 if(up.GetExX() < 0)
                 {
-                        RotateClockwiseAboutZAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                        RotateClockwiseAboutZAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                         rz = new Rotation(true, Axis.Z, (float)(Util.RadiansToDegrees(tan) + 90d));
                 }
                 else if(up.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutZAxis(location, (float)(-Util.RadiansToDegrees(tan) + 90d));
+                        RotateCounterClockwiseAboutZAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 90d));
                         rz = new Rotation(false, Axis.Z, (float)(-Util.RadiansToDegrees(tan) + 90d));
                 }
         }
-        RotateCounterClockwiseAboutXAxis(location, degrees);
+        RotateCounterClockwiseAboutXAxis(eye, degrees);
         //Undo_Rotation(rz);
         Undo_Rotation(rx);
         Undo_Rotation(ry);
@@ -479,14 +479,13 @@ class Camera
     }
 	public void RotateClockwiseAboutRightAxis(float degrees)
 	{
-		//direction.Print_Info();
 		double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ()));
-		if(direction.GetExZ() > 0 && direction.GetExY() < 0)
+		/*if(direction.GetExZ() > 0 && direction.GetExY() < 0)
 		{
 			if(angle + degrees > 70)
 				return;
 		}
-        /*if(direction.GetExZ() < 0 && direction.GetExY() > 0)
+        if(direction.GetExZ() < 0 && direction.GetExY() > 0)
         {
         	if(angle + degrees > 70)
         	return;
@@ -499,12 +498,12 @@ class Camera
         {
                 if(direction.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutYAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                        RotateCounterClockwiseAboutYAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                         ry = new Rotation(false, Axis.Y, (float)(90d - Util.RadiansToDegrees(tan)));
                 }
                 else if(direction.GetExX() < 0)
                 {
-                        RotateClockwiseAboutYAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutYAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                         ry = new Rotation(true, Axis.Y, (float)(90d + Util.RadiansToDegrees(tan)));
                 }
         }
@@ -512,12 +511,12 @@ class Camera
         {
                 if(direction.GetExX() < 0)
                 {
-                        RotateClockwiseAboutYAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                        RotateClockwiseAboutYAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                         ry = new Rotation(true, Axis.Y, (float)(Util.RadiansToDegrees(tan) + 90d));
                 }
                 else if(direction.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutYAxis(location, (float)(-Util.RadiansToDegrees(tan) + 90d));
+                        RotateCounterClockwiseAboutYAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 90d));
                         ry = new Rotation(false, Axis.Y, (float)(-Util.RadiansToDegrees(tan) + 90d));
                 }
         }
@@ -526,12 +525,12 @@ class Camera
         {
                 if(direction.GetExZ() > 0)
                 {
-                        RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                         rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
                 }
                 else if(direction.GetExZ() < 0)
                 {
-                        RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan) + 180));
+                        RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 180));
                         rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan) + 180));
                 }
         }
@@ -539,15 +538,12 @@ class Camera
         {
         	    if(direction.GetExZ() < 0)
                 {
-        	    	//direction.Print_Info();
-                        RotateClockwiseAboutXAxis(location, (float)(Util.RadiansToDegrees(tan)));
+        	    	    RotateClockwiseAboutXAxis(eye, (float)(Util.RadiansToDegrees(tan)));
                         rx = new Rotation(true, Axis.X, (float)(Util.RadiansToDegrees(tan)));
-                        //direction.Print_Info();
-                        //System.out.println("DONE");
                 }
                 else if(direction.GetExZ() > 0)
                 {
-                	    RotateCounterClockwiseAboutXAxis(location, (float)(-Util.RadiansToDegrees(tan)));
+                	    RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                         rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                 }
         }
@@ -556,12 +552,12 @@ class Camera
         {
                 if(up.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutZAxis(location, (float)(90d - Util.RadiansToDegrees(tan)));
+                        RotateCounterClockwiseAboutZAxis(eye, (float)(90d - Util.RadiansToDegrees(tan)));
                         rz = new Rotation(false, Axis.Z, (float)(90d - Util.RadiansToDegrees(tan)));
                 }
                 else if(up.GetExX() < 0)
                 {
-                        RotateClockwiseAboutZAxis(location, (float)(90d + Util.RadiansToDegrees(tan)));
+                        RotateClockwiseAboutZAxis(eye, (float)(90d + Util.RadiansToDegrees(tan)));
                         rz = new Rotation(true, Axis.Z, (float)(90d + Util.RadiansToDegrees(tan)));
                 }
         }
@@ -569,23 +565,21 @@ class Camera
         {
                 if(up.GetExX() < 0)
                 {
-                        RotateClockwiseAboutZAxis(location, (float)(Util.RadiansToDegrees(tan) + 90d));
+                        RotateClockwiseAboutZAxis(eye, (float)(Util.RadiansToDegrees(tan) + 90d));
                         rz = new Rotation(true, Axis.Z, (float)(Util.RadiansToDegrees(tan) + 90d));
                 }
                 else if(up.GetExX() > 0)
                 {
-                        RotateCounterClockwiseAboutZAxis(location, (float)(-Util.RadiansToDegrees(tan) + 90d));
+                        RotateCounterClockwiseAboutZAxis(eye, (float)(-Util.RadiansToDegrees(tan) + 90d));
                         rz = new Rotation(false, Axis.Z, (float)(-Util.RadiansToDegrees(tan) + 90d));
                 }
         }
-        RotateClockwiseAboutXAxis(location, degrees);
+        RotateClockwiseAboutXAxis(eye, degrees);
         //Undo_Rotation(rz);
         Undo_Rotation(rx);
         Undo_Rotation(ry);
         UpdateRotationMatrix();
-        //direction.Print_Info();
-        //System.out.println("DONE");
-	}
+    }
 	public void RotateCounterClockwiseAboutForwardAxis(float degrees)
 	{
 		
@@ -600,30 +594,30 @@ class Camera
         {
             if(r.axis == Axis.Y)
             {
-                RotateCounterClockwiseAboutYAxis(location, r.degrees);
+                RotateCounterClockwiseAboutYAxis(eye, r.degrees);
             }
             else if(r.axis == Axis.X)
             {
-                RotateCounterClockwiseAboutXAxis(location, r.degrees);
+                RotateCounterClockwiseAboutXAxis(eye, r.degrees);
             }   
             else
             {
-                RotateCounterClockwiseAboutZAxis(location, r.degrees);
+                RotateCounterClockwiseAboutZAxis(eye, r.degrees);
             }
         }
         else
         {
             if(r.axis == Axis.Y)
             {
-                RotateClockwiseAboutYAxis(location, r.degrees);
+                RotateClockwiseAboutYAxis(eye, r.degrees);
             }
             else if(r.axis == Axis.X)
             {
-                RotateClockwiseAboutXAxis(location, r.degrees);
+                RotateClockwiseAboutXAxis(eye, r.degrees);
             }   
             else
             {
-                RotateClockwiseAboutZAxis(location, r.degrees);
+                RotateClockwiseAboutZAxis(eye, r.degrees);
             }
         }
     }
@@ -737,46 +731,80 @@ class Camera
 		Triangle t = new Triangle(triangle);
 		Triangle object = new Triangle(triangle);
 		Point Eye = new Point(eye);
+		Util.NormalizeVector(Eye);
+		Point Location = new Point(location);
+		Util.MovePointAlongVector(Location, new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()), Util.Distance_Between(eye, new Point(0, 0, 0)));
+		Location = RotMat.Multiply(Location);
 		//Eye = RotMat.Multiply(Eye);
 		for(int i = 0; i < 3; i++)
 		{
+			Util.MovePointAlongVector(t.points[i], new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()), Util.Distance_Between(eye, new Point(0, 0, 0)));
 			object.points[i] = new Point(RotMat.Multiply(t.points[i]));
 		}
+		for(Point p : object.points)
+		{
+			if(p.GetExZ() < 0) return null;
+			if((p.GetExX() > 0) && (p.GetExX() > p.GetExZ()))
+			return null;
+			if((p.GetExX() < 0) && (p.GetExX() > p.GetExZ()))
+			return null;
+			/*if((p.GetExZ() * 0.78) + 25 < Location.GetExY())
+			return null;
+			if((p.GetExZ() * -0.78) + 25 < Location.GetExY())
+			return null;*/
+		}
+
 		for(int i = 0; i < 3; i++)
 		{
-			double eyetoscreen = Util.Distance_Between(Eye, location);
-			double eyetoobjectz = object.points[i].GetExZ() - Eye.GetExZ();
-			double smalllegx = object.points[i].GetExX() - Eye.GetExX();
+			double eyetoscreen = Util.Distance_Between(Location, new Point(0, 0, 0));
+			double eyetoobjectz = object.points[i].GetExZ();
+			double smalllegx = object.points[i].GetExX();
 			double biglegratio = eyetoscreen / eyetoobjectz;
 			object.points[i].SetX(smalllegx * biglegratio * 20);
-			
-			double smalllegy = Eye.GetExY() - object.points[i].GetExY();
+			double smalllegy = -object.points[i].GetExY();
 			object.points[i].SetY(smalllegy * biglegratio * 20);
 		}
 		return object;
 	}
         public Square LookAt(Square square)
 	{
-		Square t = new Square(square);
-		Square object = new Square(square);
-		Point Eye = new Point(eye);
-		RotMat.Multiply(Eye);
-		for(int i = 0; i < 4; i++)
-		{
-			object.points[i] = new Point(RotMat.Multiply(t.points[i]));
-		}
-		for(int i = 0; i < 4; i++)
-		{
-			double eyetoscreen = Util.Distance_Between(Eye, location);
-			double eyetoobjectz = object.points[i].GetExZ() - Eye.GetExZ();
-			double smalllegx = object.points[i].GetExX() - Eye.GetExX();
-			double biglegratio = eyetoscreen / eyetoobjectz;
-			object.points[i].SetX(smalllegx * biglegratio * 20);
-			
-			double smalllegy = Eye.GetExY() - object.points[i].GetExY();
-			object.points[i].SetY(smalllegy * biglegratio * 20);
-		}
-		return object;
+        	Square s = new Square(square);
+    		Square object = new Square(square);
+    		Point Eye = new Point(eye);
+    		Util.NormalizeVector(Eye);
+    		Point Location = new Point(location);
+    		Util.MovePointAlongVector(Location, new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()), Util.Distance_Between(eye, new Point(0, 0, 0)));
+    		Location = RotMat.Multiply(Location);
+    		//Eye = RotMat.Multiply(Eye);
+    		for(int i = 0; i < 4; i++)
+    		{
+    			Util.MovePointAlongVector(s.points[i], new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()), Util.Distance_Between(eye, new Point(0, 0, 0)));
+    			object.points[i] = new Point(RotMat.Multiply(s.points[i]));
+    		}
+    		for(Point p : object.points)
+    		{
+    			if(p.GetExZ() < 0) return null;
+    			if((p.GetExX() > 0) && (p.GetExX() > p.GetExZ()))
+    			return null;
+    			if((p.GetExX() < 0) && (p.GetExX() > p.GetExZ()))
+    			return null;
+    			/*if((p.GetExZ() * 0.78) + 25 < Location.GetExY())
+    			return null;
+    			if((p.GetExZ() * -0.78) + 25 < Location.GetExY())
+    			return null;*/
+    		}
+
+    		for(int i = 0; i < 4; i++)
+    		{
+    			double eyetoscreen = Util.Distance_Between(Location, new Point(0, 0, 0));
+    			double eyetoobjectz = object.points[i].GetExZ();
+    			double smalllegx = object.points[i].GetExX();
+    			double biglegratio = eyetoscreen / eyetoobjectz;
+    			object.points[i].SetX(smalllegx * biglegratio * 20);
+    			double smalllegy = -object.points[i].GetExY();
+    			object.points[i].SetY(smalllegy * biglegratio * 20);
+    		}
+    		return object;
 	}
 	public Point LookAt(Point point)
 	{
