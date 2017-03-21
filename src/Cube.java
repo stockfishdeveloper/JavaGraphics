@@ -11,7 +11,7 @@ class Cube
 	Square[] squares = new Square[6];
 	BufferedImage img;
 	Pixel[][][] pixels;
-    Color color;
+        Color color;
 	public Cube()
 	{
 		
@@ -102,7 +102,7 @@ class Cube
 		{
 			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[0][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() - radius, new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
+				pixels[0][i][j] = new Pixel(((unitsperpixel * (i - (img.getWidth() / 2))) + center.GetExX()), ((unitsperpixel * (j - (img.getHeight() / 2))) + center.GetExY()), center.GetExZ() - radius, new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Back
@@ -110,7 +110,7 @@ class Cube
 		{
 			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[1][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))), (unitsperpixel * (j - (img.getHeight() / 2))), center.GetExZ() + radius, new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
+				pixels[1][i][j] = new Pixel(((unitsperpixel * (i - (img.getWidth() / 2))) + center.GetExX()), ((unitsperpixel * (j - (img.getHeight() / 2))) + center.GetExY()), center.GetExZ() + radius, new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Top
@@ -118,7 +118,7 @@ class Cube
 		{
 			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[2][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() + radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
+				pixels[2][i][j] = new Pixel(((unitsperpixel * (i - (img.getWidth() / 2))) + center.GetExX()),  center.GetExY() + radius, ((unitsperpixel * (j - (img.getHeight() / 2))) + center.GetExZ()), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Bottom
@@ -126,7 +126,7 @@ class Cube
 		{
 			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[3][i][j] = new Pixel((unitsperpixel * (i - (img.getWidth() / 2))),  center.GetExY() - radius, (unitsperpixel * (j - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
+				pixels[3][i][j] = new Pixel(((unitsperpixel * (i - (img.getWidth() / 2))) + center.GetExX()),  center.GetExY() - radius, ((unitsperpixel * (j - (img.getHeight() / 2))) + center.GetExZ()), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Left
@@ -134,7 +134,7 @@ class Cube
 		{
 			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[4][i][j] = new Pixel(center.GetExX() - radius, (unitsperpixel *  (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
+				pixels[4][i][j] = new Pixel(center.GetExX() - radius, ((unitsperpixel *  (j - (img.getWidth() / 2))) + center.GetExY()), ((unitsperpixel * (i - (img.getHeight() / 2))) + center.GetExZ()), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		//Right
@@ -142,7 +142,7 @@ class Cube
 		{
 			for(int j = 0; j < img.getHeight() + 1; j++)
 			{
-				pixels[5][i][j] = new Pixel(center.GetExX() + radius, (unitsperpixel * (j - (img.getWidth() / 2))), (unitsperpixel * (i - (img.getHeight() / 2))), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
+				pixels[5][i][j] = new Pixel(center.GetExX() + radius, ((unitsperpixel * (j - (img.getWidth() / 2))) + center.GetExY()), ((unitsperpixel * (i - (img.getHeight() / 2))) + center.GetExZ()), new Color(img.getRGB((i == img.getWidth() ? i - 1 : i), (j == img.getWidth() ? j - 1 : j))));
 			}
 		}
 		int inc = img.getWidth();
