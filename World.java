@@ -89,11 +89,13 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 				} else if (m.getX() < currx) {
 					camera.RotateCounterClockwiseAboutUpAxis(2f);
 				}
-				/*if (m.getY() > curry) {
+				
+				if (m.getY() > curry) {
 					camera.RotateClockwiseAboutRightAxis(2f);
 				} else if (m.getY() < curry) {
 					camera.RotateCounterClockwiseAboutRightAxis(2f);
-				}*/
+				}				
+				
 				currx = m.getX();
 				curry = m.getY();
 			}
@@ -186,30 +188,22 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 
 	@Override
 	public void keyPressed(KeyEvent k) {
-		if (k.getKeyCode() == KeyEvent.VK_LEFT)
-			camera.MoveLeft(20.0f);
-		else if (k.getKeyCode() == KeyEvent.VK_RIGHT)
-			camera.MoveRight(20.0f);
-		else if (k.getKeyCode() == KeyEvent.VK_UP)
+		if (k.getKeyCode() == KeyEvent.VK_UP)
 			camera.MoveUp(20.0f);
 		else if (k.getKeyCode() == KeyEvent.VK_DOWN)
 			camera.MoveDown(20.0f);
 		else if (k.getKeyCode() == KeyEvent.VK_CONTROL)
 			camera.Print_Info();
 		else if (k.getKeyCode() == KeyEvent.VK_A)
-			camera.RotateCounterClockwiseAboutUpAxis(1f);
+			camera.MoveLeft(20.0f);
 		else if (k.getKeyCode() == KeyEvent.VK_D)
-			camera.RotateClockwiseAboutUpAxis(1f);
+			camera.MoveRight(20.0f);
 		else if (k.getKeyCode() == KeyEvent.VK_W)
-			camera.RotateCounterClockwiseAboutRightAxis(1f);
-		else if (k.getKeyCode() == KeyEvent.VK_S)
-			camera.RotateClockwiseAboutRightAxis(1f);
-		else if (k.getKeyCode() == KeyEvent.VK_Q)
 			camera.MoveForward(20f);
-		else if (k.getKeyCode() == KeyEvent.VK_Z)
+		else if (k.getKeyCode() == KeyEvent.VK_S)
 			camera.MoveBackward(20f);
 	}
-
+	
 	@Override
 	public void keyReleased(KeyEvent k) {
 		// System.out.println("Key released!");
