@@ -115,6 +115,11 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(screen, 0, 0, screen.getWidth(), screen.getHeight(), null);
 		g.drawString("FPS: " + fps, 50, 50);
+		
+		// temporarily draw camera direction
+		g.drawString("Camera location: " + camera.GetLocation().toString(), 50, 85);
+		g.drawString("Camera direction: " + camera.GetDirection().toString(), 50, 105);
+		
 		g.drawString("MS per frame: " + 1000 / fps, 50, 65);
 		g.dispose();
 		bs.show();

@@ -99,6 +99,7 @@ class Camera
 		System.out.println(direction.GetExX() + " " + direction.GetExY() + " " + direction.GetExZ());
 		System.out.println("==========================================================");
 	}
+	
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees)
 	{
 		//frustum.RotateCounterClockwiseAboutYAxis(p, degrees);

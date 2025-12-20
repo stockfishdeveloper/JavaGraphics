@@ -68,6 +68,16 @@ class Point
 	{
 		z = newz;
 	}
+	
+	public String toString()
+	{
+		String locationX = String.format("%.3f", x);
+		String locationY = String.format("%.3f", y);
+		String locationZ = String.format("%.3f", z);
+		
+		return "X: " + locationX + " Y: " + locationY + " Z: " + locationZ;
+	}
+	
 	public void RotateClockwiseAboutYAxis(Point p, float degrees)
 	{
 		if(degrees == 0.0) return;
