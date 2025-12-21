@@ -85,15 +85,15 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 		try {
 			for (MouseEvent m : events) {
 				if (m.getX() > currx) {
-					camera.RotateClockwiseAboutUpAxis(2f);
+					camera.RotateClockwiseAboutUpAxis(0.5f);
 				} else if (m.getX() < currx) {
-					camera.RotateCounterClockwiseAboutUpAxis(2f);
+					camera.RotateCounterClockwiseAboutUpAxis(0.5f);
 				}
 				
 				if (m.getY() > curry) {
-					camera.RotateClockwiseAboutRightAxis(2f);
+					camera.RotateClockwiseAboutRightAxis(0.5f);
 				} else if (m.getY() < curry) {
-					camera.RotateCounterClockwiseAboutRightAxis(2f);
+					camera.RotateCounterClockwiseAboutRightAxis(0.5f);
 				}				
 				
 				currx = m.getX();

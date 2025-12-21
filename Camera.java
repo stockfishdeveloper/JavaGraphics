@@ -10,7 +10,7 @@ class Camera
 	Matrix RotMat;
 	public Camera()
 	{
-		location = new Point(0, 0, 32);
+		location = new Point(0, 0, 64);
 		direction = new Point(0, 0, 1);
 		left = new Point(-1, 0, 0);
 		right = new Point(1, 0, 0);
@@ -193,6 +193,10 @@ class Camera
 	}
 	public void RotateCounterClockwiseAboutUpAxis(float degrees)
 	{
+			
+			if(direction.GetExY() <= -0.7 || direction.GetExY() >= 0.7)
+				return;
+			
             Rotation rx = new Rotation(true, Axis.X, 0.0f);
             Rotation ry = new Rotation(true, Axis.Y, 0.0f);
             Rotation rz = new Rotation(true, Axis.Z, 0.0f);
@@ -285,6 +289,9 @@ class Camera
 	}
 	public void RotateClockwiseAboutUpAxis(float degrees)
 	{
+			if(direction.GetExY() <= -0.7 || direction.GetExY() >= 0.7)
+				return;
+				
             Rotation rx = new Rotation(true, Axis.X, 0.0f);
             Rotation ry = new Rotation(true, Axis.Y, 0.0f);
             Rotation rz = new Rotation(true, Axis.Z, 0.0f);
@@ -378,16 +385,10 @@ class Camera
 	public void RotateCounterClockwiseAboutRightAxis(float degrees)
 	{
 		double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ()));
-		/*if(direction.GetExZ() > 0 && direction.GetExY() < 0)
-		{
-			if(angle + degrees > 70)
-				return;
-		}*/
-        if(direction.GetExZ() < 0 && direction.GetExY() > 0)
-        {
-        	if(angle + degrees > 70)
-        	return;
-        }
+		
+		if(direction.GetExY() >= 0.7)
+			return;
+		
 		Rotation rx = new Rotation(true, Axis.X, 0.0f);
         Rotation ry = new Rotation(true, Axis.Y, 0.0f);
         Rotation rz = new Rotation(true, Axis.Z, 0.0f);
@@ -481,16 +482,11 @@ class Camera
 	public void RotateClockwiseAboutRightAxis(float degrees)
 	{
 		double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0), new Point(direction.GetExX(), 0, direction.GetExZ()));
-		/*if(direction.GetExZ() > 0 && direction.GetExY() < 0)
-		{
-			if(angle + degrees > 70)
-				return;
-		}
-        if(direction.GetExZ() < 0 && direction.GetExY() > 0)
-        {
-        	if(angle + degrees > 70)
-        	return;
-        }*/
+		
+		// prevent camera from going 'upside down'
+		if(direction.GetExY() <= -0.7)
+			return;
+		
 		Rotation rx = new Rotation(true, Axis.X, 0.0f);
         Rotation ry = new Rotation(true, Axis.Y, 0.0f);
         Rotation rz = new Rotation(true, Axis.Z, 0.0f);
