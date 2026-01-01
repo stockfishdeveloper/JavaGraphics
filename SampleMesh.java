@@ -24,33 +24,43 @@ class SampleMesh {
 		}
 		
 		java.util.Random rand = new java.util.Random(0);
+		
 		float r;
 		float g;
 		float b;
 		
+		float colorScaleFactor = 0.7f;
+		
+		int redLowerBound = Math.max((int)(color.getRed() * (1.0 - colorScaleFactor)), 1);
+		int redUpperBound = Math.min((int)(Math.max(color.getRed() * (1.0 + colorScaleFactor), 2)), 256);
+		int greenLowerBound = Math.max((int)(color.getGreen() * (1.0 - colorScaleFactor)), 1);
+		int greenUpperBound = Math.min((int)(Math.max(color.getGreen() * (1.0 + colorScaleFactor), 2)), 256);
+		int blueLowerBound = Math.max((int)(color.getBlue() * (1.0 - colorScaleFactor)), 1);
+		int blueUpperBound = Math.min((int)(Math.max(color.getBlue() * (1.0 + colorScaleFactor), 2)), 256);
+		
 		for (int j = 0; j < dimension - 1; j++) {
 			for (int i = 0; i < dimension - 1; i++) {
-				r = rand.nextFloat();
-				g = rand.nextFloat();
-				b = rand.nextFloat();
+				r = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(redUpperBound - redLowerBound) + redLowerBound) / 255.0f);
+				g = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(greenUpperBound - greenLowerBound) + greenLowerBound) / 255.0f);
+				b = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(blueUpperBound - blueLowerBound) + blueLowerBound) / 255.0f);
 				
 				triangles.add(new Triangle(points[i][j], points[i + 1][j + 1], points[i][j + 1], new Color(r, g, b)));
 				
-				r = rand.nextFloat();
-				g = rand.nextFloat();
-				b = rand.nextFloat();
+				r = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(redUpperBound - redLowerBound) + redLowerBound) / 255.0f);
+				g = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(greenUpperBound - greenLowerBound) + greenLowerBound) / 255.0f);
+				b = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(blueUpperBound - blueLowerBound) + blueLowerBound) / 255.0f);
 				
 				triangles.add(new Triangle(points[i][j], points[i + 1][j + 1], points[i][j + 1], new Color(r, g, b)));
 				
-				r = rand.nextFloat();
-				g = rand.nextFloat();
-				b = rand.nextFloat();
+				r = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(redUpperBound - redLowerBound) + redLowerBound) / 255.0f);
+				g = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(greenUpperBound - greenLowerBound) + greenLowerBound) / 255.0f);
+				b = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(blueUpperBound - blueLowerBound) + blueLowerBound) / 255.0f);
 				
 				triangles.add(new Triangle(points[i][j], points[i + 1][j], points[i + 1][j + 1], new Color(r, g, b)));
 				
-				r = rand.nextFloat();
-				g = rand.nextFloat();
-				b = rand.nextFloat();
+				r = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(redUpperBound - redLowerBound) + redLowerBound) / 255.0f);
+				g = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(greenUpperBound - greenLowerBound) + greenLowerBound) / 255.0f);
+				b = ((color == Color.black) ? rand.nextFloat() : (rand.nextInt(blueUpperBound - blueLowerBound) + blueLowerBound) / 255.0f);
 				
 				triangles.add(new Triangle(points[i][j], points[i + 1][j], points[i + 1][j + 1], new Color(r, g, b)));
 			}
