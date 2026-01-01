@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-class World extends JComponent implements Runnable, MouseMotionListener,
-		MouseListener, MouseWheelListener, KeyListener {
+class World extends JComponent
+		implements Runnable, MouseMotionListener, MouseListener, MouseWheelListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private Thread thread;
 	private float fps;
@@ -31,7 +31,7 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 	static double[][] distancefromscreen = new double[1280][1000];
 	volatile ArrayList<MouseEvent> events;
 	public ArrayList<Cube> cubes;
-	
+
 	private Camera demoCamera;
 
 	public World() {
@@ -42,23 +42,23 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 		boolean blue = true;
 		for (int j = 0; j < 10; j++)
 			for (int v = 0; v < 10; v++) {
-				cubes.add(new Cube(new Point(j * 100, 0, v * 100), 10,
-				(blue ? Color.blue : Color.red)));
+				cubes.add(new Cube(new Point(j * 100, 0, v * 100), 10, (blue ? Color.blue : Color.red)));
 				blue = !blue;
 			}
-		//cubes.add(new Cube(new Point(-5, 0, 40),10,"L:\\woodend1.png"/*Color.blue*/));
-		//cubes.add(new Cube(new Point(5, 0, 40),10,"L:\\woodend1.png"/*Color.red*/));
+		// cubes.add(new Cube(new Point(-5, 0,
+		// 40),10,"L:\\woodend1.png"/*Color.blue*/));
+		// cubes.add(new Cube(new Point(5, 0, 40),10,"L:\\woodend1.png"/*Color.red*/));
 		events = new ArrayList<>();
 		camera = new Camera();
 		camera.MoveBackward(20);
 		sample = new SampleMesh(new Point(0, 0, 0), Color.red, 50);
 		screen = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
 		blank = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
-		
+
 		demoCamera = new Camera();
-		//demoCamera.MoveRight(100);
+		// demoCamera.MoveRight(100);
 		this.camera.RotateClockwiseAboutRightAxis(25f);
-		
+
 		for (int i = 0; i < 1280; i++) {
 			for (int j = 0; j < 1000; j++) {
 				distancefromscreen[i][j] = Double.MAX_VALUE;
@@ -96,13 +96,13 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 				} else if (m.getX() < currx) {
 					this.demoCamera.RotateCounterClockwiseAboutUpAxis(0.5f);
 				}
-				
+
 				if (m.getY() > curry) {
 					this.demoCamera.RotateClockwiseAboutRightAxis(0.5f);
 				} else if (m.getY() < curry) {
 					this.demoCamera.RotateCounterClockwiseAboutRightAxis(0.5f);
-				}				
-				
+				}
+
 				currx = m.getX();
 				curry = m.getY();
 			}
@@ -118,21 +118,22 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 		g1.setBackground(new Color(255, 255, 255, 0));
 		g1.clearRect(0, 0, 1280, 1000);
 		sample.Render(screen);
-		/*for(Cube c : cubes)
-			c.Render(screen);*/
+		/*
+		 * for(Cube c : cubes) c.Render(screen);
+		 */
 		BufferStrategy bs = Run.frame.getBufferStrategy();
 		Graphics g = bs.getDrawGraphics();
-		
+
 		// render demo camera
 		this.demoCamera.Render(screen);
-		
+
 		g.drawImage(screen, 0, 0, screen.getWidth(), screen.getHeight(), null);
 		g.drawString("FPS: " + fps, 50, 50);
-		
+
 		// temporarily draw camera direction
 		g.drawString("Camera location: " + camera.GetLocation().toString(), 50, 85);
 		g.drawString("Camera direction: " + camera.GetDirection().toString(), 50, 105);
-		
+
 		g.drawString("MS per frame: " + 1000 / fps, 50, 65);
 		g.dispose();
 		bs.show();
@@ -209,19 +210,17 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 			this.demoCamera.RotateCounterClockwiseAboutUpAxis(0.5f);
 			System.out.println(demoCamera.GetLocation().toString());
 			System.out.println(Util.Distance_Between(demoCamera.GetDirection(), demoCamera.GetEye()));
-		}
-		else if (k.getKeyCode() == KeyEvent.VK_D) {
+		} else if (k.getKeyCode() == KeyEvent.VK_D) {
 			this.demoCamera.RotateClockwiseAboutUpAxis(0.5f);
 			System.out.println(demoCamera.GetLocation().toString());
 			System.out.println(Util.Distance_Between(demoCamera.GetDirection(), demoCamera.GetEye()));
 
-		}
-		else if (k.getKeyCode() == KeyEvent.VK_W)
+		} else if (k.getKeyCode() == KeyEvent.VK_W)
 			camera.MoveForward(20f);
 		else if (k.getKeyCode() == KeyEvent.VK_S)
 			camera.MoveBackward(20f);
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent k) {
 		// System.out.println("Key released!");
@@ -245,9 +244,8 @@ class World extends JComponent implements Runnable, MouseMotionListener,
 			delta = delta + ((now - lastTime) / ns);
 			lastTime = now;
 			/*
-			 * while (delta >= 1)//Make sure update is only happening 60 times a
-			 * second { //handles all of the logic restricted time
-			 * ApplyEvents(); delta--; }
+			 * while (delta >= 1)//Make sure update is only happening 60 times a second {
+			 * //handles all of the logic restricted time ApplyEvents(); delta--; }
 			 */
 			ApplyEvents();
 			if (buffstrat == false) {
