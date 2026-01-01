@@ -79,6 +79,7 @@ class Point {
 	public void RotateClockwiseAboutYAxis(Point p, float degrees) {
 		if (degrees == 0.0)
 			return;
+		
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
 		double s = Util.sin(degrees);
@@ -106,6 +107,7 @@ class Point {
 		 */
 		if (degrees == 0.0)
 			return;
+		
 		double changex = -p.GetExX();
 		double changez = -p.GetExZ();
 		double s = Util.sin(-degrees);
@@ -125,6 +127,7 @@ class Point {
 	public void RotateClockwiseAboutXAxis(Point p, float degrees) {
 		if (degrees == 0.0)
 			return;
+		
 		double changey = -p.GetExY();
 		double changez = -p.GetExZ();
 		double s = Util.sin(degrees);
@@ -143,6 +146,7 @@ class Point {
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees) {
 		if (degrees == 0.0)
 			return;
+		
 		double changey = -p.GetExY();
 		double changez = -p.GetExZ();
 		double s = Util.sin(-degrees);
@@ -161,6 +165,7 @@ class Point {
 	void RotateClockwiseAboutZAxis(Point p, float degrees) {
 		if (degrees == 0.0)
 			return;
+		
 		double changex = -p.GetExX();
 		double changey = -p.GetExY();
 		double s = Util.sin(-degrees);
@@ -179,6 +184,7 @@ class Point {
 	public void RotateCounterClockwiseAboutZAxis(Point p, float degrees) {
 		if (degrees == 0.0)
 			return;
+		
 		double changex = -p.GetExX();
 		double changey = -p.GetExY();
 		double s = Util.sin(degrees);
@@ -197,6 +203,7 @@ class Point {
 	public boolean SameLocation(Point p1, Point p2) {
 		if ((p1.GetX() == p2.GetX()) && (p1.GetY() == p2.GetY()) && (p1.GetZ() == p2.GetZ()))
 			return true;
+		
 		return false;
 	}
 }

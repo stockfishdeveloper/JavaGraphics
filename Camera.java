@@ -95,9 +95,11 @@ class Camera {
 	public void Print_Info() {
 		System.out.println("Camera info:\n=============================\n");
 		System.out.println("Frustum points are:");
+		
 		for (Point p : frustum.points) {
 			System.out.println(p.GetExX() + " " + p.GetExY() + " " + p.GetExZ());
 		}
+		
 		System.out.println("=============================");
 		System.out.println("Location is at:");
 		System.out.println(location.GetExX() + " " + location.GetExY() + " " + location.GetExZ());
@@ -133,13 +135,6 @@ class Camera {
 	}
 
 	public void RotateCounterClockwiseAboutXAxis(Point p, float degrees) {
-		/*
-		 * double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0),
-		 * new Point(direction.GetExX(), 0, direction.GetExZ())); if(direction.GetExZ()
-		 * > 0 && direction.GetExY() > 0) { if(angle + degrees > 90) return; }
-		 * if(direction.GetExZ() < 0 && direction.GetExY() < 0) { if(angle + degrees >
-		 * 90) return; }
-		 */
 
 		// frustum.RotateCounterClockwiseAboutXAxis(p, degrees);
 		direction.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
@@ -153,13 +148,6 @@ class Camera {
 	}
 
 	public void RotateClockwiseAboutXAxis(Point p, float degrees) {
-		/*
-		 * double angle = Util.Get_Angle_Between_Vectors(direction, new Point(0, 0, 0),
-		 * new Point(direction.GetExX(), 0, direction.GetExZ())); if(direction.GetExZ()
-		 * > 0 && direction.GetExY() < 0) { if(angle + degrees > 90) return; }
-		 * if(direction.GetExZ() < 0 && direction.GetExY() > 0) { if(angle + degrees >
-		 * 90) return; }
-		 */
 		// frustum.RotateClockwiseAboutXAxis(p, degrees);
 		direction.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
 		demoCube.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
@@ -207,6 +195,7 @@ class Camera {
 		Rotation rx = new Rotation(true, Axis.X, 0.0f);
 		Rotation ry = new Rotation(true, Axis.Y, 0.0f);
 		Rotation rz = new Rotation(true, Axis.Z, 0.0f);
+		
 		double tan = Math.atan(direction.GetExZ() / direction.GetExX());
 		/*
 		 * if(direction.GetExZ() > 0) { if(direction.GetExX() > 0) {
@@ -235,6 +224,7 @@ class Camera {
 		 * (float)(-Util.RadiansToDegrees(tan))); } }
 		 */
 		tan = Math.atan(up.GetExY() / up.GetExX());
+		
 		if (up.GetExY() > 0) {
 			if (up.GetExX() > 0) {
 				RotateCounterClockwiseAboutZAxis(eye, (float) (90d - Util.RadiansToDegrees(tan)));
@@ -252,6 +242,7 @@ class Camera {
 				rz = new Rotation(false, Axis.Z, (float) (-Util.RadiansToDegrees(tan) + 90d));
 			}
 		}
+		
 		RotateCounterClockwiseAboutYAxis(eye, degrees);
 		Undo_Rotation(rz);
 		/*
@@ -267,6 +258,7 @@ class Camera {
 		Rotation rx = new Rotation(true, Axis.X, 0.0f);
 		Rotation ry = new Rotation(true, Axis.Y, 0.0f);
 		Rotation rz = new Rotation(true, Axis.Z, 0.0f);
+		
 		double tan = Math.atan(direction.GetExZ() / direction.GetExX());
 		/*
 		 * if(direction.GetExZ() > 0) { if(direction.GetExX() > 0) {
@@ -295,6 +287,7 @@ class Camera {
 		 * (float)(-Util.RadiansToDegrees(tan))); } }
 		 */
 		tan = Math.atan(up.GetExY() / up.GetExX());
+		
 		if (up.GetExY() > 0) {
 			if (up.GetExX() > 0) {
 				RotateCounterClockwiseAboutZAxis(eye, (float) (90d - Util.RadiansToDegrees(tan)));
@@ -312,6 +305,7 @@ class Camera {
 				rz = new Rotation(false, Axis.Z, (float) (-Util.RadiansToDegrees(tan) + 90d));
 			}
 		}
+		
 		RotateClockwiseAboutYAxis(eye, degrees);
 		Undo_Rotation(rz);
 		/*
@@ -330,6 +324,7 @@ class Camera {
 		Rotation rx = new Rotation(true, Axis.X, 0.0f);
 		Rotation ry = new Rotation(true, Axis.Y, 0.0f);
 		Rotation rz = new Rotation(true, Axis.Z, 0.0f);
+		
 		double tan = Math.atan(direction.GetExZ() / direction.GetExX());
 		/*
 		 * if(direction.GetExZ() > 0) { if(direction.GetExX() > 0) {
@@ -358,6 +353,7 @@ class Camera {
 		 * (float)(-Util.RadiansToDegrees(tan))); } }
 		 */
 		tan = Math.atan(up.GetExY() / up.GetExX());
+		
 		if (up.GetExY() > 0) {
 			if (up.GetExX() > 0) {
 				RotateCounterClockwiseAboutZAxis(eye, (float) (90d - Util.RadiansToDegrees(tan)));
@@ -375,6 +371,7 @@ class Camera {
 				rz = new Rotation(false, Axis.Z, (float) (-Util.RadiansToDegrees(tan) + 90d));
 			}
 		}
+		
 		RotateCounterClockwiseAboutXAxis(eye, degrees);
 		Undo_Rotation(rz);
 		/*
@@ -394,6 +391,7 @@ class Camera {
 		Rotation rx = new Rotation(true, Axis.X, 0.0f);
 		Rotation ry = new Rotation(true, Axis.Y, 0.0f);
 		Rotation rz = new Rotation(true, Axis.Z, 0.0f);
+		
 		double tan = Math.atan(direction.GetExZ() / direction.GetExX());
 		/*
 		 * if(direction.GetExZ() > 0) { if(direction.GetExX() > 0) {
@@ -422,6 +420,7 @@ class Camera {
 		 * (float)(-Util.RadiansToDegrees(tan))); } }
 		 */
 		tan = Math.atan(up.GetExY() / up.GetExX());
+		
 		if (up.GetExY() > 0) {
 			if (up.GetExX() > 0) {
 				RotateCounterClockwiseAboutZAxis(eye, (float) (90d - Util.RadiansToDegrees(tan)));
@@ -439,6 +438,7 @@ class Camera {
 				rz = new Rotation(false, Axis.Z, (float) (-Util.RadiansToDegrees(tan) + 90d));
 			}
 		}
+		
 		RotateClockwiseAboutXAxis(eye, degrees);
 		Undo_Rotation(rz);
 		/*
@@ -477,14 +477,17 @@ class Camera {
 	public void MoveForward(float distance) {
 		for (Point p : frustum.points)
 			Util.MovePointAlongVector(p, direction, distance);
+		
 		Util.MovePointAlongVector(location, direction, distance);
 		Util.MovePointAlongVector(eye, direction, distance);
 	}
 
 	public void MoveBackward(float distance) {
 		Point newdir = new Point(-direction.GetExX(), -direction.GetExY(), -direction.GetExZ());
+		
 		for (Point p : frustum.points)
 			Util.MovePointAlongVector(p, newdir, distance);
+		
 		Util.MovePointAlongVector(location, newdir, distance);
 		Util.MovePointAlongVector(eye, newdir, distance);
 	}
@@ -492,6 +495,7 @@ class Camera {
 	public void MoveLeft(float distance) {
 		for (Point p : frustum.points)
 			Util.MovePointAlongVector(p, left, distance);
+		
 		Util.MovePointAlongVector(location, left, distance);
 		Util.MovePointAlongVector(eye, left, distance);
 	}
@@ -499,6 +503,7 @@ class Camera {
 	public void MoveRight(float distance) {
 		for (Point p : frustum.points)
 			Util.MovePointAlongVector(p, right, distance);
+		
 		Util.MovePointAlongVector(location, right, distance);
 		Util.MovePointAlongVector(eye, right, distance);
 	}
@@ -506,14 +511,17 @@ class Camera {
 	public void MoveUp(float distance) {
 		for (Point p : frustum.points)
 			Util.MovePointAlongVector(p, up, distance);
+		
 		Util.MovePointAlongVector(location, up, distance);
 		Util.MovePointAlongVector(eye, up, distance);
 	}
 
 	public void MoveDown(float distance) {
 		Point newdir = new Point(-up.GetExX(), -up.GetExY(), -up.GetExZ());
+		
 		for (Point p : frustum.points)
 			Util.MovePointAlongVector(p, newdir, distance);
+		
 		Util.MovePointAlongVector(location, newdir, distance);
 		Util.MovePointAlongVector(eye, newdir, distance);
 	}
@@ -522,6 +530,7 @@ class Camera {
 		Matrix xrot = new Matrix();
 		Matrix yrot = new Matrix();
 		double tan = Math.atan(direction.GetExZ() / direction.GetExX());
+		
 		if (direction.GetExZ() > 0) {
 			if (direction.GetExX() > 0) {
 				yrot = new Matrix(Axis.Y, (float) (90d - Util.RadiansToDegrees(tan)));
@@ -535,7 +544,9 @@ class Camera {
 				yrot = new Matrix(Axis.Y, (float) (-Util.RadiansToDegrees(tan) + 90d));
 			}
 		}
+		
 		tan = Math.atan(direction.GetExY() / direction.GetExZ());
+		
 		if (direction.GetExY() > 0) {
 			if (direction.GetExZ() > 0) {
 				xrot = new Matrix(Axis.X, (float) -(Util.RadiansToDegrees(tan)));
@@ -549,6 +560,7 @@ class Camera {
 				xrot = new Matrix(Axis.X, (float) (-Util.RadiansToDegrees(tan)));
 			}
 		}
+		
 		RotMat = new Matrix(xrot.Multiply(yrot));
 	}
 
@@ -567,15 +579,19 @@ class Camera {
 		Point Eye = new Point(eye);
 		Util.NormalizeVector(Eye);
 		Point Location = new Point(location);
+		
 		Util.MovePointAlongVector(Location, new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()),
 				Util.Distance_Between(eye, new Point(0, 0, 0)));
+		
 		Location = RotMat.Multiply(Location);
+		
 		// Eye = RotMat.Multiply(Eye);
 		for (int i = 0; i < 3; i++) {
 			Util.MovePointAlongVector(t.points[i], new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()),
 					Util.Distance_Between(eye, new Point(0, 0, 0)));
 			object.points[i] = new Point(RotMat.Multiply(t.points[i]));
 		}
+		
 		for (Point p : object.points) {
 			if (p.GetExZ() < 0)
 				return null;
@@ -598,6 +614,7 @@ class Camera {
 			double smalllegy = -object.points[i].GetExY();
 			object.points[i].SetY(smalllegy * biglegratio * 20);
 		}
+		
 		return object;
 	}
 
@@ -607,15 +624,19 @@ class Camera {
 		Point Eye = new Point(eye);
 		Util.NormalizeVector(Eye);
 		Point Location = new Point(location);
+		
 		Util.MovePointAlongVector(Location, new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()),
 				Util.Distance_Between(eye, new Point(0, 0, 0)));
+		
 		Location = RotMat.Multiply(Location);
+		
 		// Eye = RotMat.Multiply(Eye);
 		for (int i = 0; i < 4; i++) {
 			Util.MovePointAlongVector(s.points[i], new Point(-Eye.GetExX(), -Eye.GetExY(), -Eye.GetExZ()),
 					Util.Distance_Between(eye, new Point(0, 0, 0)));
 			object.points[i] = new Point(RotMat.Multiply(s.points[i]));
 		}
+		
 		for (Point p : object.points) {
 			if (p.GetExZ() < 0)
 				return null;
@@ -638,6 +659,7 @@ class Camera {
 			double smalllegy = -object.points[i].GetExY();
 			object.points[i].SetY(smalllegy * biglegratio * 20);
 		}
+		
 		return object;
 	}
 

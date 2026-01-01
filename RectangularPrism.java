@@ -20,8 +20,10 @@ class RectangularPrism {
 	public RectangularPrism(Point center, int length, int width, int height, Color c) {
 		color = c;
 		pixels = null;
+		
 		for (int i = 0; i < 8; i++)
 			points[i] = new Point(0, 0, 0);
+		
 		points[0].SetX(center.GetExX() - (length / 2));
 		points[0].SetY(center.GetExY() + (height / 2));
 		points[0].SetZ(center.GetExZ() - (width / 2));
@@ -46,6 +48,7 @@ class RectangularPrism {
 		points[7].SetX(center.GetExX() + (length / 2));
 		points[7].SetY(center.GetExY() - (height / 2));
 		points[7].SetZ(center.GetExZ() + (width / 2));
+		
 		triangles[0] = new Triangle(points[0], points[1], points[2], c);
 		triangles[1] = new Triangle(points[1], points[3], points[2], c);
 		triangles[2] = new Triangle(points[5], points[4], points[7], c);
@@ -99,6 +102,7 @@ class RectangularPrism {
 		double totx = 0;
 		double toty = 0;
 		double totz = 0;
+		
 		for (Triangle t : triangles) {
 			totx += t.points[0].GetExX();
 			totx += t.points[1].GetExX();
@@ -110,9 +114,11 @@ class RectangularPrism {
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
 		}
+		
 		totx /= 36.0d;
 		toty /= 36.0d;
 		totz /= 36.0d;
+		
 		return new Point(totx, toty, totz);
 	}
 
@@ -131,7 +137,9 @@ class RectangularPrism {
 	public void Move(Point target, float distance) {
 		Point center = GetCenter();
 		Point orig = GetCenter();
+		
 		Util.MovePointTowardsAnotherPoint(center, target, distance);
+		
 		for (Triangle t : triangles) {
 			t.points[0].SetX(t.points[0].GetExX() + (center.GetExX() - orig.GetExX()));
 			t.points[0].SetY(t.points[0].GetExY() + (center.GetExY() - orig.GetExY()));

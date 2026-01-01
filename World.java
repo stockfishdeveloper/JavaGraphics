@@ -50,7 +50,9 @@ class World extends JComponent
 		// cubes.add(new Cube(new Point(5, 0, 40),10,"L:\\woodend1.png"/*Color.red*/));
 		events = new ArrayList<>();
 		camera = new Camera();
+		
 		camera.MoveBackward(20);
+		
 		sample = new SampleMesh(new Point(0, 0, 0), Color.red, 50);
 		screen = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
 		blank = new BufferedImage(1280, 1000, BufferedImage.TYPE_INT_RGB);
@@ -64,13 +66,16 @@ class World extends JComponent
 				distancefromscreen[i][j] = Double.MAX_VALUE;
 			}
 		}
+		
 		for (int i = 0; i < screen.getWidth(); i++) {
 			for (int j = 0; j < screen.getHeight(); j++) {
 				screen.setRGB(i, j, 16777215);
 				blank.setRGB(i, j, 16777215);
 			}
 		}
+		
 		this.setBounds(0, 0, 1280, 1000);
+		
 		start();
 	}
 
@@ -81,6 +86,7 @@ class World extends JComponent
 
 	public synchronized void stop() {
 		running = false;
+		
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
@@ -208,10 +214,12 @@ class World extends JComponent
 			camera.Print_Info();
 		else if (k.getKeyCode() == KeyEvent.VK_A) {
 			this.demoCamera.RotateCounterClockwiseAboutUpAxis(0.5f);
+			
 			System.out.println(demoCamera.GetLocation().toString());
 			System.out.println(Util.Distance_Between(demoCamera.GetDirection(), demoCamera.GetEye()));
 		} else if (k.getKeyCode() == KeyEvent.VK_D) {
 			this.demoCamera.RotateClockwiseAboutUpAxis(0.5f);
+			
 			System.out.println(demoCamera.GetLocation().toString());
 			System.out.println(Util.Distance_Between(demoCamera.GetDirection(), demoCamera.GetEye()));
 
@@ -233,14 +241,18 @@ class World extends JComponent
 		final double ns = 1000000000.0 / 60.0;// 60 times per second
 		double delta = 0;
 		boolean buffstrat = false;
+		
 		requestFocus();
+		
 		while (running) {
 			long now = System.nanoTime();
+			
 			if (System.currentTimeMillis() - 1000 > starttime) {
 				fps = frames;
 				frames = 0;
 				starttime = System.currentTimeMillis();
 			}
+			
 			delta = delta + ((now - lastTime) / ns);
 			lastTime = now;
 			/*
@@ -248,11 +260,13 @@ class World extends JComponent
 			 * //handles all of the logic restricted time ApplyEvents(); delta--; }
 			 */
 			ApplyEvents();
+			
 			if (buffstrat == false) {
 				if (Run.frame.getBufferStrategy() == null)
 					continue;
 				buffstrat = true;
 			}
+			
 			render();// displays to the screen unrestricted time
 		}
 

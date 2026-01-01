@@ -28,14 +28,17 @@ class Sphere {
 		Point[] semicircle = new Point[layers];
 		semicircle[0] = new Point(0, ((double) (layers)) / 2, 0);
 		float degreesperiter = 180.0f / ((float) (layers - 1));
+		
 		for (int i = 1; i < layers - 1; i++) {
 			semicircle[i] = new Point(semicircle[0]);
 			semicircle[i].RotateClockwiseAboutZAxis(new Point(0, 0, 0), i * degreesperiter);
 		}
+		
 		semicircle[layers - 1] = new Point(semicircle[0]);
 		semicircle[layers - 1].RotateClockwiseAboutZAxis(new Point(0, 0, 0), 180);
 		degreesperiter = (360.0f) / (float) (ppl);
 		int count = 1;
+		
 		for (int i = 0; i < layers - 2; i++) {
 			for (int j = 0; j < ppl; j++) {
 				points[count] = new Point(semicircle[i + 1]);
@@ -43,27 +46,32 @@ class Sphere {
 						degreesperiter);
 			}
 		}
-		System.out.println(points[4].GetY());
+		
 		count = 0;
+		
 		for (int i = 0; i < ppl; i++) {
 			Point p1 = new Point(points[0]);
 			Point p2 = new Point(points[i + 2]);
 			Point p3 = new Point(points[i + 1]);
+			
 			triangles.add(new Triangle(p1, p2, p3, Color.blue));
 		}
+		
 		for (int i = ppl; i < (points.length - 1) - ppl; i++) {
 			Point p1 = new Point(points[i]);
 			Point p2 = new Point(points[i + 2]);
 			Point p3 = new Point(points[i + 1]);
+			
 			triangles.add(new Triangle(p1, p2, p3, Color.red));
 		}
+		
 		for (int i = points.length - ppl; i < points.length - 1; i++) {
 			Point p1 = new Point(points[i]);
 			Point p2 = new Point(points[i + 1]);
 			Point p3 = new Point(points[i]);
+			
 			triangles.add(new Triangle(p1, p2, p3, Color.green));
 		}
-		System.out.println(triangles.size());
 	}
 
 	public void RotateCounterClockwiseAboutYAxis(Point p, float degrees) {
@@ -105,6 +113,7 @@ class Sphere {
 		double totx = 0;
 		double toty = 0;
 		double totz = 0;
+		
 		for (Triangle t : triangles) {
 			totx += t.points[0].GetExX();
 			totx += t.points[1].GetExX();
@@ -116,9 +125,11 @@ class Sphere {
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
 		}
+		
 		totx /= 3 * triangles.size();
 		toty /= 3 * triangles.size();
 		totz /= 3 * triangles.size();
+		
 		return new Point(totx, toty, totz);
 	}
 
@@ -142,7 +153,9 @@ class Sphere {
 	public void Move(Point target, float distance) {
 		Point center = GetCenter();
 		Point orig = GetCenter();
+		
 		Util.MovePointTowardsAnotherPoint(center, target, distance);
+		
 		for (Triangle t : triangles) {
 			t.points[0].SetX(t.points[0].GetExX() + (center.GetExX() - orig.GetExX()));
 			t.points[0].SetY(t.points[0].GetExY() + (center.GetExY() - orig.GetExY()));

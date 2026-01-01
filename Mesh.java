@@ -20,8 +20,10 @@ class Mesh {
 		BufferedReader buffer = new BufferedReader(new FileReader(filename));
 		color = c;
 		String line;
+		
 		while ((line = buffer.readLine()) != null) {
 			String[] values = line.split(" ");
+			
 			if (values[0].equals("v")) {
 				vertices.add(new Point(Double.parseDouble(values[1]) * scalefactor,
 						Double.parseDouble(values[2]) * scalefactor, Double.parseDouble(values[3]) * scalefactor));

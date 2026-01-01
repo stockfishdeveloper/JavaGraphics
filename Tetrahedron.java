@@ -15,8 +15,10 @@ class Tetrahedron {
 
 	public Tetrahedron(Point center, float scaleFactor, Color c) {
 		color = c;
+		
 		for (int i = 0; i < 4; i++)
 			points[i] = new Point(0, 0, 0);
+		
 		points[0].SetX(center.GetExX() != 0 ? center.GetExX() * -1 * scaleFactor : -scaleFactor);
 		points[0].SetY(0);
 		points[0].SetZ(center.GetExZ() != 0 ? center.GetExZ() * -0.707 * scaleFactor : -0.707 * scaleFactor);
@@ -29,6 +31,7 @@ class Tetrahedron {
 		points[3].SetX(0);
 		points[3].SetY(center.GetExY() != 0 ? center.GetExY() * scaleFactor : scaleFactor);
 		points[3].SetZ(center.GetExZ() != 0 ? center.GetExZ() * 0.707 * scaleFactor : 0.707 * scaleFactor);
+		
 		triangles[0] = new Triangle(points[0], points[1], points[2], color);
 		triangles[1] = new Triangle(points[0], points[2], points[3], color);
 		triangles[2] = new Triangle(points[0], points[3], points[1], color);
@@ -74,6 +77,7 @@ class Tetrahedron {
 		double totx = 0;
 		double toty = 0;
 		double totz = 0;
+		
 		for (Triangle t : triangles) {
 			totx += t.points[0].GetExX();
 			totx += t.points[1].GetExX();
@@ -85,9 +89,11 @@ class Tetrahedron {
 			totz += t.points[1].GetExZ();
 			totz += t.points[2].GetExZ();
 		}
+		
 		totx /= 36.0d;
 		toty /= 36.0d;
 		totz /= 36.0d;
+		
 		return new Point(totx, toty, totz);
 	}
 
@@ -106,7 +112,9 @@ class Tetrahedron {
 	public void Move(Point target, float distance) {
 		Point center = GetCenter();
 		Point orig = GetCenter();
+		
 		Util.MovePointTowardsAnotherPoint(center, target, distance);
+		
 		for (Triangle t : triangles) {
 			t.points[0].SetX(t.points[0].GetExX() + (center.GetExX() - orig.GetExX()));
 			t.points[0].SetY(t.points[0].GetExY() + (center.GetExY() - orig.GetExY()));

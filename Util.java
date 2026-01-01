@@ -7,6 +7,7 @@ class Util {
 	private static final float INV_ATAN2_DIM_MINUS_1 = 1.0f / (ATAN2_DIM - 1);
 	private static final float DEG = 180.0f / (float) Math.PI;
 	private static final float[] atan2 = new float[ATAN2_COUNT];
+	
 	static {
 		for (int i = 0; i < ATAN2_DIM; i++) {
 			for (int j = 0; j < ATAN2_DIM; j++) {
@@ -28,6 +29,7 @@ class Util {
 	private static final float degToIndex = SIN_COUNT / degFull;
 	private static final float[] sin = new float[SIN_COUNT];
 	private static final float[] cos = new float[SIN_COUNT];
+	
 	static {
 		for (int i = 0; i < SIN_COUNT; i++) {
 			sin[i] = (float) Math.sin((float) (i + 0.5f) / SIN_COUNT * radFull);
@@ -49,10 +51,13 @@ class Util {
 		double diff_y1 = p1.GetExY() - p2.GetExY();
 		double diff_z1 = p1.GetExZ() - p2.GetExZ();
 		Point orig = new Point(0, 0, 0);
+		
 		orig.SetX((diff_y * diff_z1) - (diff_y1 * diff_z));
 		orig.SetY((diff_z * diff_x1) - (diff_z1 * diff_x));
 		orig.SetZ((diff_x * diff_y1) - (diff_x1 * diff_y));
+		
 		NormalizeVector(orig);
+		
 		return orig;
 	}
 
@@ -61,9 +66,12 @@ class Util {
 		double y = p.GetExY();
 		double z = p.GetExZ();
 		Point origin = new Point(0, 0, 0);
+		
 		double distance = Distance_Between(origin, p);
+		
 		if (distance == 0)
 			return;
+		
 		p.SetX(x / distance);
 		p.SetY(y / distance);
 		p.SetZ(z / distance);
@@ -80,6 +88,7 @@ class Util {
 	static int[] GetSharedSide(Triangle t1, Triangle t2) {
 		int[] coords = new int[4];
 		int count = 0;
+		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (t1.points[0].SameLocation(t1.points[i], t2.points[j])) {
@@ -88,12 +97,14 @@ class Util {
 				}
 			}
 		}
+		
 		return coords;
 	}
 
 	static void MovePointTowardsAnotherPoint(Point point, Point target, double distance) {
 		double Distance = Distance_Between(point, target);
 		double changes = distance / Distance;
+		
 		point.SetX(point.GetExX() + (changes * (target.GetExX() - point.GetExX())));
 		point.SetY(point.GetExY() + (changes * (target.GetExY() - point.GetExY())));
 		point.SetZ(point.GetExZ() + (changes * (target.GetExZ() - point.GetExZ())));
@@ -101,10 +112,12 @@ class Util {
 
 	public static void MovePointAlongVector(Point point, Point direction, double distance) {
 		Point normalized = new Point(direction);
+		
 		Util.NormalizeVector(normalized);
 		double diffx = distance * normalized.GetExX();
 		double diffy = distance * normalized.GetExY();
 		double diffz = distance * normalized.GetExZ();
+		
 		point.SetX(point.GetExX() + diffx);
 		point.SetY(point.GetExY() + diffy);
 		point.SetZ(point.GetExZ() + diffz);
@@ -115,8 +128,10 @@ class Util {
 		Point two = new Point(p2.GetExX(), p2.GetExY(), p2.GetExZ());
 		Point three = new Point(p3.GetExX(), p3.GetExY(), p3.GetExZ());
 		double dist = Distance_Between(two, new Point(0, 0, 0));
+		
 		if (two.GetExX() == 0.0 && two.GetExY() == 0.0 && two.GetExY() == 0.0)
 			two = new Point(0.0000001, 0.0000001, 0.0000001);
+		
 		MovePointAlongVector(one, new Point(-two.GetExX(), -two.GetExY(), -two.GetExZ()), dist);
 		MovePointAlongVector(three, new Point(-two.GetExX(), -two.GetExY(), -two.GetExZ()), dist);
 		MovePointAlongVector(two, new Point(-two.GetExX(), -two.GetExY(), -two.GetExZ()), dist);
@@ -124,6 +139,7 @@ class Util {
 		NormalizeVector(three);
 		double dot = GetDotProduct(one, three);
 		double angle = Math.toDegrees(Math.acos(dot));
+		
 		return angle;
 	}
 
