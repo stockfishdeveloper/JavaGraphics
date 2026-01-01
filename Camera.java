@@ -244,7 +244,7 @@ class Camera {
 		}
 		
 		RotateCounterClockwiseAboutYAxis(eye, degrees);
-		Undo_Rotation(rz);
+		//Undo_Rotation(rz);
 		/*
 		 * Undo_Rotation(rx); Undo_Rotation(ry);
 		 */
@@ -307,7 +307,7 @@ class Camera {
 		}
 		
 		RotateClockwiseAboutYAxis(eye, degrees);
-		Undo_Rotation(rz);
+		//Undo_Rotation(rz);
 		/*
 		 * Undo_Rotation(rx); Undo_Rotation(ry);
 		 */
@@ -373,7 +373,7 @@ class Camera {
 		}
 		
 		RotateCounterClockwiseAboutXAxis(eye, degrees);
-		Undo_Rotation(rz);
+		//Undo_Rotation(rz);
 		/*
 		 * Undo_Rotation(rx); Undo_Rotation(ry);
 		 */
@@ -440,7 +440,7 @@ class Camera {
 		}
 		
 		RotateClockwiseAboutXAxis(eye, degrees);
-		Undo_Rotation(rz);
+		//Undo_Rotation(rz);
 		/*
 		 * Undo_Rotation(rx); Undo_Rotation(ry); UpdateRotationMatrix();
 		 */
