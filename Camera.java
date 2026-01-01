@@ -1,3 +1,6 @@
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+
 class Camera
 {
 	private Point location;
@@ -8,6 +11,7 @@ class Camera
 	private Point eye;
 	Frustum frustum;
 	Matrix RotMat;
+	Cube demoCube;
 	public Camera()
 	{
 		location = new Point(0, 0, 64);
@@ -27,6 +31,7 @@ class Camera
 		points[7] = new Point(-132, 103, 100);
 		frustum = new Frustum(points);
 		RotMat = new Matrix();
+		demoCube = new Cube(new Point(0, 0, 10), 1, Color.PINK);
 	}
 	public void Copy(Camera cam)
 	{
@@ -80,6 +85,15 @@ class Camera
 	{
 		eye = new Point(p);
 	}
+	
+	public void Render(BufferedImage buf)
+	{
+		demoCube.Render(buf);
+		
+		Cube demoEye = new Cube(this.eye, 1, Color.BLUE);
+		demoEye.Render(buf);
+	}
+	
 	public void Print_Info()
 	{
         System.out.println("Camera info:\n=============================\n");
@@ -104,6 +118,7 @@ class Camera
 	{
 		//frustum.RotateCounterClockwiseAboutYAxis(p, degrees);
 		direction.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
+		demoCube.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
 		eye.RotateCounterClockwiseAboutYAxis(p, degrees);
 		location.RotateCounterClockwiseAboutYAxis(p, degrees);
 		left.RotateCounterClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
@@ -114,6 +129,7 @@ class Camera
 	{
 		//frustum.RotateClockwiseAboutYAxis(p, degrees);
 		direction.RotateClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
+		demoCube.RotateClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
 		eye.RotateClockwiseAboutYAxis(p, degrees);
 		location.RotateClockwiseAboutYAxis(p, degrees);
 		left.RotateClockwiseAboutYAxis(new Point(0, 0, 0), degrees);
@@ -136,6 +152,7 @@ class Camera
 		
 			//frustum.RotateCounterClockwiseAboutXAxis(p, degrees);
 			direction.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
+			demoCube.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
 			eye.RotateCounterClockwiseAboutXAxis(p, degrees);
 			location.RotateCounterClockwiseAboutXAxis(p, degrees);
 			left.RotateCounterClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
@@ -158,6 +175,7 @@ class Camera
                 }*/
 			//frustum.RotateClockwiseAboutXAxis(p, degrees);
 			direction.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
+			demoCube.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
 			eye.RotateClockwiseAboutXAxis(p, degrees);
 			location.RotateClockwiseAboutXAxis(p, degrees);
 			left.RotateClockwiseAboutXAxis(new Point(0, 0, 0), degrees);
@@ -171,6 +189,7 @@ class Camera
 		{
 			//frustum.RotateCounterClockwiseAboutZAxis(p, degrees);
 			direction.RotateCounterClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
+			demoCube.RotateCounterClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
 			eye.RotateCounterClockwiseAboutZAxis(p, degrees);
 			location.RotateCounterClockwiseAboutZAxis(p, degrees);
 			left.RotateCounterClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
@@ -184,6 +203,7 @@ class Camera
 		{
 			//frustum.RotateClockwiseAboutZAxis(p, degrees);
 			direction.RotateClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
+			demoCube.RotateClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
 			eye.RotateClockwiseAboutZAxis(p, degrees);
 			location.RotateClockwiseAboutZAxis(p, degrees);
 			left.RotateClockwiseAboutZAxis(new Point(0, 0, 0), degrees);
@@ -201,7 +221,7 @@ class Camera
             Rotation ry = new Rotation(true, Axis.Y, 0.0f);
             Rotation rz = new Rotation(true, Axis.Z, 0.0f);
             double tan = Math.atan(direction.GetExZ() / direction.GetExX());
-            if(direction.GetExZ() > 0)
+            /*if(direction.GetExZ() > 0)
             {
                     if(direction.GetExX() > 0)
                     {
@@ -253,7 +273,7 @@ class Camera
                             RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                             rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                     }
-            }
+            }*/
             tan = Math.atan(up.GetExY() / up.GetExX());
             if(up.GetExY() > 0)
             {
@@ -282,9 +302,9 @@ class Camera
                     }
             }
             RotateCounterClockwiseAboutYAxis(eye, degrees);
-            //Undo_Rotation(rz);
-            Undo_Rotation(rx);
-            Undo_Rotation(ry);
+            Undo_Rotation(rz);
+            /*Undo_Rotation(rx);
+            Undo_Rotation(ry);*/
             UpdateRotationMatrix();
 	}
 	public void RotateClockwiseAboutUpAxis(float degrees)
@@ -296,7 +316,7 @@ class Camera
             Rotation ry = new Rotation(true, Axis.Y, 0.0f);
             Rotation rz = new Rotation(true, Axis.Z, 0.0f);
             double tan = Math.atan(direction.GetExZ() / direction.GetExX());
-            if(direction.GetExZ() > 0)
+            /*if(direction.GetExZ() > 0)
             {
                     if(direction.GetExX() > 0)
                     {
@@ -348,7 +368,7 @@ class Camera
                             RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                             rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                     }
-            }
+            }*/
             tan = Math.atan(up.GetExY() / up.GetExX());
             if(up.GetExY() > 0)
             {
@@ -377,9 +397,9 @@ class Camera
                     }
             }
             RotateClockwiseAboutYAxis(eye, degrees);
-            //Undo_Rotation(rz);
-            Undo_Rotation(rx);
-            Undo_Rotation(ry);
+            Undo_Rotation(rz);
+            /*Undo_Rotation(rx);
+            Undo_Rotation(ry);*/
             UpdateRotationMatrix();
         }
 	public void RotateCounterClockwiseAboutRightAxis(float degrees)
@@ -393,7 +413,7 @@ class Camera
         Rotation ry = new Rotation(true, Axis.Y, 0.0f);
         Rotation rz = new Rotation(true, Axis.Z, 0.0f);
         double tan = Math.atan(direction.GetExZ() / direction.GetExX());
-        if(direction.GetExZ() > 0)
+        /*if(direction.GetExZ() > 0)
         {
                 if(direction.GetExX() > 0)
                 {
@@ -445,7 +465,7 @@ class Camera
                         RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                         rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                 }
-        }
+        }*/
         tan = Math.atan(up.GetExY() / up.GetExX());
         if(up.GetExY() > 0)
         {
@@ -474,9 +494,9 @@ class Camera
                 }
         }
         RotateCounterClockwiseAboutXAxis(eye, degrees);
-        //Undo_Rotation(rz);
-        Undo_Rotation(rx);
-        Undo_Rotation(ry);
+        Undo_Rotation(rz);
+        /*Undo_Rotation(rx);
+        Undo_Rotation(ry);*/
         UpdateRotationMatrix();
     }
 	public void RotateClockwiseAboutRightAxis(float degrees)
@@ -491,7 +511,7 @@ class Camera
         Rotation ry = new Rotation(true, Axis.Y, 0.0f);
         Rotation rz = new Rotation(true, Axis.Z, 0.0f);
         double tan = Math.atan(direction.GetExZ() / direction.GetExX());
-        if(direction.GetExZ() > 0)
+        /*if(direction.GetExZ() > 0)
         {
                 if(direction.GetExX() > 0)
                 {
@@ -543,7 +563,7 @@ class Camera
                 	    RotateCounterClockwiseAboutXAxis(eye, (float)(-Util.RadiansToDegrees(tan)));
                         rx = new Rotation(false, Axis.X, (float)(-Util.RadiansToDegrees(tan)));
                 }
-        }
+        }*/
         tan = Math.atan(up.GetExY() / up.GetExX());
         if(up.GetExY() > 0)
         {
@@ -572,10 +592,10 @@ class Camera
                 }
         }
         RotateClockwiseAboutXAxis(eye, degrees);
-        //Undo_Rotation(rz);
-        Undo_Rotation(rx);
+        Undo_Rotation(rz);
+        /*Undo_Rotation(rx);
         Undo_Rotation(ry);
-        UpdateRotationMatrix();
+        UpdateRotationMatrix();*/
     }
 	public void RotateCounterClockwiseAboutForwardAxis(float degrees)
 	{
